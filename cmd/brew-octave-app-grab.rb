@@ -101,7 +101,7 @@ def grab_formula(f_name)
     inreplace(oa_versioned_formula_path, "depends_on \"#{dep.name}\"", "depends_on \"#{dep_base_name}@#{dep_version}\"")
   end
   # Wipe out bottle info
-  maybe_inreplace(oa_versioned_formula_path, /bottle do.*?end/, "")
+  maybe_inreplace(oa_versioned_formula_path, /bottle do.*?end/m, "")
   # Announce
   puts "#{formula.name} => #{versioned_name}"
 end

@@ -5,12 +5,7 @@ class FftwAT337 < Formula
   sha256 "3b609b7feba5230e8f6dd8d245ddbefac324c5a6ae4186947670d9ac2cd25573"
   revision 1
 
-  bottle do
-    cellar :any
-    sha256 "9b75b4f667c2346cbdd285b9c499ad5bb8f4662a326061ed8718142894147eab" => :high_sierra
-    sha256 "d504285d5ce7d4510f14274e4738824d197c60ab4cb56d08a16284f368f8ae74" => :sierra
-    sha256 "591d1ad247fc19a1b0881dc4454c88bcf30dca774ac5f57e9f25d8bfa50724f6" => :el_capitan
-  end
+  
 
   option "with-mpi", "Enable MPI parallel transforms"
   option "with-openmp", "Enable OpenMP parallel transforms"

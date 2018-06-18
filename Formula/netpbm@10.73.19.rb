@@ -9,12 +9,7 @@ class NetpbmAT107319 < Formula
 
   head "https://svn.code.sf.net/p/netpbm/code/trunk"
 
-  bottle do
-    cellar :any
-    sha256 "b952f6e8d66307f9a44569ab40fa095219b559092ac57e04c25521d392308c9f" => :high_sierra
-    sha256 "da5f9163d612ceb43a4becab8197819fd77e21820033cfd0812af23b4a3ecf39" => :sierra
-    sha256 "481b9b3b437bab23e0bd3b1b134532b11c15f67ec43980ce419e276476e55368" => :el_capitan
-  end
+  
 
   depends_on "libtiff@4.0.9"
   depends_on "jasper@2.0.14"

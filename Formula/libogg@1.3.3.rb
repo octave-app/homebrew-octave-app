@@ -4,12 +4,7 @@ class LiboggAT133 < Formula
   url "https://downloads.xiph.org/releases/ogg/libogg-1.3.3.tar.gz"
   sha256 "c2e8a485110b97550f453226ec644ebac6cb29d1caef2902c007edab4308d985"
 
-  bottle do
-    cellar :any
-    sha256 "1b3faf0793a08736aa1baca0a64aeba93f9d8692472eadfbcca264c9a7308538" => :high_sierra
-    sha256 "fedf2c7b4aa2c5051851f47a2131a4f1802791ed3c948446442277ecbabcf32c" => :sierra
-    sha256 "67653400da7efbb94fd400c8b90124977d80280dd04ef6771dbe2d8fd2d5aec4" => :el_capitan
-  end
+  
 
   head do
     url "https://git.xiph.org/ogg.git"

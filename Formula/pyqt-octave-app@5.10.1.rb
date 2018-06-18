@@ -5,20 +5,13 @@ class PyqtOctaveAppAT5101 < Formula
   mirror "https://downloads.sourceforge.net/project/pyqt/PyQt5/PyQt-5.10.1/PyQt5_gpl-5.10.1.tar.gz"
   sha256 "9932e971e825ece4ea08f84ad95017837fa8f3f29c6b0496985fa1093661e9ef"
 
-  bottle do
-    rebuild 1
-    sha256 "6c25b7cb920e387426f82504152c8a4b914d8b42f92beed53f85832912c12034" => :high_sierra
-    sha256 "9e75ec0a4bef6be7928db8fd3f8a1513d04aac1941226f133093a3494071701e" => :sierra
-    sha256 "318c651ca9ff01dcd4c251a025eb89a105c560a5aaf1deb24b91bb08088d6ec2" => :el_capitan
-  end
-
   option "with-debug", "Build with debug symbols"
   option "with-docs", "Install HTML documentation and python examples"
 
   deprecated_option "enable-debug" => "with-debug"
 
   depends_on "qt@5.11.0"
-  depends_on "sip@4.19.8"
+  depends_on "sip-octave-app@4.19.8"
   depends_on "python@3.6.5" => :recommended
   depends_on "python2@2.7.15" => :recommended
 

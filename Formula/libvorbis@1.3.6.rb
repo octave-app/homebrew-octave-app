@@ -4,12 +4,7 @@ class LibvorbisAT136 < Formula
   url "https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.6.tar.xz"
   sha256 "af00bb5a784e7c9e69f56823de4637c350643deedaf333d0fa86ecdba6fcb415"
 
-  bottle do
-    cellar :any
-    sha256 "a9ec94abce8d34210ce323d2398ae689c330e7f069ecde0d4c40ef3b8259f6ba" => :high_sierra
-    sha256 "b0912f4af1e8e229b1cf80cceb9a2ad4357e77206691afd628973f360ad8af1d" => :sierra
-    sha256 "a888a452d5089281a05607449f10df9d8d6eb09c8effb93470f0f4f06349df8b" => :el_capitan
-  end
+  
 
   head do
     url "https://git.xiph.org/vorbis.git"

@@ -6,11 +6,7 @@ class FltkAT1342 < Formula
   version "1.3.4-2"
   sha256 "25d349c18c99508737d48f225a2eb26a43338f9247551cab72a317fa42cda910"
 
-  bottle do
-    sha256 "5dd4bbb5cf10af5e0a1ff2f29c6d12657f09626fab43811b441b27c677afd0af" => :high_sierra
-    sha256 "e22929035ced94a301c1294de6d305079e34d9709d3e9551b19555ab2f06656e" => :sierra
-    sha256 "5481ffce354c2c98ed7634b036d678c7476780085e1a518af186f2e4b22d2c31" => :el_capitan
-  end
+  
 
   depends_on "libpng@1.6.34"
   depends_on "jpeg@9c"

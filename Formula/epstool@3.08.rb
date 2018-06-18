@@ -5,15 +5,7 @@ class EpstoolAT308 < Formula
   mirror "https://dl.bintray.com/homebrew/mirror/epstool-3.08.tar.gz"
   sha256 "f3f14b95146868ff3f93c8720d5539deef3b6531630a552165664c7ee3c2cfdd"
 
-  bottle do
-    cellar :any_skip_relocation
-    sha256 "4e41615a63d60d963029768b0618d43e29142e5495fb693a7f5844d2cb6f0d6b" => :high_sierra
-    sha256 "d53d1f3d353d0f68f52b87603a67ca97942fb714f766a54636c142550568cbd0" => :sierra
-    sha256 "92efa66cd268f0447dc52c14e9da04ae8af01b1691ec8eec3df61bbeb947b713" => :el_capitan
-    sha256 "bb2aefa17b699127f2f6ed65004c9acbf7e5e5122f6f4b920d1e03fb9bd87b2e" => :yosemite
-    sha256 "ae3c4b14dd19d3ac43947eff025a0fa3eabbe832333922359f9f74e0fe5e1d3d" => :mavericks
-    sha256 "408c2744b730a01eed68f19d4f643b060f026bbbc2616cf4b6afcb08ef608b90" => :mountain_lion
-  end
+  
 
   depends_on "ghostscript@9.23"
 

@@ -4,11 +4,7 @@ class GnuplotAT524 < Formula
   url "https://downloads.sourceforge.net/project/gnuplot/gnuplot/5.2.4/gnuplot-5.2.4.tar.gz"
   sha256 "1515f000bd373aaa53b16183f274189d4f5e0ae47d22f434857933d16a4770cb"
 
-  bottle do
-    sha256 "83e62efd791e58c6be41b8da6975e66bf88ee01c2d364dc56f4496a2ec2c20aa" => :high_sierra
-    sha256 "bdd5bf26cfe0c268092d6120f1aaa57cf9f7c99464c83de1b64ac3d7c24f1741" => :sierra
-    sha256 "b0d21667f51ef06d824a1b68ed41d32d85848e8da4b9ac8fa9fdf09c31f7f05b" => :el_capitan
-  end
+  
 
   head do
     url "https://git.code.sf.net/p/gnuplot/gnuplot-main.git"
@@ -18,7 +14,7 @@ class GnuplotAT524 < Formula
     depends_on "libtool" => :build
   end
 
-  option "without-cairo", "Build the Cairo based terminals"
+  option "with-cairo", "Build the Cairo based terminals"
   option "without-lua", "Build without the lua/TikZ terminal"
   option "with-wxmac", "Build wxmac support. Need with-cairo to build wxt terminal"
   option "with-aquaterm", "Build with AquaTerm support"
@@ -35,7 +31,7 @@ class GnuplotAT524 < Formula
   depends_on "readline@7.0.3"
   depends_on "lua@5.3.4" => :recommended
   depends_on "pango" if build.with?("cairo") || build.with?("wxmac")
-  depends_on "qt@5.11.0" => :recommended
+  depends_on "qt@5.11.0" => :optional
   depends_on "wxmac@3.0.4" => :optional
   depends_on :x11 => :optional
 

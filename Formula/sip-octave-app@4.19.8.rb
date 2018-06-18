@@ -1,4 +1,4 @@
-class SipAT4198 < Formula
+class SipOctaveAppAT4198 < Formula
   desc "Tool to create Python bindings for C and C++ libraries"
   homepage "https://www.riverbankcomputing.com/software/sip/intro"
   url "https://dl.bintray.com/homebrew/mirror/sip-4.19.8.tar.gz"
@@ -7,10 +7,8 @@ class SipAT4198 < Formula
   revision 3
   head "https://www.riverbankcomputing.com/hg/sip", :using => :hg
 
-  
-
   depends_on "python@3.6.5" => :recommended
-  depends_on "python@2.7.15" => :recommended
+  depends_on "python2@2.7.15" => :recommended
 
   def install
     ENV.prepend_path "PATH", Formula["python"].opt_libexec/"bin"

@@ -4,11 +4,7 @@ class OpenMpiAT310 < Formula
   url "https://www.open-mpi.org/software/ompi/v3.1/downloads/openmpi-3.1.0.tar.bz2"
   sha256 "b25c044124cc859c0b4e6e825574f9439a51683af1950f6acda1951f5ccdf06c"
 
-  bottle do
-    sha256 "716e46cfa0e361cff9de31ec20f4e534e446ed3b598b59a708e70e9d80b97997" => :high_sierra
-    sha256 "bbe4e8ef9e043a04b1084334381857ae0279edd3f74c9b83bdb2411f2d0685d5" => :sierra
-    sha256 "4e8304212bb5ea0045974b096f7225c988657831521cc6fd5893a67477b3fb28" => :el_capitan
-  end
+  
 
   head do
     url "https://github.com/open-mpi/ompi.git"

@@ -6,12 +6,7 @@ class GccAT810 < Formula
   sha256 "1d1866f992626e61349a1ccd0b8d5253816222cdc13390dcfaa74b093aa2b153"
   head "svn://gcc.gnu.org/svn/gcc/trunk"
 
-  bottle do
-    rebuild 1
-    sha256 "7b92e10293f1c1fc3208b7da7fef36b9611f6ee604d0d6a8b1af3a18f545c1c0" => :high_sierra
-    sha256 "2a2d951884aa9d6157e2afe8cc640de283c8e7d4899ca12b5bd8639efd989645" => :sierra
-    sha256 "57bb9160bcb4c0c2db09990d865463d863d5723a39652c2d1bcba646dbb10c0e" => :el_capitan
-  end
+  
 
   option "with-jit", "Build just-in-time compiler"
   option "with-nls", "Build with native language support (localization)"

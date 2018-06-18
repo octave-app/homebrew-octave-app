@@ -7,12 +7,7 @@ class XzAT524 < Formula
   mirror "https://tukaani.org/xz/xz-5.2.4.tar.gz"
   sha256 "b512f3b726d3b37b6dc4c8570e137b9311e7552e8ccbab4d39d47ce5f4177145"
 
-  bottle do
-    cellar :any
-    sha256 "e7be50f4ee00e35887f3957263334eb3baba59e8c061919060f9259351be6880" => :high_sierra
-    sha256 "bcc71ee69e2c43bf56b9c9ece5a53dc3439652f355620a25b020f794cd447fb7" => :sierra
-    sha256 "974aae83ba7ceb62040c5bf02b1fb277a919212714c8da2a4c5eb3d1d119a465" => :el_capitan
-  end
+  
 
   def install
     system "./configure", "--disable-debug",

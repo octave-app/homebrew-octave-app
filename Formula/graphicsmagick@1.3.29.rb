@@ -5,11 +5,7 @@ class GraphicsmagickAT1329 < Formula
   sha256 "e18df46a6934c8c12bfe274d09f28b822f291877f9c81bd9a506f879a7610cd4"
   head "http://hg.code.sf.net/p/graphicsmagick/code", :using => :hg
 
-  bottle do
-    sha256 "1e5285484c31f3f5a0edfdb5457dddf114d5ef28d45e1e92c78494c07de5d621" => :high_sierra
-    sha256 "c619357a47ac6dd35e16c13f053bc79399942d98a88ffbf278d5d7903972eeea" => :sierra
-    sha256 "e95c6f9bc95dbb529a1bca6d88a9b2d0c0fc595632b6629e878e9d39d7cd644e" => :el_capitan
-  end
+  
 
   option "without-magick-plus-plus", "disable build/install of Magick++"
   option "without-svg", "Compile without svg support"

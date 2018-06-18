@@ -5,12 +5,7 @@ class SzipAT211 < Formula
   sha256 "21ee958b4f2d4be2c9cabfa5e1a94877043609ce86fde5f286f105f7ff84d412"
   revision 1
 
-  bottle do
-    cellar :any
-    sha256 "3b84fc3869965a5851cd13554ab46283a13adfa568ca7df1288728b2cfde0c4a" => :high_sierra
-    sha256 "c57296964a6ac43991c5f3a6b0b14e3deb99e14f3d1214427385dc4112e803af" => :sierra
-    sha256 "a4b1f903019aaa2e1d53e661aaf90f0e91937b3ad4b71126483feffb4c2d2e13" => :el_capitan
-  end
+  
 
   def install
     system "./configure", "--disable-debug", "--disable-dependency-tracking",

@@ -4,12 +4,7 @@ class LzipAT120 < Formula
   url "https://download-mirror.savannah.gnu.org/releases/lzip/lzip-1.20.tar.gz"
   sha256 "c93b81a5a7788ef5812423d311345ba5d3bd4f5ebf1f693911e3a13553c1290c"
 
-  bottle do
-    cellar :any_skip_relocation
-    sha256 "f854fdd0c02100534ebeeba5f120a40524b3e5048665fadb0b2e30519310dbb7" => :high_sierra
-    sha256 "8fd74d6652d03e9d5af035e0948e6835f38fd6ca45758c0392f825f232e4b4c6" => :sierra
-    sha256 "1b61136446eba909e98195b10340174e3aba0c28264336242408a1c61f4cca90" => :el_capitan
-  end
+  
 
   def install
     system "./configure", "--prefix=#{prefix}",

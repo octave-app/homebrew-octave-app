@@ -6,13 +6,7 @@ class LittleCms2AT29 < Formula
   sha256 "48c6fdf98396fa245ed86e622028caf49b96fa22f3e5734f853f806fbc8e7d20"
   version_scheme 1
 
-  bottle do
-    cellar :any
-    rebuild 1
-    sha256 "c232c3e514ef478c4fab797dab8db675045eae3611043063d338c256f4ecb941" => :high_sierra
-    sha256 "a0ce195a712977870d9ddc414c0c5cd1b373d4e04b7130b80d00f911d04fe5b4" => :sierra
-    sha256 "fa72bb1ce13889405ee93519be86ff1cede056d8c74e1d1671cca52013762ec0" => :el_capitan
-  end
+  
 
   depends_on "jpeg@9c" => :recommended
   depends_on "libtiff@4.0.9" => :recommended

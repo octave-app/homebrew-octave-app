@@ -5,12 +5,7 @@ class GlpkAT465 < Formula
   mirror "https://ftpmirror.gnu.org/glpk/glpk-4.65.tar.gz"
   sha256 "4281e29b628864dfe48d393a7bedd781e5b475387c20d8b0158f329994721a10"
 
-  bottle do
-    cellar :any
-    sha256 "5c0b4a34749c6e60bf9aa39f175ca907bab774f89a1b8a1697f3f5d02d493f2a" => :high_sierra
-    sha256 "3cbe0b40e3852414560a4929da0ee050fc8fa424b56b3ea756f853ce274b9a3a" => :sierra
-    sha256 "90ba265eb683981e612faae96318b662558e828a99a89200a29df93006d34084" => :el_capitan
-  end
+  
 
   depends_on "gmp@6.1.2"
 

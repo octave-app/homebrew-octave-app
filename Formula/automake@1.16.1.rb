@@ -5,12 +5,7 @@ class AutomakeAT1161 < Formula
   mirror "https://ftpmirror.gnu.org/automake/automake-1.16.1.tar.xz"
   sha256 "5d05bb38a23fd3312b10aea93840feec685bdf4a41146e78882848165d3ae921"
 
-  bottle do
-    cellar :any_skip_relocation
-    sha256 "f9d2f7f913917ce686bf8dab00fe5c5f2c971038ed91b2a6ec8cd6be9efd9b31" => :high_sierra
-    sha256 "f9d2f7f913917ce686bf8dab00fe5c5f2c971038ed91b2a6ec8cd6be9efd9b31" => :sierra
-    sha256 "397f56ce7582b559171de62dfa772fc1a90d99bb1f03ae2f20e6824a243f7ae7" => :el_capitan
-  end
+  
 
   depends_on "autoconf@2.69"
 

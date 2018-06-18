@@ -5,12 +5,7 @@ class SphinxDocAT175 < Formula
   sha256 "d45480a229edf70d84ca9fae3784162b1bc75ee47e480ffe04a4b7f21a95d76d"
   revision 1
 
-  bottle do
-    cellar :any_skip_relocation
-    sha256 "9fe69b0a9955b68b26e64812fe1eafee31d13accdb32f7627ad27c75f8381670" => :high_sierra
-    sha256 "880a8e26165f480147951ee8b8b6f4b3f59bdf5b06acdb447ab4ab60cbbb2f12" => :sierra
-    sha256 "ea0cee1a751dd7e8b9a677cc18ffcb485a82c8bb474a30ed95d065fc11bdc903" => :el_capitan
-  end
+  
 
   keg_only <<~EOS
     this formula is mainly used internally by other formulae.

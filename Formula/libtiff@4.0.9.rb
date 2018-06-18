@@ -6,12 +6,7 @@ class LibtiffAT409 < Formula
   sha256 "6e7bdeec2c310734e734d19aae3a71ebe37a4d842e0e23dbb1b8921c0026cfcd"
   revision 3
 
-  bottle do
-    cellar :any
-    sha256 "2338c777aad152907291b35f40f2767771038a4812d2460e045b9ef4a7f3b565" => :high_sierra
-    sha256 "793f26ad5b2120fed7cdd00e1cd8f5b4d7e5f6363b7bc1aa9ef909cc05474579" => :sierra
-    sha256 "d0f870c1226d0bbf13de283c770d73127bbcf34028d58805a35174fde6e89845" => :el_capitan
-  end
+  
 
   option "with-xz", "Include support for LZMA compression"
 

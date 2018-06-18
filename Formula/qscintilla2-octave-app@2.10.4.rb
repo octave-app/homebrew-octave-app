@@ -10,10 +10,10 @@ class Qscintilla2OctaveAppAT2104 < Formula
   option "without-python", "Do not build Python3 bindings"
   option "without-python2", "Do not build Python2 bindings"
 
-  depends_on "pyqt@5.10.1"
+  depends_on "pyqt-octave-app@5.10.1"
   depends_on "qt@5.11.0"
-  depends_on "sip@4.19.8"
-  depends_on "python@3.6.5" => :optional
+  depends_on "sip-octave-app@4.19.8"
+  depends_on "python@3.6.5" => :recommended
   depends_on "python2@2.7.15" => :recommended
 
   def install

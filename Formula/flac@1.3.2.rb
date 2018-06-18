@@ -6,12 +6,7 @@ class FlacAT132 < Formula
   sha256 "91cfc3ed61dc40f47f050a109b08610667d73477af6ef36dcad31c31a4a8d53f"
   revision 1
 
-  bottle do
-    cellar :any
-    sha256 "b439d1a0321f9488ad0a2edfe3307402cca4e7f5e560a833078fa29561fadacd" => :high_sierra
-    sha256 "27aef309b675e9946f6ac4d090a0322d0888789087b2e38cbaaabc527eb3f22b" => :sierra
-    sha256 "17fb6eec1e71416a0000e507953babd4fca2a0204f48ae064d02b76b906dc096" => :el_capitan
-  end
+  
 
   head do
     url "https://git.xiph.org/flac.git"

@@ -6,16 +6,7 @@ class PlotutilsAT26 < Formula
   sha256 "4f4222820f97ca08c7ea707e4c53e5a3556af4d8f1ab51e0da6ff1627ff433ab"
   revision 1
 
-  bottle do
-    cellar :any
-    rebuild 1
-    sha256 "00796c7f6aa36203eb0fd919ef4f096c6016d3c5973b2032328c95c87b354d92" => :high_sierra
-    sha256 "b63f4f051452f8fd9b5ddb50f9d574122c2277c9778e1a56c3f2d59e55c3da73" => :sierra
-    sha256 "b734cdcbc7ce11c4a716bc96ee7671f3883a5d41dadceac28d994ad2c20292f9" => :el_capitan
-    sha256 "fae89f252628820ac83a0896fa022b1c08cacca6e6234b2fb23c10554f424fd3" => :yosemite
-    sha256 "e51b4b5c367e8f9ec533f54e20c9df0b887818ee35c4cde19ba8feb73d4d2ff2" => :mavericks
-    sha256 "f77398849e9a064feee52712c8c71a60e07dbc7a2d00967ed584e046ff4bc4d7" => :mountain_lion
-  end
+  
 
   depends_on "libpng@1.6.34"
   depends_on :x11 => :optional

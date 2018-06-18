@@ -11,11 +11,7 @@ class OpensslAT102o < Formula
   sha256 "ec3f5c9714ba0fd45cb4e087301eb1336c317e0d20b575a125050470e8089e4d"
   revision 1
 
-  bottle do
-    sha256 "67a795f419adcc7f2cc9c204538f2606ed9cf11f2e9587dea9c4f8189a592dee" => :high_sierra
-    sha256 "06ae39a0167691a104a490b5518600f314f72944a18dc1fbdae8405d000b585b" => :sierra
-    sha256 "3470a25f36a68d96b00dffcd1452d3d5d171ab3656e126f6e2cf233e2705423d" => :el_capitan
-  end
+  
 
   keg_only :provided_by_macos,
     "Apple has deprecated use of OpenSSL in favor of its own TLS and crypto libraries"

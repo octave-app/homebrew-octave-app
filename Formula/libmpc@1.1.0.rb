@@ -4,12 +4,7 @@ class LibmpcAT110 < Formula
   url "https://ftp.gnu.org/gnu/mpc/mpc-1.1.0.tar.gz"
   sha256 "6985c538143c1208dcb1ac42cedad6ff52e267b47e5f970183a3e75125b43c2e"
 
-  bottle do
-    cellar :any
-    sha256 "3b28ec506ab53ef5f3163e87fb72ae735b7f91ee2fc20fe184cf1241481b72a5" => :high_sierra
-    sha256 "18d620a1612bc51b1fbd1b3b62c9c73766b90549c746740c5a27d2ab1ec5ede7" => :sierra
-    sha256 "6f19f936781dae0db248abdd84a72c3e25451c44379706bc3800760f0aa43888" => :el_capitan
-  end
+  
 
   depends_on "gmp@6.1.2"
   depends_on "mpfr@4.0.1"

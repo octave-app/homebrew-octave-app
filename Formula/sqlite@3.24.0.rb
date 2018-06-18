@@ -5,12 +5,7 @@ class SqliteAT3240 < Formula
   version "3.24.0"
   sha256 "d9d14e88c6fb6d68de9ca0d1f9797477d82fc3aed613558f87ffbdbbc5ceb74a"
 
-  bottle do
-    cellar :any
-    sha256 "a51a1d0a22f6648b41980363dae433223785b55cf62bd9c67a78c15eadad7a99" => :high_sierra
-    sha256 "420f968d54ba111108f4e53d99765dfba26fb4ad2c2e1f6836d5c6ab82358692" => :sierra
-    sha256 "be63f67e5dd205236d60823bb733381a787c6a82ecbe3b6f85c5cc35dd7a67ae" => :el_capitan
-  end
+  
 
   keg_only :provided_by_macos, "macOS provides an older sqlite3"
 

@@ -4,12 +4,7 @@ class SuiteSparseAT520 < Formula
   url "http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-5.2.0.tar.gz"
   sha256 "3c46c035ea8217649958a0f73360e825b0c9dcca4e32a9349d2c7678c0d48813"
 
-  bottle do
-    cellar :any
-    sha256 "2d87260480f276e87774a09a24e634953357e5e42852300416535d1383d17cfb" => :high_sierra
-    sha256 "accf1abe0b174630a5f41bac52d9ace961fd6a721f5b82961e70161ddddca5c2" => :sierra
-    sha256 "b0d375015d7c8b96d06c03765f4d838b2045ca11d7381423d20131ba6bdd7ee4" => :el_capitan
-  end
+  
 
   depends_on "cmake@3.11.4" => :build
   depends_on "metis@5.1.0"
