@@ -21,7 +21,7 @@ target_tap_name = "octave-app/octave-app"
 # Manually-maintained formulae which should not be overwritten once they exist
 # Formulae which require manual modification, such as those whose default options
 # are changed, go in here.
-$blacklist = ["octave" "octave-current" "gnuplot" "qscintilla2"]
+$blacklist = ["octave" "octave-current" "gnuplot"]
 
 if ARGV.include? "--deps"
   if ARGV.named.length > 1
