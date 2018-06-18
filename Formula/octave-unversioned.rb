@@ -23,6 +23,7 @@ class OctaveUnversioned < Formula
   depends_on "epstool"
   depends_on "fftw"
   depends_on "fig2dev"
+  depends_on "fltk"
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "ghostscript"

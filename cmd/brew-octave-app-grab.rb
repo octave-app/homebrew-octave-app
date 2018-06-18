@@ -21,7 +21,7 @@ target_tap_name = "octave-app/octave-app"
 # Manually-maintained formulae which should not be overwritten once they exist
 # Formulae which require manual modification, such as those whose default options
 # are changed, go in here.
-$blacklist = ["octave" "octave-current"]
+$blacklist = ["octave" "octave-current" "gnuplot" "qscintilla2"]
 
 if ARGV.include? "--deps"
   if ARGV.named.length > 1
@@ -31,7 +31,6 @@ if ARGV.include? "--deps"
   first_formula = Formula[first_formula_name]
   puts "first_formula: #{first_formula}"
   deps = first_formula.recursive_dependencies
-  puts "deps: #{deps}"
   target_formula_names = deps.map { |d|
     d.to_formula.name 
   }.map { |name|
@@ -44,7 +43,6 @@ else
     target_formula_names = ARGV.named
   end
 end
-
 
 
 $target_tap = Tap.fetch(target_tap_name)

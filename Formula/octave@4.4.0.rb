@@ -17,6 +17,7 @@ class OctaveAT440 < Formula
   depends_on "epstool@3.08"
   depends_on "fftw@3.3.7"
   depends_on "fig2dev@3.2.7a"
+  depends_on "fltk@1.3.4-2"
   depends_on "fontconfig@2.13.0"
   depends_on "freetype@2.9.1"
   depends_on "ghostscript@9.23"

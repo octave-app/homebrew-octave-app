@@ -18,7 +18,7 @@ class GnuplotAT524 < Formula
     depends_on "libtool" => :build
   end
 
-  option "with-cairo", "Build the Cairo based terminals"
+  option "without-cairo", "Build the Cairo based terminals"
   option "without-lua", "Build without the lua/TikZ terminal"
   option "with-wxmac", "Build wxmac support. Need with-cairo to build wxt terminal"
   option "with-aquaterm", "Build with AquaTerm support"
@@ -35,7 +35,7 @@ class GnuplotAT524 < Formula
   depends_on "readline@7.0.3"
   depends_on "lua@5.3.4" => :recommended
   depends_on "pango" if build.with?("cairo") || build.with?("wxmac")
-  depends_on "qt@5.11.0" => :optional
+  depends_on "qt@5.11.0" => :recommended
   depends_on "wxmac@3.0.4" => :optional
   depends_on :x11 => :optional
 
