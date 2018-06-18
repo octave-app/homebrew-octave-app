@@ -25,8 +25,8 @@ class GdAT225 < Formula
     system "./bootstrap.sh" if build.head?
     system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}",
-                          "--with-freetype=#{Formula["freetype"].opt_prefix}",
-                          "--with-png=#{Formula["libpng"].opt_prefix}",
+                          "--with-freetype=#{Formula["freetype@2.9.1"].opt_prefix}",
+                          "--with-png=#{Formula["libpng@1.6.34"].opt_prefix}",
                           "--without-x",
                           "--without-xpm"
     system "make", "install"

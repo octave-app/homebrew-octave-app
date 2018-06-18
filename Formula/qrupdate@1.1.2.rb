@@ -16,7 +16,7 @@ class QrupdateAT112 < Formula
     ENV.deparallelize
 
     system "make", "lib", "solib",
-                   "BLAS=-L#{Formula["veclibfort"].opt_lib} -lvecLibFort"
+                   "BLAS=-L#{Formula["veclibfort@0.4.2"].opt_lib} -lvecLibFort"
 
     # Confuses "make install" on case-insensitive filesystems
     rm "INSTALL"

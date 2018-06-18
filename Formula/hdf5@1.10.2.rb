@@ -30,7 +30,7 @@ class Hdf5AT1102 < Formula
       --disable-dependency-tracking
       --disable-silent-rules
       --prefix=#{prefix}
-      --with-szlib=#{Formula["szip"].opt_prefix}
+      --with-szlib=#{Formula["szip@2.1.1"].opt_prefix}
       --enable-build-mode=production
       --enable-fortran
     ]

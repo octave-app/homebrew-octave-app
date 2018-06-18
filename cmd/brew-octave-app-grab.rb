@@ -24,9 +24,11 @@ target_tap_name = "octave-app/octave-app"
 $blacklist = ["octave" "octave-current" "gnuplot"]
 # Formulae that we can't get to compile from the versioned variants for some reason,
 # so we just use the unversioned variants and hope for the best.
+# TODO: It's our goal to eliminate the greenlist entirely by getting these to build.
 $greenlist_main = ["gcc"]
 # And these are the recursive dependencies of the main greenlist formulae, which must
-# also be included in the greenlist
+# also be included in the greenlist, to avoid conflicts between versioned and 
+# unversioned formulae.
 $greenlist_deps = ["gmp"]
 $greenlist = $greenlist_main + $greenlist_deps
 
@@ -50,7 +52,6 @@ else
     target_formula_names = ARGV.named
   end
 end
-
 
 $target_tap = Tap.fetch(target_tap_name)
 $skip_count = 0
@@ -114,7 +115,9 @@ def grab_formula(f_name)
     end
     dep_base_name = dep.name.sub(/@.*/, "")
     dep_version = dep.to_formula.version
-    inreplace(oa_versioned_formula_path, "depends_on \"#{dep.name}\"", "depends_on \"#{dep_base_name}@#{dep_version}\"")
+    dep_versioned_name = "#{dep_base_name}@#{dep_version}"
+    inreplace(oa_versioned_formula_path, "depends_on \"#{dep.name}\"", "depends_on \"#{dep_versioned_name}\"")
+    maybe_inreplace(oa_versioned_formula_path, "Formula[\"#{dep.name}\"]", "Formula[\"#{dep_versioned_name}\"]")
   end
   # Wipe out bottle info
   maybe_inreplace(oa_versioned_formula_path, /bottle do.*?end/m, "")

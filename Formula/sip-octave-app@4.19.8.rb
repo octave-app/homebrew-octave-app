@@ -11,7 +11,7 @@ class SipOctaveAppAT4198 < Formula
   depends_on "python2@2.7.15" => :recommended
 
   def install
-    ENV.prepend_path "PATH", Formula["python"].opt_libexec/"bin"
+    ENV.prepend_path "PATH", Formula["python@3.6.5"].opt_libexec/"bin"
 
     if build.head?
       # Link the Mercurial repository into the download directory so

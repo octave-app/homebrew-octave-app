@@ -18,8 +18,8 @@ class SuiteSparseAT520 < Formula
       "INSTALL=#{prefix}",
       "BLAS=-framework Accelerate",
       "LAPACK=$(BLAS)",
-      "MY_METIS_LIB=-L#{Formula["metis"].opt_lib} -lmetis",
-      "MY_METIS_INC=#{Formula["metis"].opt_include}",
+      "MY_METIS_LIB=-L#{Formula["metis@5.1.0"].opt_lib} -lmetis",
+      "MY_METIS_INC=#{Formula["metis@5.1.0"].opt_include}",
     ]
     system "make", "library", *args
     system "make", "install", *args

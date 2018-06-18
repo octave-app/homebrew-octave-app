@@ -14,7 +14,7 @@ class LibmpcAT110 < Formula
       --prefix=#{prefix}
       --disable-dependency-tracking
       --with-gmp=#{Formula["gmp"].opt_prefix}
-      --with-mpfr=#{Formula["mpfr"].opt_prefix}
+      --with-mpfr=#{Formula["mpfr@4.0.1"].opt_prefix}
     ]
 
     system "./configure", *args
@@ -39,7 +39,7 @@ class LibmpcAT110 < Formula
         return 0;
       }
     EOS
-    system ENV.cc, "test.c", "-L#{lib}", "-L#{Formula["mpfr"].opt_lib}",
+    system ENV.cc, "test.c", "-L#{lib}", "-L#{Formula["mpfr@4.0.1"].opt_lib}",
                    "-L#{Formula["gmp"].opt_lib}", "-lmpc", "-lmpfr",
                    "-lgmp", "-o", "test"
     system "./test"

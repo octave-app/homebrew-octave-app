@@ -39,7 +39,7 @@ class OpenMpiAT310 < Formula
       --disable-dependency-tracking
       --disable-silent-rules
       --enable-ipv6
-      --with-libevent=#{Formula["libevent"].opt_prefix}
+      --with-libevent=#{Formula["libevent@2.1.8"].opt_prefix}
       --with-sge
     ]
     args << "--with-platform-optimized" if build.head?

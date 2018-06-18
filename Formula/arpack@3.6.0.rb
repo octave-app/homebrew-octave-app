@@ -20,7 +20,7 @@ class ArpackAT360 < Formula
   def install
     args = %W[ --disable-dependency-tracking
                --prefix=#{libexec}
-               --with-blas=-L#{Formula["veclibfort"].opt_lib}\ -lvecLibFort ]
+               --with-blas=-L#{Formula["veclibfort@0.4.2"].opt_lib}\ -lvecLibFort ]
 
     args << "F77=mpif77" << "--enable-mpi" if build.with? "mpi"
 

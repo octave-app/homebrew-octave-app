@@ -116,18 +116,18 @@ class PythonAT365 < Formula
     # superenv makes cc always find includes/libs!
     inreplace "setup.py",
       "do_readline = self.compiler.find_library_file(lib_dirs, 'readline')",
-      "do_readline = '#{Formula["readline"].opt_lib}/libhistory.dylib'"
+      "do_readline = '#{Formula["readline@7.0.3"].opt_lib}/libhistory.dylib'"
 
     if build.stable?
-      inreplace "setup.py", "/usr/local/ssl", Formula["openssl"].opt_prefix
+      inreplace "setup.py", "/usr/local/ssl", Formula["openssl@1.0.2o"].opt_prefix
     else
-      args << "--with-openssl=#{Formula["openssl"].opt_prefix}"
+      args << "--with-openssl=#{Formula["openssl@1.0.2o"].opt_prefix}"
     end
 
     inreplace "setup.py" do |s|
       s.gsub! "sqlite_setup_debug = False", "sqlite_setup_debug = True"
       s.gsub! "for d_ in inc_dirs + sqlite_inc_paths:",
-              "for d_ in ['#{Formula["sqlite"].opt_include}']:"
+              "for d_ in ['#{Formula["sqlite@3.24.0"].opt_include}']:"
     end
 
     # Allow python modules to use ctypes.find_library to find homebrew's stuff
@@ -139,7 +139,7 @@ class PythonAT365 < Formula
     end
 
     if build.with? "tcl-tk"
-      tcl_tk = Formula["tcl-tk"].opt_prefix
+      tcl_tk = Formula["tcl-tk@8.6.8"].opt_prefix
       cppflags << "-I#{tcl_tk}/include"
       ldflags  << "-L#{tcl_tk}/lib"
     end
@@ -273,14 +273,14 @@ class PythonAT365 < Formula
     end
 
     # Help distutils find brewed stuff when building extensions
-    include_dirs = [HOMEBREW_PREFIX/"include", Formula["openssl"].opt_include,
-                    Formula["sqlite"].opt_include]
-    library_dirs = [HOMEBREW_PREFIX/"lib", Formula["openssl"].opt_lib,
-                    Formula["sqlite"].opt_lib]
+    include_dirs = [HOMEBREW_PREFIX/"include", Formula["openssl@1.0.2o"].opt_include,
+                    Formula["sqlite@3.24.0"].opt_include]
+    library_dirs = [HOMEBREW_PREFIX/"lib", Formula["openssl@1.0.2o"].opt_lib,
+                    Formula["sqlite@3.24.0"].opt_lib]
 
     if build.with? "tcl-tk"
-      include_dirs << Formula["tcl-tk"].opt_include
-      library_dirs << Formula["tcl-tk"].opt_lib
+      include_dirs << Formula["tcl-tk@8.6.8"].opt_include
+      library_dirs << Formula["tcl-tk@8.6.8"].opt_lib
     end
 
     cfg = prefix/"Frameworks/Python.framework/Versions/#{xy}/lib/python#{xy}/distutils/distutils.cfg"

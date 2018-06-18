@@ -24,8 +24,8 @@ class Sundials27AT270 < Formula
       -DCMAKE_C_COMPILER=#{ENV["CC"]}
       -DBUILD_SHARED_LIBS=ON
       -DKLU_ENABLE=ON
-      -DKLU_LIBRARY_DIR=#{Formula["suite-sparse"].opt_lib}
-      -DKLU_INCLUDE_DIR=#{Formula["suite-sparse"].opt_include}
+      -DKLU_LIBRARY_DIR=#{Formula["suite-sparse@5.2.0"].opt_lib}
+      -DKLU_INCLUDE_DIR=#{Formula["suite-sparse@5.2.0"].opt_include}
       -DLAPACK_ENABLE=ON
       -DLAPACK_LIBRARIES=#{blas};#{blas}
     ]

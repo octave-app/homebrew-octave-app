@@ -31,7 +31,7 @@ class PyqtOctaveAppAT5101 < Formula
               "--sipdir=#{share}/sip/Qt5",
               # sip.h could not be found automatically
               "--sip-incdir=#{Formula["sip"].opt_include}",
-              "--qmake=#{Formula["qt"].bin}/qmake",
+              "--qmake=#{Formula["qt@5.11.0"].bin}/qmake",
               # Force deployment target to avoid libc++ issues
               "QMAKE_MACOSX_DEPLOYMENT_TARGET=#{MacOS.version}",
               "--qml-plugindir=#{pkgshare}/plugins",

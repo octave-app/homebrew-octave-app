@@ -66,7 +66,7 @@ class GnuplotAT524 < Formula
       --disable-dependency-tracking
       --disable-silent-rules
       --prefix=#{prefix}
-      --with-readline=#{Formula["readline"].opt_prefix}
+      --with-readline=#{Formula["readline@7.0.3"].opt_prefix}
       --without-tutorial
     ]
 

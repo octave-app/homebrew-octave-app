@@ -33,12 +33,12 @@ class LibtiffAT409 < Formula
       --disable-dependency-tracking
       --prefix=#{prefix}
       --without-x
-      --with-jpeg-include-dir=#{Formula["jpeg"].opt_include}
-      --with-jpeg-lib-dir=#{Formula["jpeg"].opt_lib}
+      --with-jpeg-include-dir=#{Formula["jpeg@9c"].opt_include}
+      --with-jpeg-lib-dir=#{Formula["jpeg@9c"].opt_lib}
     ]
     if build.with? "xz"
-      args << "--with-lzma-include-dir=#{Formula["xz"].opt_include}"
-      args << "--with-lzma-lib-dir=#{Formula["xz"].opt_lib}"
+      args << "--with-lzma-include-dir=#{Formula["xz@5.2.4"].opt_include}"
+      args << "--with-lzma-lib-dir=#{Formula["xz@5.2.4"].opt_lib}"
     else
       args << "--disable-lzma"
     end
