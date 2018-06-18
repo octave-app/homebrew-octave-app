@@ -22,6 +22,9 @@ target_tap_name = "octave-app/octave-app"
 # Formulae which require manual modification, such as those whose default options
 # are changed, go in here.
 $blacklist = ["octave" "octave-current" "gnuplot"]
+# Formulae that we can't get to compile from the versioned variants for some reason,
+# so we just use the unversioned variants and hope for the best
+$greenlist = ["gcc"]
 
 if ARGV.include? "--deps"
   if ARGV.named.length > 1
@@ -48,6 +51,7 @@ end
 $target_tap = Tap.fetch(target_tap_name)
 $skip_count = 0
 $skipped_blacklist = []
+$skipped_greenlist = []
 
 # A version of Utils::Inreplace::inreplace that ignores errors.
 # So you can use this to replace text that may not exist
@@ -87,6 +91,10 @@ def grab_formula(f_name)
       return
     end
   end
+  if $greenlist.include? f_name
+    $skipped_greenlist.push(f_name)
+    return
+  end
   FileUtils.cp(formula_path, oa_versioned_formula_path)
   # Munge the versioned formula
   # Munge the class name inside the formula
@@ -96,6 +104,10 @@ def grab_formula(f_name)
   # Freeze its dependencies to versioned ones
   deps = formula.deps
   deps.each do |dep|
+    if $greenlist.include? dep.name
+      # Do not version-freeze greenlisted formulae
+      next
+    end
     dep_base_name = dep.name.sub(/@.*/, "")
     dep_version = dep.to_formula.version
     inreplace(oa_versioned_formula_path, "depends_on \"#{dep.name}\"", "depends_on \"#{dep_base_name}@#{dep_version}\"")
@@ -116,3 +128,8 @@ puts "Skipped #{$skip_count} existing versioned formulae" if $skip_count > 0
 if $skipped_blacklist.length > 0
   puts "Skipped #{$skipped_blacklist.length} existing blacklisted formulae: #{$skipped_blacklist}" 
 end
+if $skipped_greenlist.length > 0
+  puts "Skipped #{$skipped_greenlist.length} greenlisted formulae: #{$skipped_greenlist}" 
+end
+
+
