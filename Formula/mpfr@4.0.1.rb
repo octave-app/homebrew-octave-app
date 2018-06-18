@@ -7,7 +7,7 @@ class MpfrAT401 < Formula
 
   
 
-  depends_on "gmp@6.1.2"
+  depends_on "gmp"
 
   def install
     system "./configure", "--disable-dependency-tracking", "--prefix=#{prefix}",

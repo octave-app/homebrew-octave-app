@@ -23,8 +23,12 @@ target_tap_name = "octave-app/octave-app"
 # are changed, go in here.
 $blacklist = ["octave" "octave-current" "gnuplot"]
 # Formulae that we can't get to compile from the versioned variants for some reason,
-# so we just use the unversioned variants and hope for the best
-$greenlist = ["gcc"]
+# so we just use the unversioned variants and hope for the best.
+$greenlist_main = ["gcc"]
+# And these are the recursive dependencies of the main greenlist formulae, which must
+# also be included in the greenlist
+$greenlist_deps = ["gmp"]
+$greenlist = $greenlist_main + $greenlist_deps
 
 if ARGV.include? "--deps"
   if ARGV.named.length > 1

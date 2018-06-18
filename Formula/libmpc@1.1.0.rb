@@ -6,7 +6,7 @@ class LibmpcAT110 < Formula
 
   
 
-  depends_on "gmp@6.1.2"
+  depends_on "gmp"
   depends_on "mpfr@4.0.1"
 
   def install
