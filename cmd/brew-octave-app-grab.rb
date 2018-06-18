@@ -16,10 +16,12 @@ require "utils/inreplace"
 
 include Utils::Inreplace
 
-default_target_formula = "octave@4.4.0"
+default_target_formula = "octave-unversioned"
 target_tap_name = "octave-app/octave-app"
 # Manually-maintained formulae which should not be overwritten once they exist
-$blacklist = ["octave"]
+# Formulae which require manual modification, such as those whose default options
+# are changed, go in here.
+$blacklist = ["octave" "octave-current"]
 
 if ARGV.include? "--deps"
   if ARGV.named.length > 1
@@ -27,8 +29,14 @@ if ARGV.include? "--deps"
   end
   first_formula_name = ARGV.named.empty? ? default_target_formula : ARGV.named.first
   first_formula = Formula[first_formula_name]
+  puts "first_formula: #{first_formula}"
   deps = first_formula.recursive_dependencies
-  target_formula_names = deps.map { |d| d.to_formula.name }.sort
+  puts "deps: #{deps}"
+  target_formula_names = deps.map { |d|
+    d.to_formula.name 
+  }.map { |name|
+    name.sub(/@.*/, "")
+  }.sort
 else
   if ARGV.named.empty?
     odie "You must supply some formula names when not using --deps"
@@ -37,8 +45,28 @@ else
   end
 end
 
+
+
 $target_tap = Tap.fetch(target_tap_name)
 $skip_count = 0
+$skipped_blacklist = []
+
+# A version of Utils::Inreplace::inreplace that ignores errors.
+# So you can use this to replace text that may not exist
+def maybe_inreplace(paths, before = nil, after = nil)
+  Array(paths).each do |path|
+    s = File.open(path, "rb", &:read).extend(StringInreplaceExtension)
+
+    if before.nil? && after.nil?
+      yield s
+    else
+      after = after.to_s if after.is_a? Symbol
+      s.gsub!(before, after)
+    end
+
+    Pathname(path).atomic_write(s)
+  end
+end
 
 def grab_formula(f_name)
   # Locate formula in main tap and get info
@@ -57,7 +85,8 @@ def grab_formula(f_name)
     	$skip_count = $skip_count + 1
       return
     elsif $blacklist.include? f_name
-      odie "Cannot overwrite blacklisted formula #{f_name}"
+      $skipped_blacklist.push(f_name)
+      return
     end
   end
   FileUtils.cp(formula_path, oa_versioned_formula_path)
@@ -69,9 +98,12 @@ def grab_formula(f_name)
   # Freeze its dependencies to versioned ones
   deps = formula.deps
   deps.each do |dep|
+    dep_base_name = dep.name.sub(/@.*/, "")
     dep_version = dep.to_formula.version
-    inreplace(oa_versioned_formula_path, "depends_on \"#{dep.name}\"", "depends_on \"#{dep.name}@#{dep_version}\"")
+    inreplace(oa_versioned_formula_path, "depends_on \"#{dep.name}\"", "depends_on \"#{dep_base_name}@#{dep_version}\"")
   end
+  # Wipe out bottle info
+  maybe_inreplace(oa_versioned_formula_path, /bottle do.*?end/, "")
   # Announce
   puts "#{formula.name} => #{versioned_name}"
 end
@@ -83,3 +115,6 @@ target_formula_names.each do |f_name|
   grab_formula(f_name)
 end
 puts "Skipped #{$skip_count} existing versioned formulae" if $skip_count > 0
+if $skipped_blacklist.length > 0
+  puts "Skipped #{$skipped_blacklist.length} existing blacklisted formulae: #{$skipped_blacklist}" 
+end
