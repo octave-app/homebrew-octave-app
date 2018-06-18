@@ -13,7 +13,7 @@ class FftwAT337 < Formula
 
   depends_on "open-mpi" if build.with? "mpi"
 
-  depends_on "gcc@8.1.0" if build.with?("fortran") || build.with?("openmp")
+  depends_on "gcc" if build.with?("fortran") || build.with?("openmp")
   fails_with :clang if build.with? "openmp"
 
   def install

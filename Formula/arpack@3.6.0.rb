@@ -13,7 +13,7 @@ class ArpackAT360 < Formula
   depends_on "automake@1.16.1" => :build
   depends_on "libtool@2.4.6" => :build
 
-  depends_on "gcc@8.1.0" # for gfortran
+  depends_on "gcc" # for gfortran
   depends_on "veclibfort@0.4.2"
   depends_on "open-mpi" if build.with? "mpi"
 

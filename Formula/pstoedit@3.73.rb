@@ -9,7 +9,7 @@ class PstoeditAT373 < Formula
   depends_on "pkg-config@0.29.2" => :build
   depends_on "plotutils@2.6"
   depends_on "ghostscript@9.23"
-  depends_on "imagemagick@7.0.8-0"
+  depends_on "imagemagick@7.0.8-1"
   depends_on "xz" if MacOS.version < :mavericks
 
   def install

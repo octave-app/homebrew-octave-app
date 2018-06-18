@@ -14,7 +14,7 @@ class Hdf5AT1102 < Formula
   depends_on "autoconf@2.69" => :build
   depends_on "automake@1.16.1" => :build
   depends_on "libtool@2.4.6" => :build
-  depends_on "gcc@8.1.0" # for gfortran
+  depends_on "gcc" # for gfortran
   depends_on "open-mpi" if build.with? "mpi"
   depends_on "szip@2.1.1"
 

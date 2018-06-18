@@ -12,7 +12,7 @@ class OpenblasAT030 < Formula
 
   option "with-openmp", "Enable parallel computations with OpenMP"
 
-  depends_on "gcc@8.1.0" # for gfortran
+  depends_on "gcc" # for gfortran
 
   fails_with :clang if build.with? "openmp"
 

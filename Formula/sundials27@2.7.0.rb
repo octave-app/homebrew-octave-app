@@ -9,7 +9,7 @@ class Sundials27AT270 < Formula
 
   depends_on "cmake@3.11.4" => :build
   depends_on "python@3.6.5" => :build
-  depends_on "gcc@8.1.0" # for gfortran
+  depends_on "gcc" # for gfortran
   depends_on "open-mpi@3.1.0" if build.with? "mpi"
   depends_on "suite-sparse@5.2.0"
   depends_on "openblas@0.3.0"

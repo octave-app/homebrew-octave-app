@@ -20,7 +20,7 @@ class OpenMpiAT310 < Formula
   deprecated_option "disable-fortran" => "without-fortran"
   deprecated_option "enable-mpi-thread-multiple" => "with-mpi-thread-multiple"
 
-  depends_on "gcc@8.1.0" if build.with? "fortran"
+  depends_on "gcc" if build.with? "fortran"
   depends_on :java => :optional
   depends_on "libevent@2.1.8"
 
