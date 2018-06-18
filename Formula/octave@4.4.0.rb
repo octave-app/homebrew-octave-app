@@ -9,41 +9,41 @@ class OctaveAT440 < Formula
   option "without-test", "Skip compile-time make checks (not recommended)"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
-  depends_on "automake" => :build
-  depends_on "autoconf" => :build
-  depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
-  depends_on "pkg-config" => :build
-  depends_on "arpack"
-  depends_on "epstool"
-  depends_on "fftw"
-  depends_on "fig2dev"
-  depends_on "fontconfig"
-  depends_on "freetype"
-  depends_on "ghostscript"
-  depends_on "gl2ps"
-  depends_on "glpk"
-  depends_on "gnuplot"
-  depends_on "gnu-tar"
-  depends_on "graphicsmagick"
-  depends_on "hdf5"
-  depends_on "libsndfile"
-  depends_on "libtool"
-  depends_on "pcre"
-  depends_on "portaudio"
-  depends_on "pstoedit"
-  depends_on "qhull"
-  depends_on "qrupdate"
-  depends_on "readline"
-  depends_on "suite-sparse"
-  depends_on "sundials27"
-  depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
-  depends_on "veclibfort"
+  depends_on "automake@1.16.1" => :build
+  depends_on "autoconf@2.69" => :build
+  depends_on "gnu-sed@4.5" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
+  depends_on "pkg-config@0.29.2" => :build
+  depends_on "arpack@3.6.0"
+  depends_on "epstool@3.08"
+  depends_on "fftw@3.3.7"
+  depends_on "fig2dev@3.2.7a"
+  depends_on "fontconfig@2.13.0"
+  depends_on "freetype@2.9.1"
+  depends_on "ghostscript@9.23"
+  depends_on "gl2ps@1.4.0"
+  depends_on "glpk@4.65"
+  depends_on "gnuplot@5.2.4"
+  depends_on "gnu-tar@1.30"
+  depends_on "graphicsmagick@1.3.29"
+  depends_on "hdf5@1.10.2"
+  depends_on "libsndfile@1.0.28"
+  depends_on "libtool@2.4.6"
+  depends_on "pcre@8.42"
+  depends_on "portaudio@19.6.0"
+  depends_on "pstoedit@3.73"
+  depends_on "qhull@2015.2"
+  depends_on "qrupdate@1.1.2"
+  depends_on "readline@7.0.3"
+  depends_on "suite-sparse@5.2.0"
+  depends_on "sundials27@2.7.0"
+  depends_on "texinfo@6.5" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
+  depends_on "veclibfort@0.4.2"
   depends_on :java => ["1.8+", :recommended]
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt"
-    depends_on "qscintilla2"
+    depends_on "qt@5.11.0"
+    depends_on "qscintilla2-octave-app@2.10.4"
 
     # Fix bug #49053: retina scaling of figures
     # see https://savannah.gnu.org/bugs/?49053

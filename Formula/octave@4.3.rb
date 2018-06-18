@@ -14,7 +14,7 @@ class OctaveAT43 < Formula
   depends_on "autoconf" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
   depends_on "pkg-config" => :build
-  depends_on "dpo/openblas/arpack"
+  depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
   depends_on "fig2dev"

@@ -11,7 +11,7 @@ class Sundials27AT270 < Formula
   depends_on "python@3.6.5" => :build
   depends_on "gcc@8.1.0" # for gfortran
   depends_on "open-mpi@3.1.0" if build.with? "mpi"
-  depends_on "dpo/openblas/suite-sparse@4.5.5"
+  depends_on "suite-sparse@5.2.0"
   depends_on "openblas@0.3.0"
 
   conflicts_with "sundials", :because => "this is an older version"
@@ -19,7 +19,7 @@ class Sundials27AT270 < Formula
   fails_with :clang if build.with? "openmp"
 
   def install
-    blas = "-L#{Formula["openblas"].opt_lib} -lopenblas"
+    blas = "-L#{Formula["veclibfort"].opt_lib} -lvecLibFort"
     args = std_cmake_args + %W[
       -DCMAKE_C_COMPILER=#{ENV["CC"]}
       -DBUILD_SHARED_LIBS=ON

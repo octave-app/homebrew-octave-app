@@ -15,7 +15,7 @@ class SipAT4198 < Formula
   end
 
   depends_on "python@3.6.5" => :recommended
-  depends_on "python@2@2.7.15" => :recommended
+  depends_on "python@2.7.15" => :recommended
 
   def install
     ENV.prepend_path "PATH", Formula["python"].opt_libexec/"bin"

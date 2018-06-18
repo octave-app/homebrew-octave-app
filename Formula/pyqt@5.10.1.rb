@@ -20,7 +20,7 @@ class PyqtAT5101 < Formula
   depends_on "qt@5.11.0"
   depends_on "sip@4.19.8"
   depends_on "python@3.6.5" => :recommended
-  depends_on "python@2@2.7.15" => :recommended
+  depends_on "python@2.7.15" => :recommended
 
   # Patch from openSUSE for compatibility with Qt 5.11.0
   # https://build.opensuse.org/package/show/home:cgiboudeaux:branches:KDE:Qt5/python-qt5
