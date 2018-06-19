@@ -10,7 +10,7 @@ class CmakeAT3114 < Formula
   option "without-docs", "Don't build man pages"
   option "with-completion", "Install Bash completion (Has potential problems with system bash)"
 
-  depends_on "sphinx-doc@1.7.5" => :build if build.with? "docs"
+  depends_on "sphinx-doc@1.7.5" if build.with? "docs"
 
   # The `with-qt` GUI option was removed due to circular dependencies if
   # CMake is built with Qt support and Qt is built with MySQL support as MySQL uses CMake.
