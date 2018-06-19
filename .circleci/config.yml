@@ -1,0 +1,58 @@
+version: 2
+jobs:
+  build-macos:
+    macos:
+      xcode: "9.0"
+    environment:
+      CIRCLE_REPOSITORY_URL: https://github.com/octave-app/homebrew-octave-app
+      HOMEBREW_DEVELOPER: 1
+      HOMEBREW_NO_AUTO_UPDATE: 1
+    steps:
+       - run: |
+        brew --version
+        brew remove $(brew list)
+        brew update
+        cd $(brew --repo)
+        git fetch origin --tags
+        git reset --hard origin/master
+        brew --env
+        brew config
+      - checkout
+      - run: |
+        git remote set-url origin $CIRCLE_REPOSITORY_URL
+        git fetch origin
+        git reset --hard origin/master
+        git config --global user.name OctaveAppTestBot
+        git config --global user.email octave-app@apjanke.net
+        repo=$(brew --repo $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME)
+        mkdir -p $repo
+        cp -a ./ $repo/
+      -run:
+        no_output_timeout: 60m
+        command: |
+          mkdir /tmp/bottles
+          cd /tmp/bottles
+          brew test-bot --skip-setup --or-later --bintray-org=octave-app --root-url=https://bintray.com/octave-app/bottles-octave-app
+      - persist_to_workspace:
+        root: /tmp
+        paths:
+          - bottles
+      - store_test_results:
+        path: /tmp/bottles
+  collect-bottles:
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - store_artifacts:
+          path: /tmp/workspace/bottles
+          destination: bottles
+
+workflows:
+  version: 2
+  test-bot:
+    jobs:
+      - build-macos
+      - collect-bottles:
+        requires:
+          - build-macos
+
