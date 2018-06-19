@@ -10,7 +10,7 @@ class CmakeAT3114 < Formula
   option "without-docs", "Don't build man pages"
   option "with-completion", "Install Bash completion (Has potential problems with system bash)"
 
-  depends_on "sphinx-doc@1.7.5" if build.with? "docs"
+  depends_on "sphinx-doc@1.7.5"
 
   # The `with-qt` GUI option was removed due to circular dependencies if
   # CMake is built with Qt support and Qt is built with MySQL support as MySQL uses CMake.
@@ -33,12 +33,10 @@ class CmakeAT3114 < Formula
       --system-curl
     ]
 
-    if build.with? "docs"
-      # There is an existing issue around macOS & Python locale setting
-      # See https://bugs.python.org/issue18378#msg215215 for explanation
-      ENV["LC_ALL"] = "en_US.UTF-8"
-      args << "--sphinx-man" << "--sphinx-build=#{Formula["sphinx-doc@1.7.5"].opt_bin}/sphinx-build"
-    end
+    # There is an existing issue around macOS & Python locale setting
+    # See https://bugs.python.org/issue18378#msg215215 for explanation
+    ENV["LC_ALL"] = "en_US.UTF-8"
+    args << "--sphinx-man" << "--sphinx-build=#{Formula["sphinx-doc@1.7.5"].opt_bin}/sphinx-build"
 
     system "./bootstrap", *args, "--", "-DCMAKE_BUILD_TYPE=Release"
     system "make"
