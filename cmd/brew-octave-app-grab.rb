@@ -21,9 +21,7 @@ target_tap_name = "octave-app/octave-app"
 # Manually-maintained formulae which should not be overwritten once they exist
 # Formulae which require manual modification, such as those whose default options
 # are changed, go in here.
-# cmake is on here because its sphinx-doc dependency needs to be tweaked. For some 
-# reason, it's not being picked up automatically by brew
-$blacklist = ["octave" "octave-current" "gnuplot" "cmake"]
+$blacklist = ["octave" "octave-current" "gnuplot" ]
 # Formulae that we can't get to compile from the versioned variants for some reason,
 # so we just use the unversioned variants and hope for the best.
 # TODO: It's our goal to eliminate the greenlist entirely by getting these to build.
