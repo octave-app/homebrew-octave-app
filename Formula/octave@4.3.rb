@@ -80,7 +80,6 @@ class OctaveAT43 < Formula
       --enable-link-all-dependencies
       --enable-shared
       --disable-static
-      --disable-docs
       --without-fltk
       --without-osmesa
       --with-hdf5-includedir=#{Formula["hdf5"].opt_include}
