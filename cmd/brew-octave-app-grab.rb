@@ -4,6 +4,9 @@
 #:
 #:  * `octave-app-grab` `--deps` <formula>:
 #:    Grabs a formula's recursive dependencies instead of the formula itself.
+#:
+#:  In our versioning scheme, we use "_" instead of "@" because having
+#:  "@" in pathnames causes problems with some dependencies, such as texinfo.
 
 # "oa" is an abbreviation for "octave-app" in this code
 
@@ -80,7 +83,7 @@ def grab_formula(f_name)
   formula = Formula[f_name]
   version = formula.version
   formula_path = formula.path
-  versioned_name = "#{formula.name}@#{version}"
+  versioned_name = "#{formula.name}_#{version}"
   # Locate versioned formula in octave-app tap
   qual_versioned_dep_name = "#{$target_tap}/#{versioned_name}"
   oa_formula_dir = $target_tap.path/"Formula"
@@ -115,8 +118,8 @@ def grab_formula(f_name)
     end
     dep_base_name = dep.name.sub(/@.*/, "")
     dep_version = dep.to_formula.version
-    dep_versioned_name = "#{dep_base_name}@#{dep_version}"
-    inreplace(oa_versioned_formula_path, "depends_on \"#{dep.name}\"", "depends_on \"#{dep_versioned_name}\"")
+    dep_versioned_name = "#{dep_base_name}_#{dep_version}"
+    maybe_inreplace(oa_versioned_formula_path, "depends_on \"#{dep.name}\"", "depends_on \"#{dep_versioned_name}\"")
     maybe_inreplace(oa_versioned_formula_path, "Formula[\"#{dep.name}\"]", "Formula[\"#{dep_versioned_name}\"]")
   end
   # Wipe out bottle info
