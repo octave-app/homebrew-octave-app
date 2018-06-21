@@ -11,7 +11,7 @@ class Qscintilla2OctaveAppAT2104 < Formula
   option "without-python2", "Do not build Python2 bindings"
 
   depends_on "pyqt-octave-app@5.10.1"
-  depends_on "qt@5.11.0"
+  depends_on "qt@5.11.1"
   depends_on "sip-octave-app@4.19.8"
   depends_on "python@3.6.5" => :recommended
   depends_on "python2@2.7.15" => :recommended
@@ -54,8 +54,8 @@ class Qscintilla2OctaveAppAT2104 < Formula
                            "--qsci-incdir=#{include}",
                            "--qsci-libdir=#{lib}",
                            "--pyqt=PyQt5",
-                           "--pyqt-sipdir=#{Formula["pyqt"].opt_share}/sip/Qt5",
-                           "--sip-incdir=#{Formula["sip"].opt_include}",
+                           "--pyqt-sipdir=#{Formula["pyqt-octave-app@5.10.1"].opt_share}/sip/Qt5",
+                           "--sip-incdir=#{Formula["sip-octave-app@4.19.8"].opt_include}",
                            "--spec=#{spec}"
           system "make"
           system "make", "install"
