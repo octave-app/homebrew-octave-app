@@ -144,7 +144,7 @@ class OctaveAT440 < Formula
 
     # make sure that Octave uses the modern texinfo
     rcfile = buildpath/"scripts/startup/site-rcfile"
-    rcfile.append_lines "makeinfo_program(\"#{Formula["texinfo"].opt_bin}/makeinfo\");"
+    rcfile.append_lines "makeinfo_program(\"#{Formula["texinfo@6.5"].opt_bin}/makeinfo\");"
 
     system "make", "install"
 
