@@ -101,10 +101,10 @@ class OctaveAT440 < Formula
       "--enable-shared",
       "--disable-static",
       "--without-osmesa",
-      "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
-      "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
+      "--with-hdf5-includedir=#{Formula["hdf5@1.10.2"].opt_include}",
+      "--with-hdf5-libdir=#{Formula["hdf5@1.10.2"].opt_lib}",
       "--with-x=no",
-      "--with-blas=-L#{Formula["veclibfort"].opt_lib} -lvecLibFort",
+      "--with-blas=-L#{Formula["veclibfort@0.4.2"].opt_lib} -lvecLibFort",
       "--with-portaudio",
       "--with-sndfile"
     ]
@@ -155,7 +155,7 @@ class OctaveAT440 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qcollectiongenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt@5.11.0"].opt_bin}/qcollectiongenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
