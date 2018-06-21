@@ -39,7 +39,7 @@ class OctaveAT440 < Formula
   depends_on "sundials27@2.7.0"
   depends_on "texinfo@6.5" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on "veclibfort@0.4.2"
-  depends_on :java => ["1.8+", :recommended]
+  depends_on :java => ["1.8", :recommended]
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
