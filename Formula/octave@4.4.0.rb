@@ -1,3 +1,16 @@
+class MacTeXRequirement < Requirement
+  fatal true
+
+  satisfy(:build_env => false) {
+    Pathname.new("/Library/TeX/texbin/latex").executable?
+  }
+
+  def message; <<~EOS
+    MacTeX must be installed in order to build --with-docs.
+  EOS
+  end
+end
+
 class OctaveAT440 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
@@ -40,6 +53,7 @@ class OctaveAT440 < Formula
   depends_on "texinfo@6.5" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on "veclibfort@0.4.2"
   depends_on :java => ["1.8", :recommended]
+  depends_on MacTeXRequirement if build.with?("docs")
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
@@ -108,7 +122,6 @@ class OctaveAT440 < Formula
     if build.without? "docs"
       args << "--disable-docs"
     else
-      assert_predicate "/Library/TeX/texbin/latex", :executable?, "--with-docs requires MacTex"
       ENV.prepend_path "PATH", "/Library/TeX/texbin/"
     end
 
