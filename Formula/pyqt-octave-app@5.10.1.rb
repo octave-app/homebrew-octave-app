@@ -12,7 +12,7 @@ class PyqtOctaveAppAT5101 < Formula
 
   depends_on "qt@5.11.0"
   depends_on "sip-octave-app@4.19.8"
-  depends_on "python@3.6.5" => :recommended
+  depends_on "python@3.6.5" => :optional
   depends_on "python2@2.7.15" => :recommended
 
   # Patch from openSUSE for compatibility with Qt 5.11.0

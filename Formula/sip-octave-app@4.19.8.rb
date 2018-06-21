@@ -7,11 +7,11 @@ class SipOctaveAppAT4198 < Formula
   revision 3
   head "https://www.riverbankcomputing.com/hg/sip", :using => :hg
 
-  depends_on "python@3.6.5" => :recommended
+  depends_on "python@3.6.5" => :optional
   depends_on "python2@2.7.15" => :recommended
 
   def install
-    ENV.prepend_path "PATH", Formula["python@3.6.5"].opt_libexec/"bin"
+    ENV.prepend_path "PATH", Formula["python2@2.7.15"].opt_libexec/"bin"
 
     if build.head?
       # Link the Mercurial repository into the download directory so
