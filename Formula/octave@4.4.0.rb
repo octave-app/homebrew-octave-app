@@ -86,7 +86,6 @@ class OctaveAT440 < Formula
       "--enable-link-all-dependencies",
       "--enable-shared",
       "--disable-static",
-      "--without-fltk",
       "--without-osmesa",
       "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
       "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
