@@ -100,21 +100,21 @@ class OctaveUnversioned < Formula
     # cause linking problems.
     inreplace "src/mkoctfile.in.cc", /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/, '""'
 
-    args = %W[
-      --prefix=#{prefix}
-      --disable-dependency-tracking
-      --disable-silent-rules
-      --enable-link-all-dependencies
-      --enable-shared
-      --disable-static
-      --without-fltk
-      --without-OSMesa
-      --with-hdf5-includedir=#{Formula["hdf5"].opt_include}
-      --with-hdf5-libdir=#{Formula["hdf5"].opt_lib}
-      --with-x=no
-      --with-blas=-L#{Formula["veclibfort"].opt_lib} -lvecLibFort
-      --with-portaudio
-      --with-sndfile
+    args = [
+      "--prefix=#{prefix}",
+      "--disable-dependency-tracking",
+      "--disable-silent-rules",
+      "--enable-link-all-dependencies",
+      "--enable-shared",
+      "--disable-static",
+      "--without-fltk",
+      "--without-osmesa",
+      "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
+      "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
+      "--with-x=no",
+      "--with-blas=-L#{Formula["veclibfort"].opt_lib} -lvecLibFort",
+      "--with-portaudio",
+      "--with-sndfile"
     ]
 
     if build.without? "java"
