@@ -7,14 +7,14 @@ class Qscintilla2OctaveAppAT2104 < Formula
   sha256 "0353e694a67081e2ecdd7c80e1a848cf79a36dbba78b2afa36009482149b022d"
 
   option "with-plugin", "Build the Qt Designer plugin"
-  option "without-python", "Do not build Python3 bindings"
-  option "without-python2", "Do not build Python2 bindings"
+  option "with-python", "Build Python3 bindings"
+  option "with-python2", "Build Python2 bindings"
 
-  depends_on "pyqt-octave-app@5.10.1"
+  #depends_on "pyqt-octave-app"
   depends_on "qt@5.11.1"
-  depends_on "sip-octave-app@4.19.8"
+  #depends_on "sip-octave-app"
   depends_on "python@3.6.5" => :optional
-  depends_on "python2@2.7.15" => :recommended
+  depends_on "python2@2.7.15" => :optional
 
   def install
     spec = (ENV.compiler == :clang && MacOS.version >= :mavericks) ? "macx-clang" : "macx-g++"
@@ -54,8 +54,8 @@ class Qscintilla2OctaveAppAT2104 < Formula
                            "--qsci-incdir=#{include}",
                            "--qsci-libdir=#{lib}",
                            "--pyqt=PyQt5",
-                           "--pyqt-sipdir=#{Formula["pyqt-octave-app@5.10.1"].opt_share}/sip/Qt5",
-                           "--sip-incdir=#{Formula["sip-octave-app@4.19.8"].opt_include}",
+                           "--pyqt-sipdir=#{Formula["pyqt-octave-app"].opt_share}/sip/Qt5",
+                           "--sip-incdir=#{Formula["sip-octave-app"].opt_include}",
                            "--spec=#{spec}"
           system "make"
           system "make", "install"
