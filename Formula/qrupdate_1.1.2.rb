@@ -7,7 +7,7 @@ class Qrupdate112 < Formula
 
   
 
-  depends_on "gcc" # for gfortran
+  depends_on "gcc_8.1.0" # for gfortran
   depends_on "veclibfort_0.4.2"
 
   def install

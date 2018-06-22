@@ -8,7 +8,7 @@ class Veclibfort042 < Formula
 
   
 
-  depends_on "gcc" # for gfortran
+  depends_on "gcc_8.1.0" # for gfortran
 
   def install
     system "make", "all"

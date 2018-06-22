@@ -6,14 +6,14 @@ class Libmpc110 < Formula
 
   
 
-  depends_on "gmp"
+  depends_on "gmp_6.1.2"
   depends_on "mpfr_4.0.1"
 
   def install
     args = %W[
       --prefix=#{prefix}
       --disable-dependency-tracking
-      --with-gmp=#{Formula["gmp"].opt_prefix}
+      --with-gmp=#{Formula["gmp_6.1.2"].opt_prefix}
       --with-mpfr=#{Formula["mpfr_4.0.1"].opt_prefix}
     ]
 
@@ -40,7 +40,7 @@ class Libmpc110 < Formula
       }
     EOS
     system ENV.cc, "test.c", "-L#{lib}", "-L#{Formula["mpfr_4.0.1"].opt_lib}",
-                   "-L#{Formula["gmp"].opt_lib}", "-lmpc", "-lmpfr",
+                   "-L#{Formula["gmp_6.1.2"].opt_lib}", "-lmpc", "-lmpfr",
                    "-lgmp", "-o", "test"
     system "./test"
   end

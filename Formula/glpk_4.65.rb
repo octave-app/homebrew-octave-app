@@ -7,7 +7,7 @@ class Glpk465 < Formula
 
   
 
-  depends_on "gmp"
+  depends_on "gmp_6.1.2"
 
   def install
     system "./configure", "--prefix=#{prefix}",

@@ -21,7 +21,7 @@ class Isl019 < Formula
     depends_on "libtool" => :build
   end
 
-  depends_on "gmp"
+  depends_on "gmp_6.1.2"
 
   def install
     system "./autogen.sh" if build.head?
@@ -29,7 +29,7 @@ class Isl019 < Formula
                           "--disable-silent-rules",
                           "--prefix=#{prefix}",
                           "--with-gmp=system",
-                          "--with-gmp-prefix=#{Formula["gmp"].opt_prefix}"
+                          "--with-gmp-prefix=#{Formula["gmp_6.1.2"].opt_prefix}"
     system "make", "check"
     system "make", "install"
     (share/"gdb/auto-load").install Dir["#{lib}/*-gdb.py"]

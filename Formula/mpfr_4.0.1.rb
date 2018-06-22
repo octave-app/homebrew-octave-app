@@ -7,7 +7,7 @@ class Mpfr401 < Formula
 
   
 
-  depends_on "gmp"
+  depends_on "gmp_6.1.2"
 
   def install
     system "./configure", "--disable-dependency-tracking", "--prefix=#{prefix}",
@@ -35,7 +35,7 @@ class Mpfr401 < Formula
         return 0;
       }
     EOS
-    system ENV.cc, "test.c", "-L#{lib}", "-L#{Formula["gmp"].opt_lib}",
+    system ENV.cc, "test.c", "-L#{lib}", "-L#{Formula["gmp_6.1.2"].opt_lib}",
                    "-lgmp", "-lmpfr", "-o", "test"
     system "./test"
   end
