@@ -43,7 +43,7 @@ class OctaveUnversioned < Formula
   depends_on "gl2ps"
   depends_on "glpk"
   depends_on "gnuplot"
-  depends_on "gnu-tar"
+  depends_on "gnu-tar-octave-app"
   depends_on "graphicsmagick"
   depends_on "hdf5"
   depends_on "libsndfile"
