@@ -35,12 +35,6 @@ class Qt5111 < Formula
     sha256 "48ff18be2f4050de7288bddbae7f47e949512ac4bcd126c2f504be2ac701158b"
   end
 
-  # Disable FSEventStreamFlushSync to avoid warnings in the GUI
-  patch do
-    url "https://raw.githubusercontent.com/octave-app/formula-patches/0ffa4aa98468b2355b5cc4424ed41cf869a0ee58/qt/disable-FSEventStreamFlushSync.patch"
-    sha256 "f21a965257a567244e200c48eb5e81ebdf5e94900254c59b71340492a38e06fb"
-  end
-
   def install
     args = %W[
       -verbose
