@@ -42,7 +42,7 @@ class Octave440 < Formula
   depends_on "ghostscript_9.23"
   depends_on "gl2ps_1.4.0"
   depends_on "glpk_4.65"
-  depends_on "gnuplot_5.2.4"
+  depends_on "gnuplot-octave-app_5.2.4"
   depends_on "gnu-tar-octave-app_1.30"
   depends_on "graphicsmagick_1.3.29"
   depends_on "hdf5_1.10.2"

@@ -1,10 +1,8 @@
-class Gnuplot524 < Formula
+class GnuplotOctaveApp524 < Formula
   desc "Command-driven, interactive function plotting"
   homepage "http://www.gnuplot.info/"
   url "https://downloads.sourceforge.net/project/gnuplot/gnuplot/5.2.4/gnuplot-5.2.4.tar.gz"
   sha256 "1515f000bd373aaa53b16183f274189d4f5e0ae47d22f434857933d16a4770cb"
-
-  
 
   head do
     url "https://git.code.sf.net/p/gnuplot/gnuplot-main.git"
@@ -27,11 +25,12 @@ class Gnuplot524 < Formula
   deprecated_option "nolua" => "without-lua"
 
   depends_on "pkg-config_0.29.2" => :build
+  depends_on "cairo_1.14.12" => :recommended
   depends_on "gd_2.2.5"
   depends_on "readline_7.0.3"
   depends_on "lua_5.3.4" => :recommended
   depends_on "pango" if build.with?("cairo") || build.with?("wxmac")
-  depends_on "qt_5.11.1" => :optional
+  depends_on "qt_5.11.1" => :recommended
   depends_on "wxmac_3.0.4" => :optional
   depends_on :x11 => :optional
 
