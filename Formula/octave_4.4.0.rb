@@ -37,7 +37,6 @@ class Octave440 < Formula
   depends_on "epstool_3.08"
   depends_on "fftw_3.3.7"
   depends_on "fig2dev_3.2.7a"
-  depends_on "fltk_1.3.4-2"
   depends_on "fontconfig_2.13.0"
   depends_on "freetype_2.9.1"
   depends_on "ghostscript_9.23"
@@ -107,6 +106,7 @@ class Octave440 < Formula
       "--enable-link-all-dependencies",
       "--enable-shared",
       "--disable-static",
+      "--without-fltk",
       "--without-osmesa",
       "--with-hdf5-includedir=#{Formula["hdf5_1.10.2"].opt_include}",
       "--with-hdf5-libdir=#{Formula["hdf5_1.10.2"].opt_lib}",

@@ -37,7 +37,6 @@ class OctaveUnversioned < Formula
   depends_on "epstool"
   depends_on "fftw"
   depends_on "fig2dev"
-  depends_on "fltk"
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "ghostscript"
@@ -107,6 +106,7 @@ class OctaveUnversioned < Formula
       "--enable-link-all-dependencies",
       "--enable-shared",
       "--disable-static",
+      "--without-fltk",
       "--without-osmesa",
       "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
       "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
