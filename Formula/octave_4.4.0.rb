@@ -99,6 +99,8 @@ class Octave440 < Formula
     # cause linking problems.
     inreplace "src/mkoctfile.in.cc", /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/, '""'
 
+    ENV.append "CFLAGS", "-I#{Formula["sundials27-octave-app"].opt_include}"
+
     args = [
       "--prefix=#{prefix}",
       "--disable-dependency-tracking",
