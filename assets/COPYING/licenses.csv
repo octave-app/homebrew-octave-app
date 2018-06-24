@@ -1,0 +1,58 @@
+arpack,Unknown,See https://github.com/opencollab/arpack-ng/issues/132
+epstool,GPL v2
+fftw,GPL v2
+fig2dev,MIT License - Xfig Variant
+flac,GPL v2
+fontconfig,MIT License
+freetype,GPL v2
+gcc,GPL v2
+gd,Libgd License
+ghostscript,AGPL v3
+gl2ps,LGPL v2
+glpk,GPL v3
+gmp,GPL v2
+gnu-tar,GPL v3
+gnu-tar-octave-app,GPL v3
+gnuplot,Gnuplot License
+gnuplot-octave-app,Gnuplot License
+graphicsmagick,MIT License
+hdf5,HDF5 License
+imagemagick,Apache 2.0
+isl,MIT License
+jasper,JasPer License v2.0
+jpeg,JPEG License
+libevent,BSD 3-Clause
+libmpc,LGPL v3
+libogg,Ogg License
+libpng,Libpng License
+libsndfile,LGPL v2.1
+libtiff,Libtiff License
+libtool,GPL v2
+libvorbis,Libvorbis License
+little-cms2,MIT License
+lua,MIT License
+metis,Apache 2.0
+mpfr,LGPL v3
+netpbm,Netpbm License Situation
+open-mpi,BSD 3-Clause
+openblas,BSD 3-Clause
+openssl,OpenSSL BSD License
+pcre,BSD 3-Clause
+plotutils,GPL v3
+portaudio,MIT License
+pstoedit,GPL v2
+qhull,Qhull License
+qrupdate,GPL v3
+qscintilla2,GPL v3
+qscintilla2-octave-app,GPL v3
+qt,GPL v2
+qt-octave-app,GPL v2
+readline,GPL v3
+suite-sparse,SuiteSparse License
+sundials27,SUNDIALS License
+sundials27-octave-app,SUNDIALS License
+szip,SZIP License
+texinfo,GPL v3
+veclibfort,Boost v1.0
+webp,BSD 3-Clause
+xz,XZ License Situation

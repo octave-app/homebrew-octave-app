@@ -1,0 +1,59 @@
+Fig2dev is a set of tools for creating TeX documents with graphics
+which are portable, in the sense that they can be printed in a wide
+variety of environments.
+
+Fig2dev consists of the fig2dev and the transfig commands.  The fig2dev
+command translates Fig code to other graphic description languages.  The
+transfig command generates transfig.tex, a macro file for \input in a
+TeX document, and a Makefile which translates Fig code to various
+graphics description languages using the fig2dev program.  Currently,
+transfig is considered obsolete, and it is not maintained any longer.
+By default, transfig is not built.  To build transfig, enable it
+explicitly with ./configure --enable-transfig.
+
+See the file INSTALL for installation instructions.
+
+The transfig directory contains the source for the transfig command
+which generates a Makefile which translates Fig code to various graphics
+description languages using the fig2dev program.  In previous releases,
+this command was implemented as a shell script.
+
+The fig2dev directory contains a general program for translating from
+Fig code to other graphics desciption languages.  The dev subdirectory
+contains a library of output drivers used by fig2dev.
+
+The man directory contains man pages for fig2dev and for the transfig
+command. The doc directory contains a manual for using TransFig to
+create documents with portable graphics.
+
+Fig2dev and its companion xfig are available from
+	https://sourceforge.net/projects/mcj
+
+
+Runtime Requirements
+********************
+
+o As of version 3.2.0 (final), fig2dev has taken over the translating of Fig
+  to the bitmap formats (ACAD, GIF, JPEG, XPM, XBM, PCX, TIFF).
+  In the past, xfig itself rendered the bitmap formats.  This change was made
+  to have a more consistent look and better fonts.  First, the Fig file is
+  translated to PostScript, then ghostscript is used to render the image to
+  the final format in the case of JPEG, PCX and TIFF, or to PPM (portable
+  pixmap) after which the appropriate ppmtoXXX filter is used to get ACAD, GIF,
+  XPM and XBM.  If smoothing is done (-S option) when jpeg output is used, the
+  "ppmtojpeg" program must be installed from the netpbm package.
+
+  o You need the netpbm package version 9.1 (or later), which you can find at
+    http://download.sourceforge.net/netpbm
+
+  o You will also need ghostscript, which can be found on ftp.cs.wisc.edu in
+    /ghost/aladdin, *AND* it must be compiled with the pcx256, jpeg, png256,
+    ppmraw and tiff24nc drivers.
+
+o To use the -a (binary) option for CGM export, the ralcgm program is
+  required. This is available from ftp://ftp.cc.rl.ac.uk/pub/graphics/ralcgm/
+
+
+*************************************************************************
+Please send email about any questions/bug fixes/contributions etc. about
+Fig2dev or xfig to thomas.loimer@tuwien.ac.at.
