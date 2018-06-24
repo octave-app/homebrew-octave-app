@@ -1,11 +1,9 @@
-# GNU Octave, Qt-enabled, with build customized for Octave.app
+# GNU Octave, Qt-enabled, with FLTK, too
 #
-# This version of Octave is kept at the current version. It is only
-# used for grabbing the dependencies of Octave; it is not used for
-# building Octave.app itself. The versioned octave formulae are used
-# for that. This formula does not have versioned dependencies.
-# This is kept separate from Homebrew's main "octave" formula so we
-# can fiddle around with its version independently.
+# The test suite in this is currently broken.
+# https://github.com/octave-app/octave-app-bundler/issues/32
+# https://savannah.gnu.org/bugs/?54169
+# 
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -39,6 +37,7 @@ class OctaveOctaveApp440 < Formula
   depends_on "epstool_3.08"
   depends_on "fftw_3.3.7"
   depends_on "fig2dev_3.2.7a"
+  depends_on "fltk_1.3.4-2"
   depends_on "fontconfig_2.13.0"
   depends_on "freetype_2.9.1"
   depends_on "ghostscript_9.23"
@@ -94,6 +93,13 @@ class OctaveOctaveApp440 < Formula
       url "https://raw.githubusercontent.com/octave-app/formula-patches/80d1a98d982e4207e66d424c7cc685536607c66c/octave/4.4.0-gtar-instead-of-tar.patch"
       sha256 "25a14fabf39841a4089667ebc5c326a2d40640b99432ae97ae49ce0a9a496878"
     end
+
+    # Fix an FLTK-related crash
+    # see https://savannah.gnu.org/bugs/?54169
+    patch do
+      url "https://savannah.gnu.org/bugs/download.php?file_id=44423"
+      sha256 "ae5ee3c9646329c668e602709f4a8e1c6c342773bd4767e3982564ba78465f02"
+    end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
@@ -117,7 +123,6 @@ class OctaveOctaveApp440 < Formula
       "--enable-link-all-dependencies",
       "--enable-shared",
       "--disable-static",
-      "--without-fltk",
       "--without-osmesa",
       "--with-hdf5-includedir=#{Formula["hdf5_1.10.2"].opt_include}",
       "--with-hdf5-libdir=#{Formula["hdf5_1.10.2"].opt_lib}",
