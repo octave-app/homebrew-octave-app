@@ -1,7 +1,10 @@
 class Sundials27OctaveApp270 < Formula
   desc "Nonlinear and differential/algebraic equations solver"
   homepage "https://computation.llnl.gov/casc/sundials/main.html"
-  url "https://computation.llnl.gov/projects/sundials/download/sundials-2.7.0.tar.gz"
+  # The official download site is always really slow, so use a mirror instead
+  url "https://github.com/octave-app/homebrew-octave-app-bases/releases/download/v0.1/sundials-2.7.0.tar.gz"
+  # This is actually the official download
+  mirror "https://computation.llnl.gov/projects/sundials/download/sundials-2.7.0.tar.gz"
   sha256 "d39fcac7175d701398e4eb209f7e92a5b30a78358d4a0c0fcc23db23c11ba104"
 
   option "with-openmp", "Enable OpenMP multithreading"
