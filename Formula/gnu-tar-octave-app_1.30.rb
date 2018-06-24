@@ -5,8 +5,6 @@ class GnuTarOctaveApp130 < Formula
   mirror "https://ftpmirror.gnu.org/tar/tar-1.30.tar.gz"
   sha256 "4725cc2c2f5a274b12b39d1f78b3545ec9ebb06a6e48e8845e1995ac8513b088"
 
-  
-
   option "without-default-names", "Prepend 'g' to the binary"
 
   def install
