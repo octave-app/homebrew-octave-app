@@ -18,7 +18,7 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctaveApp440 < Formula
+class OctaveFltk440 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "ftp://ftp.gnu.org/gnu/octave/octave-4.4.0.tar.lz"
