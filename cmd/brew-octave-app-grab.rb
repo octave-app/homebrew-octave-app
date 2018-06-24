@@ -19,12 +19,13 @@ require "utils/inreplace"
 
 include Utils::Inreplace
 
-default_target_formula = "octave-unversioned"
+default_target_formula = "octave-octave-app"
 target_tap_name = "octave-app/octave-app"
 # Manually-maintained formulae which should not be overwritten once they exist
 # Formulae which require manual modification, such as those whose default options
-# are changed, go in here.
-$blacklist = ["octave" "octave-current" "gnuplot" ]
+# are changed, go in here. If you really want to regenerate one of these, delete it
+# manually, and then re-run 'brew octave-app-grab'.
+$blacklist = ["octave" "octave-octave-app"]
 # Formulae that we can't get to compile from the versioned variants for some reason,
 # so we just use the unversioned variants and hope for the best.
 # TODO: It's our goal to keep the greenlist entirely empty by getting these to build.
@@ -48,9 +49,10 @@ if ARGV.include? "--deps"
   }.map { |name|
     name.sub(/@.*/, "")
   }.sort
+  target_formula_names = [first_formula_name] + target_formula_names
 else
   if ARGV.named.empty?
-    odie "You must supply some formula names when not using --deps"
+    odie "You must supply some formula names when not using --deps. If you want to re-grab octave-octave-app, supply --deps."
   else
     target_formula_names = ARGV.named
   end
