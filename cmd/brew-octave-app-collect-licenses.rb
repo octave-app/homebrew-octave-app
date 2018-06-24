@@ -33,7 +33,7 @@ formulae.each do |f|
   pkg_license_dir = pkgs_license_dir/f.name
   mkdir pkg_license_dir
   f.stable.stage do |stg|
-    status = system("cp -f README* LICENSE* license* LICENCE* licence* COPYING* COPYRIGHT* Copyright* copyright* AUTHORS* #{pkg_license_dir.to_s} 2>/dev/null")
+    status = system("cp -f README* LICENSE* license* LICENCE* licence* COPYING* COPYRIGHT* Copyright* copyright* AUTHORS* doc/readme* #{pkg_license_dir.to_s} 2>/dev/null")
     exit status if status
     empty_dirs.push(f.name) if Dir.entries(pkg_license_dir).length < 3
   end
