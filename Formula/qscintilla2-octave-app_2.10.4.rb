@@ -10,11 +10,14 @@ class Qscintilla2OctaveApp2104 < Formula
   option "with-python", "Build Python3 bindings"
   option "with-python2", "Build Python2 bindings"
 
-  #depends_on "pyqt-octave-app"
-  depends_on "qt_5.11.1"
-  #depends_on "sip-octave-app"
+  depends_on "qt-octave-app_5.11.1"
   depends_on "python_3.6.5" => :optional
   depends_on "python2_2.7.15" => :optional
+  
+  if build.with?("python") || build.with?("python2")
+    depends_on "pyqt-octave-app"
+    depends_on "sip-octave-app"
+  end
 
   def install
     spec = (ENV.compiler == :clang && MacOS.version >= :mavericks) ? "macx-clang" : "macx-g++"
