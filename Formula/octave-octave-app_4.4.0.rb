@@ -35,7 +35,7 @@ class OctaveOctaveApp440 < Formula
   depends_on "autoconf_2.69" => :build
   depends_on "gnu-sed_4.5" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
   depends_on "pkg-config_0.29.2" => :build
-  depends_on "arpack_3.6.0"
+  depends_on "arpack_3.5.0"
   depends_on "epstool_3.08"
   depends_on "fftw_3.3.7"
   depends_on "fig2dev_3.2.7a"
