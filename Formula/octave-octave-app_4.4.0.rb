@@ -45,7 +45,7 @@ class OctaveOctaveApp440 < Formula
   depends_on "gl2ps_1.4.0"
   depends_on "glpk_4.65"
   depends_on "gnuplot-octave-app_5.2.4"
-  depends_on "gnu-tar-octave-app_1.30"
+  depends_on "gnu-tar_1.30"
   depends_on "graphicsmagick_1.3.29"
   depends_on "hdf5_1.10.2"
   depends_on "libsndfile_1.0.28"
@@ -87,6 +87,13 @@ class OctaveOctaveApp440 < Formula
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025
     patch :DATA
+
+    # Fix bug https://github.com/octave-app/octave-app-bundler/issues/10
+    # tar.m and unpack.m use plain "tar" but expect a GNU tar
+    patch do
+      url "https://raw.githubusercontent.com/octave-app/formula-patches/80d1a98d982e4207e66d424c7cc685536607c66c/octave/4.4.0-gtar-instead-of-tar.patch"
+      sha256 "25a14fabf39841a4089667ebc5c326a2d40640b99432ae97ae49ce0a9a496878"
+    end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
