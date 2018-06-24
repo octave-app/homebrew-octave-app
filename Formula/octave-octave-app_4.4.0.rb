@@ -94,13 +94,6 @@ class OctaveOctaveApp440 < Formula
       url "https://raw.githubusercontent.com/octave-app/formula-patches/80d1a98d982e4207e66d424c7cc685536607c66c/octave/4.4.0-gtar-instead-of-tar.patch"
       sha256 "25a14fabf39841a4089667ebc5c326a2d40640b99432ae97ae49ce0a9a496878"
     end
-
-    # Work around bug https://github.com/octave-app/octave-app-bundler/issues/30
-    # sparse/eigs.m is failing, due to upstream issue
-    patch do
-      url "https://raw.githubusercontent.com/octave-app/formula-patches/f69aaf4c007fd7dbfe7f2ccd7243dce4f420acca/octave/4.4.0-sparse-eigs-xfail.patch"
-      sha256 "c34c66660f9459b17cfe1011526e3af9df24e02a3386dd5d29c0284812f72d05"
-    end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
