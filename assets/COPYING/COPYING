@@ -37,6 +37,14 @@ Copyright Notices
 
 Portions of this software are copyright various parties, including:
 
+arpack:
+Copyright (c) 1996-2008 Rice University.
+Developed by D.C. Sorensen, R.B. Lehoucq, C. Yang, and K. Maschhoff. All rights reserved.
+Copyright (c) 2001-2011 - Scilab Enterprises
+Updated by Allan Cornet, Sylvestre Ledru.
+Copyright (c) 2010 - Jordi Gutiérrez Hermoso (Octave patch)
+Copyright (c) 2007 - Sébastien Fabbro (gentoo patch)
+
 fontconfig:
 Copyright © 2000,2001,2002,2003,2004,2006,2007 Keith Packard
 Copyright © 2005 Patrick Lam
