@@ -18,5 +18,6 @@ Formula.installed.each do |f|
   puts "#{f.name} #{f.version.to_s} (#{license})"
   puts f.desc
   puts f.homepage
+  puts "Source code: #{f.stable.url}"
   puts ""
 end
