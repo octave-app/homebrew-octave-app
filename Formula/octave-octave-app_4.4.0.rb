@@ -87,6 +87,12 @@ class OctaveOctaveApp440 < Formula
       url "https://raw.githubusercontent.com/octave-app/formula-patches/80d1a98d982e4207e66d424c7cc685536607c66c/octave/4.4.0-gtar-instead-of-tar.patch"
       sha256 "25a14fabf39841a4089667ebc5c326a2d40640b99432ae97ae49ce0a9a496878"
     end
+
+    # Fix bug with test suite errors on repeated runs in same session
+    patch do
+      url "https://savannah.gnu.org/support/download.php?file_id=44433"
+      sha256 "8f52085b9bfd04215cc9d69a570308acad9604cf307291981b5d6137d0eeb90c"
+    end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
