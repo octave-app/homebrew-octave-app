@@ -13,7 +13,10 @@ CSV.foreach(assets/"COPYING/licenses.csv") do |row|
   license_map[row[0]] = row[1]
 end
 
-Formula.installed.each do |f|
+installed_formula_names = Formula.installed.map { |f| f.name }.sort
+
+installed_formula_names.each do |f_name|
+  f = Formula[f_name]
   license = license_map[f.name] || "Unknown License"
   puts "#{f.name} #{f.version.to_s} (#{license})"
   puts f.desc
