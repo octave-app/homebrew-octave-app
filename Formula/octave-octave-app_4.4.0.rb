@@ -21,7 +21,7 @@ class OctaveOctaveApp440 < Formula
 
   option "without-qt", "Compile without qt-based graphical user interface"
   option "without-docs", "Skip documentation (requires MacTeX)"
-  option "without-test", "Skip compile-time make checks (not recommended)"
+  option "with-test", "Skip compile-time make checks (not recommended)"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake_1.16.1" => :build
