@@ -6,6 +6,8 @@ class Qscintilla2OctaveApp2104 < Formula
   url "https://downloads.sourceforge.net/project/pyqt/QScintilla2/QScintilla-2.10.4/QScintilla_gpl-2.10.4.tar.gz"
   sha256 "0353e694a67081e2ecdd7c80e1a848cf79a36dbba78b2afa36009482149b022d"
 
+  keg_only "conflicts with regular qscintilla2"
+
   option "with-plugin", "Build the Qt Designer plugin"
   option "with-python", "Build Python3 bindings"
   option "with-python2", "Build Python2 bindings"

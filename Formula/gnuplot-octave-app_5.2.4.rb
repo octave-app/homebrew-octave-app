@@ -12,6 +12,8 @@ class GnuplotOctaveApp524 < Formula
     depends_on "libtool" => :build
   end
 
+  keg_only "conflicts with regular gnuplot"
+
   #option "without-cairo", "Build without the Cairo based terminals"
   option "without-lua", "Build without the lua/TikZ terminal"
   option "with-wxmac", "Build wxmac support. Need with-cairo to build wxt terminal"
