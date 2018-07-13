@@ -1,188 +1,201 @@
-Octave.app Licensing
-==========================
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf400
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww15400\viewh17480\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-Octave.app is the result of the work of many people. It contains GNU Octave and its many dependencies.
+\f0\b\fs36 \cf0 Octave.app Licensing
+\b0\fs24 \
+\
+Octave.app is the result of the work of many people. It contains GNU Octave and its many dependencies.\
+\
+GNU Octave itself is licensed under the GNU GPL v3.\
+\
+GNU Octave's dependencies included in Octave.app are licensed under various Open Source licenses, including:\
+\
+\pard\tx220\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0\cf0 {\listtext	\uc0\u8226 	}GNU GPL v2\
+{\listtext	\uc0\u8226 	}GNU GPL v3\
+{\listtext	\uc0\u8226 	}GNU LGPL v2\
+{\listtext	\uc0\u8226 	}GNU AGPL v3\
+{\listtext	\uc0\u8226 	}Apache License version 2.0\
+{\listtext	\uc0\u8226 	}MIT License\
+{\listtext	\uc0\u8226 	}MIT License - Xfig Variant\
+{\listtext	\uc0\u8226 	}BSD 3-Clause License\
+{\listtext	\uc0\u8226 	}Libgd License\
+{\listtext	\uc0\u8226 	}Gnuplot License\
+{\listtext	\uc0\u8226 	}HDF5 License\
+{\listtext	\uc0\u8226 	}JasPer License v2.0\
+{\listtext	\uc0\u8226 	}JPEG License\
+{\listtext	\uc0\u8226 	}Ogg License\
+{\listtext	\uc0\u8226 	}Libvorbis License\
+{\listtext	\uc0\u8226 	}Libpng License\
+{\listtext	\uc0\u8226 	}Libtiff License\
+{\listtext	\uc0\u8226 	}OpenSSL BSD License\
+{\listtext	\uc0\u8226 	}Qhull License\
+{\listtext	\uc0\u8226 	}SuiteSparse License\
+{\listtext	\uc0\u8226 	}SUNDIALS License\
+{\listtext	\uc0\u8226 	}SZIP License\
+{\listtext	\uc0\u8226 	}Boost License v1.0\
+{\listtext	\uc0\u8226 	}Public Domain\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
 
-GNU Octave itself is licensed under the GNU GPL v3.
-
-GNU Octave's dependencies included in Octave.app are licensed under various Open Source licenses, including:
-
-  * GNU GPL v2
-  * GNU GPL v3
-  * GNU LGPL v2
-  * GNU AGPL v3
-  * Apache License version 2.0
-  * MIT License
-  * MIT License - Xfig Variant
-  * BSD 3-Clause License
-  * Libgd License
-  * Gnuplot License
-  * HDF5 License
-  * JasPer License v2.0
-  * JPEG License
-  * Ogg License
-  * Libvorbis License
-  * Libpng License
-  * Libtiff License
-  * OpenSSL BSD License
-  * Qhull License
-  * SuiteSparse License
-  * SUNDIALS License
-  * SZIP License
-  * Boost License v1.0
-  * Public Domain
-
-Copyright Notices
-=========================
-
-Portions of this software are copyright various parties, including:
-
-arpack:
-Copyright (c) 1996-2008 Rice University.
-Developed by D.C. Sorensen, R.B. Lehoucq, C. Yang, and K. Maschhoff. All rights reserved.
-Copyright (c) 2001-2011 - Scilab Enterprises
-Updated by Allan Cornet, Sylvestre Ledru.
-Copyright (c) 2010 - Jordi Gutiérrez Hermoso (Octave patch)
-Copyright (c) 2007 - Sébastien Fabbro (gentoo patch)
-
-fontconfig:
-Copyright © 2000,2001,2002,2003,2004,2006,2007 Keith Packard
-Copyright © 2005 Patrick Lam
-Copyright © 2009 Roozbeh Pournader
-Copyright © 2008,2009 Red Hat, Inc.
-Copyright © 2008 Danilo Šegan
-Copyright © 2012 Google, Inc.
-
-gnuplot:
-Copyright 1986 - 1993, 1998, 2004   Thomas Williams, Colin Kelley
-
-GraphicsMagick:
-Copyright (C) 2002 - 2018 GraphicsMagick Group
-Copyright (C) 2002 ImageMagick Studio, a non-profit organization dedicated to making software imaging solutions freely available.
-Copyright 1999 E. I. du Pont de Nemours and Company
-Copyright (c) 2000 Markus Friedl.  All rights reserved.
-Copyright (c) 1986, University of Utah
-Copyright (c) 1988-1997 Sam Leffler
-Copyright (c) 1991-1997 Silicon Graphics, Inc.
-Copyright 1999 - 2012 Bob Friesenhahn <bfriesen@simple.dallas.tx.us>
-Copyright (c) 2005 Eskil Steenberg.  All rights reserved.
-
-ImageMagick:
-Copyright 1999-2018 ImageMagick Studio LLC, a non-profit organization dedicated to making software imaging solutions freely available.
-
-JasPer:
-Copyright (c) 2001-2016 Michael David Adams
-Copyright (c) 1999-2000 Image Power, Inc.
-Copyright (c) 1999-2000 The University of British Columbia
-
-JPEG:
-This software is based in part on the work of the Independent JPEG Group.
-Copyright (C) 1991-2018, Thomas G. Lane, Guido Vollbeding.
-
-Libevent:
-Copyright (c) 2000-2007 Niels Provos <provos@citi.umich.edu>
-Copyright (c) 2007-2012 Niels Provos and Nick Mathewson
-
-Libogg:
-Copyright (c) 2002, Xiph.org Foundation
-
-libpng:
-Copyright (c) 2000-2002, 2004, 2006-2017 Glenn Randers-Pehrson
-
-libtiff:
-Copyright (c) 1988-1997 Sam Leffler
-Copyright (c) 1991-1997 Silicon Graphics, Inc.
-
-libvorbis:
-Copyright (c) 2002-2018 Xiph.org Foundation
-
-Little CMS:
-Copyright (c) 1998-2011 Marti Maria Saguer
-
-Lua:
-Copyright (c) 1994-2017 Lua.org, PUC-Rio.
-
-METIS:
-Copyright 1995-2013, Regents of the University of Minnesota
-
-Open MPI:
-Copyright (c) 2004-2007 The Trustees of Indiana University and Indiana
-                        University Research and Technology
-                        Corporation.  All rights reserved.
-Copyright (c) 2004-2007 The University of Tennessee and The University
-                        of Tennessee Research Foundation.  All rights
-                        reserved.
-Copyright (c) 2004-2008 High Performance Computing Center Stuttgart,
-                        University of Stuttgart.  All rights reserved.
-Copyright (c) 2004-2007 The Regents of the University of California.
-                        All rights reserved.
-Copyright (c) 2006-2017 Cisco Systems, Inc.  All rights reserved.
-Copyright (c) 2006-2011 Mellanox Technologies. All rights reserved.
-Copyright (c) 2006-2012 Oracle and/or its affiliates.  All rights reserved.
-Copyright (c) 2007      Myricom, Inc.  All rights reserved.
-Copyright (c) 2008-2017 IBM Corporation.  All rights reserved.
-Copyright (c) 2010      Oak Ridge National Labs.  All rights reserved.
-Copyright (c) 2011      University of Houston. All rights reserved.
-Copyright (c) 2013-2017 Intel, Inc. All rights reserved.
-Copyright (c) 2015      NVIDIA Corporation.  All rights reserved.
-Copyright (c) 2017      Los Alamos National Security, LLC.  All rights
-                        reserved.
-Copyright (c) 2017      Research Organization for Information Science
-                        and Technology (RIST). All rights reserved.
-
-OpenBLAS:
-Copyright (c) 2011-2014, The OpenBLAS Project
-
-OpenSSL:
-Copyright (c) 1998-2018 The OpenSSL Project.  All rights reserved.
-Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com). All rights reserved.
-
-PCRE:
-Copyright (c) 1997-2018 University of Cambridge. All rights reserved.
-Copyright(c) 2010-2018 Zoltan Herczeg. All rights reserved.
-Copyright(c) 2009-2018 Zoltan Herczeg. All rights reserved.
-Copyright (c) 2007-2012, Google Inc. All rights reserved.
-
-PortAudio:
-Copyright (c) 1999-2006 Ross Bencina and Phil Burk
-
-Qhull:
-                    Qhull, Copyright (c) 1993-2015
-                    
-                            C.B. Barber
-                           Arlington, MA 
-                          
-                               and
-
-       The National Science and Technology Research Center for
-        Computation and Visualization of Geometric Structures
-                        (The Geometry Center)
-                       University of Minnesota
-
-                       email: qhull@qhull.org
-
-SUNDIALS:
-Copyright (c) 2002-2016, Lawrence Livermore National Security. 
-Produced at the Lawrence Livermore National Laboratory.
-Written by A.C. Hindmarsh, D.R. Reynolds, R. Serban, C.S. Woodward,
-S.D. Cohen, A.G. Taylor, S. Peles, L.E. Banks, and D. Shumaker.
-LLNL-CODE-667205    (ARKODE)
-UCRL-CODE-155951    (CVODE)
-UCRL-CODE-155950    (CVODES)
-UCRL-CODE-155952    (IDA)
-UCRL-CODE-237203    (IDAS)
-LLNL-CODE-665877    (KINSOL)
-All rights reserved. 
-
-SZIP:
-Copyright (C) 2001 Science & Technology Corporation @ UNM.  All rights released.  
-Copyright (C) 2003-2005 Lowell H. Miles and Jack A. Venbrux.  
-Licensed to ICs, LLC, for distribution by the University of Illinois' 
-National Center for Supercomputing Applications as a part of the 
-HDF data storage and retrieval file format and software library
-products package.  All rights reserved.  Do not modify or use for other
-purposes.
-
-WebP:
-Copyright (c) 2010, Google Inc. All rights reserved.
-
+\b\fs36 Copyright Notices
+\b0\fs24 \
+\
+Portions of this software are copyright various parties, including:\
+\
+arpack:\
+Copyright (c) 1996-2008 Rice University.\
+Developed by D.C. Sorensen, R.B. Lehoucq, C. Yang, and K. Maschhoff. All rights reserved.\
+Copyright (c) 2001-2011 - Scilab Enterprises\
+Updated by Allan Cornet, Sylvestre Ledru.\
+Copyright (c) 2010 - Jordi Guti\'e9rrez Hermoso (Octave patch)\
+Copyright (c) 2007 - S\'e9bastien Fabbro (gentoo patch)\
+\
+fontconfig:\
+Copyright \'a9 2000,2001,2002,2003,2004,2006,2007 Keith Packard\
+Copyright \'a9 2005 Patrick Lam\
+Copyright \'a9 2009 Roozbeh Pournader\
+Copyright \'a9 2008,2009 Red Hat, Inc.\
+Copyright \'a9 2008 Danilo \'8aegan\
+Copyright \'a9 2012 Google, Inc.\
+\
+gnuplot:\
+Copyright 1986 - 1993, 1998, 2004   Thomas Williams, Colin Kelley\
+\
+GraphicsMagick:\
+Copyright (C) 2002 - 2018 GraphicsMagick Group\
+Copyright (C) 2002 ImageMagick Studio, a non-profit organization dedicated to making software imaging solutions freely available.\
+Copyright 1999 E. I. du Pont de Nemours and Company\
+Copyright (c) 2000 Markus Friedl.  All rights reserved.\
+Copyright (c) 1986, University of Utah\
+Copyright (c) 1988-1997 Sam Leffler\
+Copyright (c) 1991-1997 Silicon Graphics, Inc.\
+Copyright 1999 - 2012 Bob Friesenhahn <bfriesen@simple.dallas.tx.us>\
+Copyright (c) 2005 Eskil Steenberg.  All rights reserved.\
+\
+ImageMagick:\
+Copyright 1999-2018 ImageMagick Studio LLC, a non-profit organization dedicated to making software imaging solutions freely available.\
+\
+JasPer:\
+Copyright (c) 2001-2016 Michael David Adams\
+Copyright (c) 1999-2000 Image Power, Inc.\
+Copyright (c) 1999-2000 The University of British Columbia\
+\
+JPEG:\
+This software is based in part on the work of the Independent JPEG Group.\
+Copyright (C) 1991-2018, Thomas G. Lane, Guido Vollbeding.\
+\
+Libevent:\
+Copyright (c) 2000-2007 Niels Provos <provos@citi.umich.edu>\
+Copyright (c) 2007-2012 Niels Provos and Nick Mathewson\
+\
+Libogg:\
+Copyright (c) 2002, Xiph.org Foundation\
+\
+libpng:\
+Copyright (c) 2000-2002, 2004, 2006-2017 Glenn Randers-Pehrson\
+\
+libtiff:\
+Copyright (c) 1988-1997 Sam Leffler\
+Copyright (c) 1991-1997 Silicon Graphics, Inc.\
+\
+libvorbis:\
+Copyright (c) 2002-2018 Xiph.org Foundation\
+\
+Little CMS:\
+Copyright (c) 1998-2011 Marti Maria Saguer\
+\
+Lua:\
+Copyright (c) 1994-2017 Lua.org, PUC-Rio.\
+\
+METIS:\
+Copyright 1995-2013, Regents of the University of Minnesota\
+\
+Open MPI:\
+Copyright (c) 2004-2007 The Trustees of Indiana University and Indiana\
+                        University Research and Technology\
+                        Corporation.  All rights reserved.\
+Copyright (c) 2004-2007 The University of Tennessee and The University\
+                        of Tennessee Research Foundation.  All rights\
+                        reserved.\
+Copyright (c) 2004-2008 High Performance Computing Center Stuttgart,\
+                        University of Stuttgart.  All rights reserved.\
+Copyright (c) 2004-2007 The Regents of the University of California.\
+                        All rights reserved.\
+Copyright (c) 2006-2017 Cisco Systems, Inc.  All rights reserved.\
+Copyright (c) 2006-2011 Mellanox Technologies. All rights reserved.\
+Copyright (c) 2006-2012 Oracle and/or its affiliates.  All rights reserved.\
+Copyright (c) 2007      Myricom, Inc.  All rights reserved.\
+Copyright (c) 2008-2017 IBM Corporation.  All rights reserved.\
+Copyright (c) 2010      Oak Ridge National Labs.  All rights reserved.\
+Copyright (c) 2011      University of Houston. All rights reserved.\
+Copyright (c) 2013-2017 Intel, Inc. All rights reserved.\
+Copyright (c) 2015      NVIDIA Corporation.  All rights reserved.\
+Copyright (c) 2017      Los Alamos National Security, LLC.  All rights\
+                        reserved.\
+Copyright (c) 2017      Research Organization for Information Science\
+                        and Technology (RIST). All rights reserved.\
+\
+OpenBLAS:\
+Copyright (c) 2011-2014, The OpenBLAS Project\
+\
+OpenSSL:\
+Copyright (c) 1998-2018 The OpenSSL Project.  All rights reserved.\
+Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com). All rights reserved.\
+\
+PCRE:\
+Copyright (c) 1997-2018 University of Cambridge. All rights reserved.\
+Copyright(c) 2010-2018 Zoltan Herczeg. All rights reserved.\
+Copyright(c) 2009-2018 Zoltan Herczeg. All rights reserved.\
+Copyright (c) 2007-2012, Google Inc. All rights reserved.\
+\
+PortAudio:\
+Copyright (c) 1999-2006 Ross Bencina and Phil Burk\
+\
+Qhull:\
+                    Qhull, Copyright (c) 1993-2015\
+                    \
+                            C.B. Barber\
+                           Arlington, MA \
+                          \
+                               and\
+\
+       The National Science and Technology Research Center for\
+        Computation and Visualization of Geometric Structures\
+                        (The Geometry Center)\
+                       University of Minnesota\
+\
+                       email: qhull@qhull.org\
+\
+SUNDIALS:\
+Copyright (c) 2002-2016, Lawrence Livermore National Security. \
+Produced at the Lawrence Livermore National Laboratory.\
+Written by A.C. Hindmarsh, D.R. Reynolds, R. Serban, C.S. Woodward,\
+S.D. Cohen, A.G. Taylor, S. Peles, L.E. Banks, and D. Shumaker.\
+LLNL-CODE-667205    (ARKODE)\
+UCRL-CODE-155951    (CVODE)\
+UCRL-CODE-155950    (CVODES)\
+UCRL-CODE-155952    (IDA)\
+UCRL-CODE-237203    (IDAS)\
+LLNL-CODE-665877    (KINSOL)\
+All rights reserved. \
+\
+SZIP:\
+Copyright (C) 2001 Science & Technology Corporation @ UNM.  All rights released.  \
+Copyright (C) 2003-2005 Lowell H. Miles and Jack A. Venbrux.  \
+Licensed to ICs, LLC, for distribution by the University of Illinois' \
+National Center for Supercomputing Applications as a part of the \
+HDF data storage and retrieval file format and software library\
+products package.  All rights reserved.  Do not modify or use for other\
+purposes.\
+\
+WebP:\
+Copyright (c) 2010, Google Inc. All rights reserved.\
+\
+}
