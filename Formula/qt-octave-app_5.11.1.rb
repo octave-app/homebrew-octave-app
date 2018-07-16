@@ -15,11 +15,8 @@ class QtOctaveApp5111 < Formula
   option "with-examples", "Build examples"
   option "without-proprietary-codecs", "Don't build with proprietary codecs (e.g. mp3)"
 
-  deprecated_option "with-mysql" => "with-mysql-client"
-
   depends_on "pkg-config_0.29.2" => :build
   depends_on :xcode => :build
-  depends_on "mysql-client_5.7.22" => :optional
   depends_on "postgresql_10.4" => :optional
 
   # Restore `.pc` files for framework-based build of Qt 5 on macOS, partially
@@ -57,20 +54,6 @@ class QtOctaveApp5111 < Formula
     ]
 
     args << "-nomake" << "examples" if build.without? "examples"
-
-    if build.with? "mysql-client"
-      args << "-plugin-sql-mysql"
-      (buildpath/"brew_shim/mysql_config").write <<~EOS
-        #!/bin/sh
-        if [ x"$1" = x"--libs" ]; then
-          mysql_config --libs | sed "s/-lssl -lcrypto//"
-        else
-          exec mysql_config "$@"
-        fi
-      EOS
-      chmod 0755, "brew_shim/mysql_config"
-      args << "-mysql_config" << buildpath/"brew_shim/mysql_config"
-    end
 
     args << "-plugin-sql-psql" if build.with? "postgresql"
     args << "-proprietary-codecs" if build.with? "proprietary-codecs"
