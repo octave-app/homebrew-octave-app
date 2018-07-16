@@ -17,7 +17,6 @@ class QtOctaveApp5111 < Formula
 
   depends_on "pkg-config_0.29.2" => :build
   depends_on :xcode => :build
-  depends_on "postgresql_10.4" => :optional
 
   # Restore `.pc` files for framework-based build of Qt 5 on macOS, partially
   # reverting <https://codereview.qt-project.org/#/c/140954/>
@@ -55,7 +54,6 @@ class QtOctaveApp5111 < Formula
 
     args << "-nomake" << "examples" if build.without? "examples"
 
-    args << "-plugin-sql-psql" if build.with? "postgresql"
     args << "-proprietary-codecs" if build.with? "proprietary-codecs"
 
     system "./configure", *args
