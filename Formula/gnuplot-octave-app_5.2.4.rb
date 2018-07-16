@@ -16,7 +16,6 @@ class GnuplotOctaveApp524 < Formula
 
   #option "without-cairo", "Build without the Cairo based terminals"
   option "without-lua", "Build without the lua/TikZ terminal"
-  option "with-wxmac", "Build wxmac support. Need with-cairo to build wxt terminal"
   option "with-aquaterm", "Build with AquaTerm support"
   option "without-qt", "Build without Qt support"
 
@@ -32,7 +31,6 @@ class GnuplotOctaveApp524 < Formula
   depends_on "lua_5.3.4" => :recommended
   depends_on "pango" if build.with?("cairo") || build.with?("wxmac")
   depends_on "qt-octave-app_5.11.1" if build.with?("qt")
-  depends_on "wxmac_3.0.4" => :optional
   depends_on :x11 => :optional
 
   needs :cxx11 if build.with? "qt"
