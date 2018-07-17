@@ -13,7 +13,6 @@ class Imagemagick7082 < Formula
 
   option "with-fftw", "Compile with FFTW support"
   option "with-hdri", "Compile with HDRI support"
-  option "with-libheif", "Compile with HEIF support"
   option "with-opencl", "Compile with OpenCL support"
   option "with-openmp", "Compile with OpenMP support"
   option "with-perl", "Compile with PerlMagick"
@@ -25,7 +24,6 @@ class Imagemagick7082 < Formula
   deprecated_option "enable-hdri" => "with-hdri"
   deprecated_option "with-gcc" => "with-openmp"
   deprecated_option "with-jp2" => "with-openjpeg"
-  deprecated_option "with-libde265" => "with-libheif"
 
   depends_on "pkg-config_0.29.2" => :build
   depends_on "libtool_2.4.6"
@@ -39,9 +37,6 @@ class Imagemagick7082 < Formula
   depends_on :x11 => :optional
   depends_on "fontconfig_2.13.0" => :optional
   depends_on "little-cms_1.19" => :optional
-  depends_on "little-cms2_2.9" => :optional
-  depends_on "libheif_1.3.2" => :optional
-  depends_on "libwmf_0.2.8.4" => :optional
   depends_on "librsvg_2.42.2" => :optional
   depends_on "liblqr_0.4.2" => :optional
   depends_on "openexr_2.2.0" => :optional
