@@ -43,7 +43,10 @@ if ARGV.include? "--deps"
   first_formula_name = ARGV.named.empty? ? default_target_formula : ARGV.named.first
   first_formula = Formula[first_formula_name]
   puts "first_formula: #{first_formula}"
-  deps = first_formula.recursive_dependencies
+  deps = first_formula.recursive_dependencies do |_dependent, _dep|
+    # Include optional dependencies
+    true
+  end
   target_formula_names = deps.map { |d|
     d.to_formula.name 
   }.map { |name|
