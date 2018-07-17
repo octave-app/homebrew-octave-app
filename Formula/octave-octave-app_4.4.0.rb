@@ -89,10 +89,10 @@ class OctaveOctaveApp440 < Formula
     end
 
     # Fix bug with test suite errors on repeated runs in same session
-    patch do
-      url "https://savannah.gnu.org/support/download.php?file_id=44433"
-      sha256 "8f52085b9bfd04215cc9d69a570308acad9604cf307291981b5d6137d0eeb90c"
-    end
+    #patch do
+    #  url "https://savannah.gnu.org/support/download.php?file_id=44433"
+    #  sha256 "8f52085b9bfd04215cc9d69a570308acad9604cf307291981b5d6137d0eeb90c"
+    #end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
