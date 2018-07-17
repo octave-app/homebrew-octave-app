@@ -37,15 +37,11 @@ class Imagemagick7082 < Formula
   depends_on :x11 => :optional
   depends_on "fontconfig_2.13.0" => :optional
   depends_on "little-cms_1.19" => :optional
-  depends_on "librsvg_2.42.2" => :optional
-  depends_on "liblqr_0.4.2" => :optional
-  depends_on "openexr_2.2.0" => :optional
   depends_on "ghostscript_9.23" => :optional
   depends_on "webp_1.0.0" => :optional
   depends_on "openjpeg_2.3.0" => :optional
   depends_on "fftw_3.3.7" => :optional
   depends_on "pango_1.42.1" => :optional
-  depends_on "perl_5.26.2" => :optional
 
   if build.with? "openmp"
     depends_on "gcc"
