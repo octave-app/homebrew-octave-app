@@ -63,10 +63,10 @@ class OctaveOctaveApp440 < Formula
 
     # Fix bug #49053: retina scaling of figures
     # see https://savannah.gnu.org/bugs/?49053
-    patch do
-      url "https://savannah.gnu.org/support/download.php?file_id=44041"
-      sha256 "bf7aaa6ddc7bd7c63da24b48daa76f5bdf8ab3a2f902334da91a8d8140e39ff0"
-    end
+    #patch do
+    #  url "https://savannah.gnu.org/support/download.php?file_id=44041"
+    #  sha256 "bf7aaa6ddc7bd7c63da24b48daa76f5bdf8ab3a2f902334da91a8d8140e39ff0"
+    #end
 
     # add Qt include needed to build against Qt 5.11 (bug #53978)
     # should be fixed in >4.4.0 
@@ -89,10 +89,10 @@ class OctaveOctaveApp440 < Formula
     end
 
     # Fix bug with test suite errors on repeated runs in same session
-    #patch do
-    #  url "https://savannah.gnu.org/support/download.php?file_id=44433"
-    #  sha256 "8f52085b9bfd04215cc9d69a570308acad9604cf307291981b5d6137d0eeb90c"
-    #end
+    patch do
+      url "https://savannah.gnu.org/support/download.php?file_id=44433"
+      sha256 "8f52085b9bfd04215cc9d69a570308acad9604cf307291981b5d6137d0eeb90c"
+    end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
