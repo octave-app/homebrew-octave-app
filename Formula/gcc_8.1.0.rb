@@ -83,6 +83,11 @@ class Gcc810 < Formula
       system "../configure", *args
 
       make_args = []
+      # Force bootstrapped binaries to be Core 2 for portability. This is required
+      # because Homebrew's --build-bottle mechanism in ENV doesn't seem to cover
+      # the bootstrapped compiler. Hardcode core2 because that's the only arch we
+      # support.
+      make_args << "BOOT_CFLAGS=-march=core2"
       # Use -headerpad_max_install_names in the build,
       # otherwise updated load commands won't fit in the Mach-O header.
       # This is needed because `gcc` avoids the superenv shim.
