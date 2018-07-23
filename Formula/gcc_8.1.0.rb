@@ -85,9 +85,9 @@ class Gcc810 < Formula
       make_args = []
       # Force bootstrapped binaries to be Core 2 for portability. This is required
       # because Homebrew's --build-bottle mechanism in ENV doesn't seem to cover
-      # the bootstrapped compiler. Hardcode core2/nehalem because that's the only arch we
+      # the bootstrapped compiler. Hardcode core2 because that's the only arch we
       # support.
-      build_arch="nehalem"
+      build_arch="core2"
       ENV["CFLAGS"] = "-march=#{build_arch}"
       make_args << "CFLAGS=-march=#{build_arch}"
       make_args << "CFLAGS_FOR_TARGET=-march=#{build_arch}"
