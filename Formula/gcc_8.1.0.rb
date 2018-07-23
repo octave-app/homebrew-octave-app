@@ -87,8 +87,11 @@ class Gcc810 < Formula
       # because Homebrew's --build-bottle mechanism in ENV doesn't seem to cover
       # the bootstrapped compiler. Hardcode core2/nehalem because that's the only arch we
       # support.
-      make_args << "CFLAGS=-march=nehalem"
-      make_args << "BOOT_CFLAGS=-march=nehalem"
+      build_arch="nehalem"
+      ENV["CFLAGS"] = "-march=#{build_arch}"
+      make_args << "CFLAGS=-march=#{build_arch}"
+      make_args << "CFLAGS_FOR_TARGET=-march=#{build_arch}"
+      make_args << "BOOT_CFLAGS=-march=#{build_arch}"
       # Use -headerpad_max_install_names in the build,
       # otherwise updated load commands won't fit in the Mach-O header.
       # This is needed because `gcc` avoids the superenv shim.
