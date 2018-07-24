@@ -11,7 +11,7 @@ class Gmp612 < Formula
   def install
     # Enable --with-pic to avoid linking issues with the static library
     args = %W[--prefix=#{prefix} --enable-cxx --with-pic]
-    args << "--build=core2-apple-darwin#{`uname -r`.to_i}" if build.bottle?
+    args << "--build=core2-apple-darwin#{`uname -r`.to_i}"
     system "./configure", *args
     system "make"
     system "make", "check"
