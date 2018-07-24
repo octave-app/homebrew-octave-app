@@ -17,7 +17,7 @@ class Openblas030 < Formula
   fails_with :clang if build.with? "openmp"
 
   def install
-    ENV["DYNAMIC_ARCH"] = "1" if build.bottle?
+    ENV["DYNAMIC_ARCH"] = "1"
     ENV["USE_OPENMP"] = "1" if build.with? "openmp"
 
     # Must call in two steps
