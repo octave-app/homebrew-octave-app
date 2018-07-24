@@ -65,14 +65,9 @@ class Gcc810 < Formula
       "--enable-checking=release",
       "--with-pkgversion=Homebrew GCC #{pkg_version} #{build.used_options*" "}".strip,
     ]
-    args << "--with-cpu=#{build_arch}"
 
     args << "--disable-nls" if build.without? "nls"
     args << "--enable-host-shared" if build.with?("jit")
-
-    # Can't get -march working right with the bootstrap compiler. Disable it.
-    args << "--disable-bootstrap"
-
 
     # Ensure correct install names when linking against libgcc_s;
     # see discussion in https://github.com/Homebrew/homebrew/pull/34303
@@ -89,18 +84,6 @@ class Gcc810 < Formula
       system "../configure", *args
 
       make_args = []
-      # Force bootstrapped binaries to be Core 2 for portability. This is required
-      # because Homebrew's --build-bottle mechanism in ENV doesn't seem to cover
-      # the bootstrapped compiler. Hardcode core2 because that's the only arch we
-      # support.
-      ENV["CFLAGS"] = "-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
-      make_args << "CFLAGS=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
-      make_args << "CXXFLAGS=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
-      make_args << "CFLAGS_FOR_TARGET=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
-      make_args << "CXXFLAGS_FOR_TARGET=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
-      make_args << "BOOT_CFLAGS=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
-      make_args << "BOOT_CXXFLAGS=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
-      make_args << "LDFLAGS=-force_cpusubtype_ALL"
       # Use -headerpad_max_install_names in the build,
       # otherwise updated load commands won't fit in the Mach-O header.
       # This is needed because `gcc` avoids the superenv shim.
