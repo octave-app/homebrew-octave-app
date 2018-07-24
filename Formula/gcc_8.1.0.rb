@@ -93,13 +93,13 @@ class Gcc810 < Formula
       # because Homebrew's --build-bottle mechanism in ENV doesn't seem to cover
       # the bootstrapped compiler. Hardcode core2 because that's the only arch we
       # support.
-      ENV["CFLAGS"] = "-march=#{build_arch} -force_cpusubtype_ALL"
-      make_args << "CFLAGS=-march=#{build_arch} -force_cpusubtype_ALL"
-      make_args << "CXXFLAGS=-march=#{build_arch} -force_cpusubtype_ALL"
-      make_args << "CFLAGS_FOR_TARGET=-march=#{build_arch} -force_cpusubtype_ALL"
-      make_args << "CXXFLAGS_FOR_TARGET=-march=#{build_arch} -force_cpusubtype_ALL"
-      make_args << "BOOT_CFLAGS=-march=#{build_arch} -force_cpusubtype_ALL"
-      make_args << "BOOT_CXXFLAGS=-march=#{build_arch} -force_cpusubtype_ALL"
+      ENV["CFLAGS"] = "-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
+      make_args << "CFLAGS=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
+      make_args << "CXXFLAGS=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
+      make_args << "CFLAGS_FOR_TARGET=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
+      make_args << "CXXFLAGS_FOR_TARGET=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
+      make_args << "BOOT_CFLAGS=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
+      make_args << "BOOT_CXXFLAGS=-march=#{build_arch} -force_cpusubtype_ALL -ggdb"
       make_args << "LDFLAGS=-force_cpusubtype_ALL"
       # Use -headerpad_max_install_names in the build,
       # otherwise updated load commands won't fit in the Mach-O header.
