@@ -23,8 +23,9 @@ class Fftw337 < Formula
             "--enable-threads",
             "--disable-dependency-tracking"]
     simd_args = ["--enable-sse2"]
-    simd_args << "--enable-avx" if ENV.compiler == :clang && Hardware::CPU.avx? && !build.bottle?
-    simd_args << "--enable-avx2" if ENV.compiler == :clang && Hardware::CPU.avx2? && !build.bottle?
+    # Octave.app customization: disable AVX so we have a portable build
+    #simd_args << "--enable-avx" if ENV.compiler == :clang && Hardware::CPU.avx? && !build.bottle?
+    #simd_args << "--enable-avx2" if ENV.compiler == :clang && Hardware::CPU.avx2? && !build.bottle?
 
     args << "--disable-fortran" if build.without? "fortran"
     args << "--enable-mpi" if build.with? "mpi"
