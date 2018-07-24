@@ -90,8 +90,11 @@ class Gcc810 < Formula
       build_arch="core2"
       ENV["CFLAGS"] = "-march=#{build_arch}"
       make_args << "CFLAGS=-march=#{build_arch}"
+      make_args << "CXXFLAGS=-march=#{build_arch}"
       make_args << "CFLAGS_FOR_TARGET=-march=#{build_arch}"
+      make_args << "CXXFLAGS_FOR_TARGET=-march=#{build_arch}"
       make_args << "BOOT_CFLAGS=-march=#{build_arch}"
+      make_args << "BOOT_CXXFLAGS=-march=#{build_arch}"
       # Use -headerpad_max_install_names in the build,
       # otherwise updated load commands won't fit in the Mach-O header.
       # This is needed because `gcc` avoids the superenv shim.
