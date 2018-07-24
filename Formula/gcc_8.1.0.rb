@@ -68,6 +68,9 @@ class Gcc810 < Formula
     args << "--disable-nls" if build.without? "nls"
     args << "--enable-host-shared" if build.with?("jit")
 
+    # Can't get -march working right with the bootstrap compiler. Disable it.
+    args << "--disable-bootstrap"
+
     # Ensure correct install names when linking against libgcc_s;
     # see discussion in https://github.com/Homebrew/homebrew/pull/34303
     inreplace "libgcc/config/t-slibgcc-darwin", "@shlib_slibdir@", "#{HOMEBREW_PREFIX}/lib/gcc/#{version_suffix}"
