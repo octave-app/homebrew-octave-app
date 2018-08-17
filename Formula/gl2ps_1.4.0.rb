@@ -6,8 +6,8 @@ class Gl2ps140 < Formula
 
   
 
-  depends_on "cmake_3.11.4" => :build
-  depends_on "libpng_1.6.34"
+  depends_on "cmake_3.12.1" => :build
+  depends_on "libpng_1.6.35"
 
   def install
     # Prevent linking against X11's libglut.dylib when it's present

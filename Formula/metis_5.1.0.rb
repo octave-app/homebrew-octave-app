@@ -6,7 +6,7 @@ class Metis510 < Formula
 
   
 
-  depends_on "cmake_3.11.4" => :build
+  depends_on "cmake_3.12.1" => :build
 
   def install
     system "make", "config", "prefix=#{prefix}", "shared=1"

@@ -10,11 +10,11 @@ class Openjpeg230 < Formula
   option "without-doxygen", "Do not build HTML documentation."
   option "with-static", "Build a static library."
 
-  depends_on "cmake_3.11.4" => :build
+  depends_on "cmake_3.12.1" => :build
   depends_on "doxygen_1.8.14" => [:build, :recommended]
   depends_on "little-cms2_2.9"
   depends_on "libtiff_4.0.9"
-  depends_on "libpng_1.6.34"
+  depends_on "libpng_1.6.35"
 
   def install
     args = std_cmake_args

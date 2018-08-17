@@ -5,7 +5,7 @@ class Qt5111 < Formula
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.11/5.11.1/single/qt-everywhere-src-5.11.1.tar.xz"
   mirror "https://qt.mirror.constant.com/archive/qt/5.11/5.11.1/single/qt-everywhere-src-5.11.1.tar.xz"
-  mirror "http://qt.mirrors.tds.net/qt/archive/qt/5.11/5.11.1/single/qt-everywhere-src-5.11.1.tar.xz"
+  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.11.1.tar.xz"
   sha256 "39602cb08f9c96867910c375d783eed00fc4a244bffaa93b801225d17950fb2b"
   head "https://code.qt.io/qt/qt5.git", :branch => "5.11", :shallow => false
 
@@ -13,12 +13,15 @@ class Qt5111 < Formula
 
   keg_only "Qt 5 has CMake issues when linked"
 
-  option "with-docs", "Build documentation"
   option "with-examples", "Build examples"
   option "without-proprietary-codecs", "Don't build with proprietary codecs (e.g. mp3)"
 
+  deprecated_option "with-mysql" => "with-mysql-client"
+
   depends_on "pkg-config_0.29.2" => :build
   depends_on :xcode => :build
+  depends_on "mysql-client_5.7.23" => :optional
+  depends_on "postgresql_10.5" => :optional
 
   # Restore `.pc` files for framework-based build of Qt 5 on macOS, partially
   # reverting <https://codereview.qt-project.org/#/c/140954/>
@@ -50,17 +53,27 @@ class Qt5111 < Formula
 
     args << "-nomake" << "examples" if build.without? "examples"
 
+    if build.with? "mysql-client"
+      args << "-plugin-sql-mysql"
+      (buildpath/"brew_shim/mysql_config").write <<~EOS
+        #!/bin/sh
+        if [ x"$1" = x"--libs" ]; then
+          mysql_config --libs | sed "s/-lssl -lcrypto//"
+        else
+          exec mysql_config "$@"
+        fi
+      EOS
+      chmod 0755, "brew_shim/mysql_config"
+      args << "-mysql_config" << buildpath/"brew_shim/mysql_config"
+    end
+
+    args << "-plugin-sql-psql" if build.with? "postgresql"
     args << "-proprietary-codecs" if build.with? "proprietary-codecs"
 
     system "./configure", *args
     system "make"
     ENV.deparallelize
     system "make", "install"
-
-    if build.with? "docs"
-      system "make", "docs"
-      system "make", "install_docs"
-    end
 
     # Some config scripts will only find Qt in a "Frameworks" folder
     frameworks.install_symlink Dir["#{lib}/*.framework"]

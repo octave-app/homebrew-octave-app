@@ -6,7 +6,7 @@ class Jasper2014 < Formula
 
   
 
-  depends_on "cmake_3.11.4" => :build
+  depends_on "cmake_3.12.1" => :build
   depends_on "jpeg_9c"
 
   def install

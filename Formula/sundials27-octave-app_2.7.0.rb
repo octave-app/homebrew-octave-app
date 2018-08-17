@@ -10,12 +10,12 @@ class Sundials27OctaveApp270 < Formula
   option "with-openmp", "Enable OpenMP multithreading"
   option "without-mpi", "Do not build with MPI"
 
-  depends_on "cmake_3.11.4" => :build
-  depends_on "python_3.6.5" => :build
-  depends_on "gcc_8.1.0" # for gfortran
-  depends_on "open-mpi_3.1.0" if build.with? "mpi"
-  depends_on "suite-sparse_5.2.0"
-  depends_on "openblas_0.3.0"
+  depends_on "cmake_3.12.1" => :build
+  depends_on "python_3.7.0" => :build
+  depends_on "gcc_8.2.0" # for gfortran
+  depends_on "open-mpi_3.1.1" if build.with? "mpi"
+  depends_on "suite-sparse_5.3.0"
+  depends_on "openblas_0.3.2"
 
   conflicts_with "sundials", :because => "this is an older version"
 
@@ -27,8 +27,8 @@ class Sundials27OctaveApp270 < Formula
       -DCMAKE_C_COMPILER=#{ENV["CC"]}
       -DBUILD_SHARED_LIBS=ON
       -DKLU_ENABLE=ON
-      -DKLU_LIBRARY_DIR=#{Formula["suite-sparse_5.2.0"].opt_lib}
-      -DKLU_INCLUDE_DIR=#{Formula["suite-sparse_5.2.0"].opt_include}
+      -DKLU_LIBRARY_DIR=#{Formula["suite-sparse_5.3.0"].opt_lib}
+      -DKLU_INCLUDE_DIR=#{Formula["suite-sparse_5.3.0"].opt_include}
       -DLAPACK_ENABLE=ON
       -DLAPACK_LIBRARIES=#{blas};#{blas}
     ]

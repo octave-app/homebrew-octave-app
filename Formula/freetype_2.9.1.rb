@@ -7,7 +7,7 @@ class Freetype291 < Formula
 
   
 
-  depends_on "libpng_1.6.34"
+  depends_on "libpng_1.6.35"
 
   def install
     system "./configure", "--prefix=#{prefix}",

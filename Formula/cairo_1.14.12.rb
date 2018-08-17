@@ -17,7 +17,7 @@ class Cairo11412 < Formula
   depends_on "pkg-config_0.29.2" => :build
   depends_on "freetype_2.9.1"
   depends_on "fontconfig_2.13.0"
-  depends_on "libpng_1.6.34"
+  depends_on "libpng_1.6.35"
   depends_on "pixman_0.34.0"
   depends_on "glib_2.56.1"
 
@@ -55,7 +55,7 @@ class Cairo11412 < Formula
     freetype = Formula["freetype_2.9.1"]
     gettext = Formula["gettext"]
     glib = Formula["glib_2.56.1"]
-    libpng = Formula["libpng_1.6.34"]
+    libpng = Formula["libpng_1.6.35"]
     pixman = Formula["pixman_0.34.0"]
     flags = %W[
       -I#{fontconfig.opt_include}

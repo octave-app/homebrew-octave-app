@@ -10,13 +10,13 @@ class Libwmf0284 < Formula
   depends_on "pkg-config_0.29.2" => :build
   depends_on "gd_2.2.5"
   depends_on "freetype_2.9.1"
-  depends_on "libpng_1.6.34"
+  depends_on "libpng_1.6.35"
   depends_on "jpeg_9c"
 
   def install
     system "./configure", "--disable-debug", "--disable-dependency-tracking",
                           "--prefix=#{prefix}",
-                          "--with-png=#{Formula["libpng_1.6.34"].opt_prefix}",
+                          "--with-png=#{Formula["libpng_1.6.35"].opt_prefix}",
                           "--with-freetype=#{Formula["freetype_2.9.1"].opt_prefix}"
     system "make"
     ENV.deparallelize # yet another rubbish Makefile

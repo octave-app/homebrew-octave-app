@@ -28,13 +28,13 @@ class Graphviz2401 < Formula
   depends_on "pkg-config_0.29.2" => :build
   depends_on :xcode => :build if build.with? "app"
   depends_on "libtool_2.4.6"
-  depends_on "pango_1.42.1" => :optional
+  depends_on "pango_1.42.3" => :optional
   depends_on "gts_0.7.6" => :optional
   depends_on "librsvg_2.42.2" => :optional
   depends_on "freetype_2.9.1" => :optional
   depends_on :x11 => :optional
   depends_on "gd_2.2.5"
-  depends_on "libpng_1.6.34"
+  depends_on "libpng_1.6.35"
 
   if build.with? "bindings"
     depends_on "swig" => :build

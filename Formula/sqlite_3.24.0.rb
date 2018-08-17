@@ -22,11 +22,11 @@ class Sqlite3240 < Formula
   option "with-session", "Enable the session extension"
   option "with-soundex", "Enable the SOUNDEX function"
 
-  depends_on "readline_7.0.3" => :recommended
-  depends_on "icu4c_61.1" => :optional
+  depends_on "readline_7.0.5" => :recommended
+  depends_on "icu4c_62.1" => :optional
 
   resource "functions" do
-    url "https://sqlite.org/contrib/download/extension-functions.c?get=25", :using => :nounzip
+    url "https://sqlite.org/contrib/download/extension-functions.c?get=25"
     version "2010-02-06"
     sha256 "991b40fe8b2799edc215f7260b890f14a833512c9d9896aa080891330ffe4052"
   end
@@ -53,7 +53,7 @@ class Sqlite3240 < Formula
     ENV.append "CPPFLAGS", "-DSQLITE_SOUNDEX" if build.with? "soundex"
 
     if build.with? "icu4c"
-      icu4c = Formula["icu4c_61.1"]
+      icu4c = Formula["icu4c_62.1"]
       icu4cldflags = `#{icu4c.opt_bin}/icu-config --ldflags`.tr("\n", " ")
       icu4ccppflags = `#{icu4c.opt_bin}/icu-config --cppflags`.tr("\n", " ")
       ENV.append "LDFLAGS", icu4cldflags

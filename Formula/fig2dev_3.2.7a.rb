@@ -7,8 +7,8 @@ class Fig2dev327a < Formula
   
 
   depends_on "ghostscript_9.23"
-  depends_on "libpng_1.6.34"
-  depends_on "netpbm_10.73.19"
+  depends_on "libpng_1.6.35"
+  depends_on "netpbm_10.73.20"
   depends_on :x11 => :optional
 
   def install

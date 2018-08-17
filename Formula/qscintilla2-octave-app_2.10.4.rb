@@ -13,7 +13,7 @@ class Qscintilla2OctaveApp2104 < Formula
   option "with-python2", "Build Python2 bindings"
 
   depends_on "qt-octave-app_5.11.1"
-  depends_on "python_3.6.5" => :optional
+  depends_on "python_3.7.0" => :optional
   depends_on "python2_2.7.15" => :optional
   
   if build.with?("python") || build.with?("python2")

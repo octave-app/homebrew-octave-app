@@ -14,7 +14,7 @@ class Webp100 < Formula
   end
 
   depends_on "jpeg_9c"
-  depends_on "libpng_1.6.34"
+  depends_on "libpng_1.6.35"
 
   def install
     system "./autogen.sh" if build.head?

@@ -7,7 +7,7 @@ class Qhull20152 < Formula
 
   
 
-  depends_on "cmake_3.11.4" => :build
+  depends_on "cmake_3.12.1" => :build
 
   def install
     system "cmake", ".", *std_cmake_args

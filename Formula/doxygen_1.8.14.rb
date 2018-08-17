@@ -17,7 +17,7 @@ class Doxygen1814 < Formula
   deprecated_option "with-libclang" => "with-llvm"
   deprecated_option "with-qt5" => "with-qt"
 
-  depends_on "cmake_3.11.4" => :build
+  depends_on "cmake_3.12.1" => :build
   depends_on "graphviz_2.40.1" => :optional
   depends_on "qt_5.11.1" => :optional
   depends_on "llvm_6.0.1" => :optional
@@ -25,7 +25,7 @@ class Doxygen1814 < Formula
   def install
     args = std_cmake_args << "-DCMAKE_OSX_DEPLOYMENT_TARGET:STRING=#{MacOS.version}"
     args << "-Dbuild_wizard=ON" if build.with? "qt"
-    args << "-Duse_libclang=ON -DLLVM_CONFIG=#{Formula["llvm_6.0.0"].opt_bin}/llvm-config" if build.with? "llvm"
+    args << "-Duse_libclang=ON -DLLVM_CONFIG=#{Formula["llvm_6.0.1"].opt_bin}/llvm-config" if build.with? "llvm"
 
     mkdir "build" do
       system "cmake", "..", *args
