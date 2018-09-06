@@ -1,8 +1,8 @@
 cask 'octave-app' do
   version '4.4.0'
-  sha256 'e56993677fcb5fe83221ed92fc5eb79abbf5bd680fc41fac586831bf7b1ca1b4'
+  sha256 'a8a66450563efd1cbf3746c456b02c6ad2389f3f2ef6bce69972ed8bba9bf2b4'
 
-  url "https://github.com/octave-app/octave-app/releases/download/untagged-4e9d0ab25492be932368/Octave-4.4.0-beta2.dmg"
+  url "https://github.com/octave-app/octave-app/releases/download/v4.4.0-rc1/Octave-4.4.0-rc1.dmg"
   name 'Octave'
   homepage 'https://octave-app.org'
 
@@ -18,7 +18,8 @@ cask 'octave-app' do
     <<~EOS
     This is a BETA release! It may be buggy or unstable.
 
-    For help or bug reports, contact the Octave.app organization at https://octave-app.org.
+    For help, please contact the Octave.app organization at https://octave-app.org.
+    Bug reports may be filed at https://github.com/octave-app/octave-app/issues.
     EOS
   end
 end
