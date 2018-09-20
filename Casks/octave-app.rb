@@ -1,12 +1,12 @@
 cask 'octave-app' do
   version '4.4.0'
-  sha256 'a8a66450563efd1cbf3746c456b02c6ad2389f3f2ef6bce69972ed8bba9bf2b4'
+  sha256 '6ed7213f4f2e2eb474ceaf12b2302ea097aaf71ada31898c1f1e768f0498eb7c'
 
-  url "https://github.com/octave-app/octave-app/releases/download/v4.4.0-rc1/Octave-4.4.0-rc1.dmg"
+  url "https://github.com/octave-app/octave-app/releases/download/v4.4.0-beta8/Octave-4.4.0-beta8.dmg"
   name 'Octave'
   homepage 'https://octave-app.org'
 
-  depends_on macos: '>= :yosemite'
+  depends_on macos: '>= :el_capitan'
 
   auto_updates false
 
