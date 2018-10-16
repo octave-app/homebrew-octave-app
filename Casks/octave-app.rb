@@ -1,6 +1,6 @@
 cask 'octave-app' do
   version '4.4.0'
-  sha256 '05155e0e3bd3a14c48e082bff104f0f73581ee8aad4ac475e7b6da6f94a9c563'
+  sha256 '5b797f99f9e6ba028db3047783d63e87e2456001d3f98dd10403a762c0f7076c'
 
   url "https://github.com/octave-app/octave-app/releases/download/v4.4.0-beta10/Octave-4.4.0-beta10.dmg"
   name 'Octave'
