@@ -1,0 +1,44 @@
+class GtkDoc1280 < Formula
+  desc "GTK+ documentation tool"
+  homepage "https://www.gtk.org/gtk-doc/"
+  url "https://download.gnome.org/sources/gtk-doc/1.28/gtk-doc-1.28.tar.xz"
+  sha256 "911e29e302252c96128965ee1f4067d5431a88e00ad1023a8bc1d6b922af5715"
+
+  
+
+  depends_on "itstool_2.0.4_1" => :build
+  depends_on "pkg-config_0.29.2_0" => :build
+  depends_on "docbook_5.0_0"
+  depends_on "docbook-xsl_1.79.1_0"
+  depends_on "gettext_0.19.8.1_0"
+  depends_on "libxml2_2.9.8_0"
+  depends_on "python_2.7.15_1"
+  depends_on "source-highlight_3.1.8_9"
+
+  resource "six" do
+    url "https://files.pythonhosted.org/packages/16/d8/bc6316cf98419719bd59c91742194c111b6f2e85abac88e496adefaf7afe/six-1.11.0.tar.gz"
+    sha256 "70e8a77beed4562e7f14fe23a786b54f6296e34344c23bc42f07b15018ff98e9"
+  end
+
+  def install
+    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python2.7/site-packages"
+    resource("six").stage do
+      system "python", *Language::Python.setup_install_args(libexec/"vendor")
+    end
+
+    system "./configure", "--disable-debug",
+                          "--disable-dependency-tracking",
+                          "--prefix=#{prefix}",
+                          "--with-highlight=source-highlight",
+                          "--with-xml-catalog=#{etc}/xml/catalog"
+    system "make"
+    system "make", "install"
+
+    bin.env_script_all_files(libexec/"bin", :PYTHONPATH => ENV["PYTHONPATH"])
+  end
+
+  test do
+    system bin/"gtkdoc-scan", "--module=test"
+    system bin/"gtkdoc-mkdb", "--module=test"
+  end
+end
