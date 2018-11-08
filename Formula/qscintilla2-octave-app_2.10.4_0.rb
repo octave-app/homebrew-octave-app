@@ -14,7 +14,7 @@ class Qscintilla2OctaveApp21040 < Formula
 
   depends_on "qt-octave-app_5.11.1_0"
   depends_on "python_3.7.1_0" => :optional
-  depends_on "python2_2.7.15_1" => :optional
+  depends_on "python_2.7.15_1" => :optional
   
   if build.with?("python") || build.with?("python2")
     depends_on "pyqt-octave-app"
