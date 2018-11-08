@@ -44,7 +44,7 @@ class OctaveOctaveApp4410 < Formula
   depends_on "ghostscript_9.25_0"
   depends_on "gl2ps_1.4.0_0"
   depends_on "glpk_4.65_0"
-  depends_on "gnuplot-octave-app_5.2.4_0"
+  depends_on "gnuplot-octave-app_5.2.5_0"
   depends_on "gnu-tar-octave-app_1.30_0"
   depends_on "graphicsmagick_1.3.30_0"
   depends_on "hdf5_1.10.4_0"
@@ -65,7 +65,7 @@ class OctaveOctaveApp4410 < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt-octave-app_5.11.1_0"
+    depends_on "qt-octave-app_5.11.2_0"
     depends_on "qscintilla2-octave-app_2.10.4_0"
 
     # Fix bug #49053: retina scaling of figures
