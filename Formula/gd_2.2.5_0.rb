@@ -18,7 +18,7 @@ class Gd2250 < Formula
   depends_on "freetype_2.9.1_0"
   depends_on "jpeg_9c_0"
   depends_on "libpng_1.6.35_0"
-  depends_on "libtiff_4.0.9_4"
+  depends_on "libtiff_4.0.9_5"
   depends_on "webp_1.0.0_0"
 
   def install

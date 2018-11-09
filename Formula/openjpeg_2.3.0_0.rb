@@ -12,7 +12,7 @@ class Openjpeg2300 < Formula
   depends_on "cmake_3.12.4_0" => :build
   depends_on "doxygen_1.8.14_0" => :build
   depends_on "libpng_1.6.35_0"
-  depends_on "libtiff_4.0.9_4"
+  depends_on "libtiff_4.0.9_5"
   depends_on "little-cms2_2.9_0"
 
   def install

@@ -16,7 +16,7 @@ class Ghostscript9250 < Formula
   end
 
   depends_on "pkg-config_0.29.2_0" => :build
-  depends_on "libtiff_4.0.9_4"
+  depends_on "libtiff_4.0.9_5"
   depends_on :x11 => :optional
 
   # https://sourceforge.net/projects/gs-fonts/

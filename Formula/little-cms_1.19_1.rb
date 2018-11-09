@@ -8,7 +8,7 @@ class LittleCms1191 < Formula
   
 
   depends_on "jpeg_9c_0"
-  depends_on "libtiff_4.0.9_4"
+  depends_on "libtiff_4.0.9_5"
 
   def install
     args = %W[--disable-dependency-tracking --disable-debug --prefix=#{prefix}]

@@ -14,7 +14,7 @@ class Graphicsmagick13300 < Formula
   depends_on "jasper_2.0.14_0"
   depends_on "jpeg_9c_0"
   depends_on "libpng_1.6.35_0"
-  depends_on "libtiff_4.0.9_4"
+  depends_on "libtiff_4.0.9_5"
   depends_on "libtool_2.4.6_1"
   depends_on "ghostscript_9.25_0" => :optional
   depends_on "libwmf_0.2.8.4_2" => :optional
