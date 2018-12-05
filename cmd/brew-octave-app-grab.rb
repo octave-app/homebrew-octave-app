@@ -87,8 +87,9 @@ def grab_formula(f_name)
   # Locate formula in main tap and get info
   formula = Formula[f_name]
   version = formula.version
+  revision = formula.revision
   formula_path = formula.path
-  versioned_name = "#{formula.name}_#{version}"
+  versioned_name = "#{formula.name}_#{version}_#{revision}"
   # Locate versioned formula in octave-app tap
   qual_versioned_dep_name = "#{$target_tap}/#{versioned_name}"
   oa_formula_dir = $target_tap.path/"Formula"
@@ -123,7 +124,8 @@ def grab_formula(f_name)
     end
     dep_base_name = dep.name.sub(/@.*/, "")
     dep_version = dep.to_formula.version
-    dep_versioned_name = "#{dep_base_name}_#{dep_version}"
+    dep_revision = dep.to_formula.revision
+    dep_versioned_name = "#{dep_base_name}_#{dep_version}_#{dep_revision}"
     maybe_inreplace(oa_versioned_formula_path, "depends_on \"#{dep.name}\"", "depends_on \"#{dep_versioned_name}\"")
     maybe_inreplace(oa_versioned_formula_path, "Formula[\"#{dep.name}\"]", "Formula[\"#{dep_versioned_name}\"]")
   end
