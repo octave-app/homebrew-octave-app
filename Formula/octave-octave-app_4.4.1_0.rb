@@ -66,7 +66,7 @@ class OctaveOctaveApp4410 < Formula
   # Dependencies for the graphical user interface
   if build.with?("qt")
     depends_on "qt-octave-app_5.11.2_0"
-    depends_on "qscintilla2-octave-app_2.10.4_0"
+    depends_on "qscintilla2-octave-app_2.10.4_0_1"
 
     # Fix bug #49053: retina scaling of figures
     # see https://savannah.gnu.org/bugs/?49053
