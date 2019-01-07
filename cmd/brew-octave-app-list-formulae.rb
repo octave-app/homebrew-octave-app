@@ -17,7 +17,7 @@ installed_formula_names = Formula.installed.map { |f| f.name }.sort
 
 installed_formula_names.each do |f_name|
   f = Formula[f_name]
-  pkg_base_name = f_name.replace(/_.*/, '');
+  pkg_base_name = f_name.sub(/_.*/, '');
   license = license_map[pkg_base_name] || "Unknown License"
   puts "#{f.name} #{f.version.to_s} (#{license})"
   puts f.desc
