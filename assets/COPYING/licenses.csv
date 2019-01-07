@@ -1,4 +1,11 @@
 arpack,BSD 3-Clause
+autoconf,GPL v3 with Autoconf Exception
+automake,GPL v2
+boost,Boost v1.0
+cairo,LGPL v2.1
+cmake,BSD 3-Clause
+docbook-xsl,DocBook XSL License
+doxygen,GPL v2
 epstool,GPL v2
 fftw,GPL v2
 fig2dev,MIT License - Xfig Variant
@@ -7,21 +14,29 @@ fontconfig,MIT License
 freetype,GPL v2
 gcc,GPL v2
 gd,Libgd License
+gdbm,GPL v3
+gettext,GPL v3
 ghostscript,AGPL v3
+git,GPL v2
 gl2ps,LGPL v2
+glib,LGPL v2.1
 glpk,GPL v3
 gmp,GPL v2
+gnu-sed,GPL v3
 gnu-tar,GPL v3
 gnu-tar-octave-app,GPL v3
 gnuplot,Gnuplot License
 gnuplot-octave-app,Gnuplot License
 graphicsmagick,MIT License
+gtk-doc,GPL v2
 hdf5,HDF5 License
 imagemagick,Apache 2.0
 isl,MIT License
+itstool,GPL v3
 jasper,JasPer License v2.0
 jpeg,JPEG License
 libevent,BSD 3-Clause
+libffi,MIT License
 libmpc,LGPL v3
 libogg,Ogg License
 libpng,Libpng License
@@ -29,18 +44,28 @@ libsndfile,LGPL v2.1
 libtiff,Libtiff License
 libtool,GPL v2
 libvorbis,Libvorbis License
+libxml2,MIT License
 little-cms2,MIT License
 lua,MIT License
+lzip,GPL v2
+makedepend,Makedepend License
 metis,Apache 2.0
 mpfr,LGPL v3
 netpbm,Netpbm License Situation
+octave,GPL v3
+octave-octave-app,GPL v3
 open-mpi,BSD 3-Clause
 openblas,BSD 3-Clause
+openjpeg,BSD 2-Clause
 openssl,OpenSSL BSD License
 pcre,BSD 3-Clause
+pcre2,PCRE2 License
+pixman,MIT License
+pkg-config,GPL v2
 plotutils,GPL v3
 portaudio,MIT License
 pstoedit,GPL v2
+python,Python License
 qhull,Qhull License
 qrupdate,GPL v3
 qscintilla2,GPL v3
@@ -48,6 +73,9 @@ qscintilla2-octave-app,GPL v3
 qt,GPL v2
 qt-octave-app,GPL v2
 readline,GPL v3
+source-highlight,GPL v3
+sphinx-doc,Sphinx-doc License
+sqlite,SQLite Public Domain License
 suite-sparse,SuiteSparse License
 sundials27,SUNDIALS License
 sundials27-octave-app,SUNDIALS License
