@@ -8,7 +8,7 @@ class Libevent2180 < Formula
 
   depends_on "autoconf_2.69_0" => :build
   depends_on "automake_1.16.1_1" => :build
-  depends_on "doxygen_1.8.14_0" => :build
+  depends_on "doxygen_1.8.15_0" => :build
   depends_on "libtool_2.4.6_1" => :build
   depends_on "pkg-config_0.29.2_0" => :build
   depends_on "openssl_1.0.2p_0"
