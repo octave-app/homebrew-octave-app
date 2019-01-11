@@ -1,4 +1,4 @@
-class GnuplotOctaveApp524 < Formula
+class GnuplotOctaveApp524Qt12 < Formula
   desc "Command-driven, interactive function plotting"
   homepage "http://www.gnuplot.info/"
   url "https://downloads.sourceforge.net/project/gnuplot/gnuplot/5.2.4/gnuplot-5.2.4.tar.gz"
