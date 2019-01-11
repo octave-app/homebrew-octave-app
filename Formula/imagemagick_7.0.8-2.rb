@@ -31,7 +31,7 @@ class Imagemagick7082 < Formula
 
   depends_on "jpeg_9c" => :recommended
   depends_on "libpng_1.6.34" => :recommended
-  depends_on "libtiff_4.0.9" => :recommended
+  depends_on "libtiff_4.0.10_0" => :recommended
   depends_on "freetype_2.9.1" => :recommended
 
   depends_on :x11 => :optional

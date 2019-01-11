@@ -9,7 +9,7 @@ class LittleCms229 < Formula
   
 
   depends_on "jpeg_9c" => :recommended
-  depends_on "libtiff_4.0.9" => :recommended
+  depends_on "libtiff_4.0.10_0" => :recommended
 
   def install
     args = %W[--disable-dependency-tracking --prefix=#{prefix}]

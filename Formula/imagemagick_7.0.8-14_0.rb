@@ -24,7 +24,7 @@ class Imagemagick708140 < Formula
   depends_on "freetype_2.9.1_0"
   depends_on "jpeg_9c_0"
   depends_on "libpng_1.6.35_0"
-  depends_on "libtiff_4.0.9_5"
+  depends_on "libtiff_4.0.10_0"
   depends_on "libtool_2.4.6_1"
   depends_on "little-cms2_2.9_0"
   depends_on "openjpeg_2.3.0_0"

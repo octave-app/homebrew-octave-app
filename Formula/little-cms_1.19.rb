@@ -11,12 +11,12 @@ class LittleCms119 < Formula
 
   depends_on "python_2.7.15" => :optional
   depends_on "jpeg_9c" => :recommended
-  depends_on "libtiff_4.0.9" => :recommended
+  depends_on "libtiff_4.0.10_0" => :recommended
 
   def install
     args = %W[--disable-dependency-tracking --disable-debug --prefix=#{prefix}]
-    args << "--without-tiff" if build.without? "libtiff"
-    args << "--without-jpeg" if build.without? "jpeg"
+    args << "--without-tiff" if build.without? "libtiff_4.0.10_0"
+    args << "--without-jpeg" if build.without? "jpeg_9c"
     if build.with? "python@2"
       args << "--with-python"
       inreplace "python/Makefile.in" do |s|

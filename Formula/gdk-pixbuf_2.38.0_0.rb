@@ -14,7 +14,7 @@ class GdkPixbuf23800 < Formula
   depends_on "glib_2.58.1_0"
   depends_on "jpeg_9c_0"
   depends_on "libpng_1.6.35_0"
-  depends_on "libtiff_4.0.9_5"
+  depends_on "libtiff_4.0.10_0"
   depends_on "jasper_2.0.14_0" => :optional
 
   patch do

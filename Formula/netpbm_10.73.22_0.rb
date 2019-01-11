@@ -13,7 +13,7 @@ class Netpbm1073220 < Formula
   depends_on "jasper_2.0.14_0"
   depends_on "jpeg_9c_0"
   depends_on "libpng_1.6.35_0"
-  depends_on "libtiff_4.0.9_5"
+  depends_on "libtiff_4.0.10_0"
 
   conflicts_with "jbigkit", :because => "both install `pbm.5` and `pgm.5` files"
 

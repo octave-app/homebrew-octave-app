@@ -11,7 +11,7 @@ class Netpbm107319 < Formula
 
   
 
-  depends_on "libtiff_4.0.9"
+  depends_on "libtiff_4.0.10_0"
   depends_on "jasper_2.0.14"
   depends_on "jpeg_9c"
   depends_on "libpng_1.6.34"
