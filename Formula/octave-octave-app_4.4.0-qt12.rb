@@ -139,6 +139,9 @@ class OctaveOctaveApp440Qt12 < Formula
       args << "--without-qt"
     else
       args << "--with-qt=5"
+      # Stuff for Qt 5.12 compatibility
+      # https://savannah.gnu.org/bugs/?55187
+      ENV["QCOLLECTIONGENERATOR"]="qhelpgenerator"
     end
 
     if build.without? "docs"
