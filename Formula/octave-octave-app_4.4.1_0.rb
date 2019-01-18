@@ -44,7 +44,7 @@ class OctaveOctaveApp4410 < Formula
   depends_on "ghostscript_9.25_0"
   depends_on "gl2ps_1.4.0_0"
   depends_on "glpk_4.65_0"
-  depends_on "gnuplot-octave-app_5.2.5_0"
+  depends_on "gnuplot_5.2.6_0"
   depends_on "gnu-tar-octave-app_1.30_0"
   depends_on "graphicsmagick_1.3.30_0"
   depends_on "hdf5_1.10.4_0"
@@ -65,8 +65,8 @@ class OctaveOctaveApp4410 < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt-octave-app_5.11.2_0"
-    depends_on "qscintilla2-octave-app_2.10.4_0_1"
+    depends_on "qt_5.11.2_0"
+    depends_on "qscintilla2_2.10.4_0_1"
 
     # Fix bug #49053: retina scaling of figures
     # see https://savannah.gnu.org/bugs/?49053
@@ -77,7 +77,10 @@ class OctaveOctaveApp4410 < Formula
 
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025
-    patch :DATA
+    patch do
+      url "https://savannah.gnu.org/support/download.php?file_id=45382"
+      sha256 "e179c3a0e53f6f0f4a48b5adafd18c0f9c33de276748b8049c7d1007282f7f6e"
+    end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
@@ -94,8 +97,8 @@ class OctaveOctaveApp4410 < Formula
 
     # Pick up non-linked libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials27-octave-app_2.7.0_0"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2-octave-app_2.10.4_0"].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2-octave-app_2.10.4_0"].opt_lib}"
+    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2_2.10.4_0_1"].opt_include}"
+    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2_2.10.4_0_1"].opt_lib}"
 
     args = [
       "--prefix=#{prefix}",
@@ -160,7 +163,7 @@ class OctaveOctaveApp4410 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qcollectiongenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt_5.11.2_0"].opt_bin}/qcollectiongenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
@@ -174,27 +177,3 @@ class OctaveOctaveApp4410 < Formula
   end
 end
 
-__END__
-diff --git a/libgui/src/main-window.cc b/libgui/src/main-window.cc
---- a/libgui/src/main-window.cc
-+++ b/libgui/src/main-window.cc
-@@ -221,9 +221,6 @@
-              this, SLOT (handle_octave_ready (void)));
- 
-     connect (m_interpreter, SIGNAL (octave_finished_signal (int)),
-              this, SLOT (handle_octave_finished (int)));
--
--    connect (m_interpreter, SIGNAL (octave_finished_signal (int)),
--             m_main_thread, SLOT (quit (void)));
- 
-     connect (m_main_thread, SIGNAL (finished (void)),
-@@ -1536,6 +1533,9 @@
- 
-   void main_window::handle_octave_finished (int exit_status)
-   {
-+    /* fprintf to stderr is needed by macOS */
-+    fprintf(stderr, "\n");
-+    m_main_thread->quit();
-     qApp->exit (exit_status);
-   }
- 
