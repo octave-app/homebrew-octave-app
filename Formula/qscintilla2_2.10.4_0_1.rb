@@ -3,7 +3,7 @@
 #
 # This "_1" subrevision has been manually tweaked by Octave.app to depend on
 # Qt 5.11.2 instead of 5.11.1.
-class Qscintilla2 < Formula
+class Qscintilla2210401 < Formula
   desc "Port to Qt of the Scintilla editing component"
   homepage "https://www.riverbankcomputing.com/software/qscintilla/intro"
   url "https://downloads.sourceforge.net/project/pyqt/QScintilla2/QScintilla-2.10.4/QScintilla_gpl-2.10.4.tar.gz"
@@ -16,14 +16,7 @@ class Qscintilla2 < Formula
   option "with-python2", "Build Python2 bindings"
 
   depends_on "qt_5.11.2_0"
-  depends_on "python_3.7.1_0" => :optional
-  depends_on "python_2.7.15_1" => :optional
   
-  if build.with?("python") || build.with?("python2")
-    depends_on "pyqt"
-    depends_on "sip"
-  end
-
   def install
     spec = (ENV.compiler == :clang && MacOS.version >= :mavericks) ? "macx-clang" : "macx-g++"
     args = %W[-config release -spec #{spec}]
@@ -49,28 +42,6 @@ class Qscintilla2 < Formula
 
     # Add qscintilla2 features search path, since it is not installed in Qt keg's mkspecs/features/
     ENV["QMAKEFEATURES"] = prefix/"data/mkspecs/features"
-
-    if build.with?("python") || build.with?("python2")
-      cd "Python" do
-        Language::Python.each_python(build) do |python, version|
-          (share/"sip").mkpath
-          system python, "configure.py", "-o", lib, "-n", include,
-                           "--apidir=#{prefix}/qsci",
-                           "--destdir=#{lib}/python#{version}/site-packages/PyQt5",
-                           "--stubsdir=#{lib}/python#{version}/site-packages/PyQt5",
-                           "--qsci-sipdir=#{share}/sip",
-                           "--qsci-incdir=#{include}",
-                           "--qsci-libdir=#{lib}",
-                           "--pyqt=PyQt5",
-                           "--pyqt-sipdir=#{Formula["pyqt"].opt_share}/sip/Qt5",
-                           "--sip-incdir=#{Formula["sip"].opt_include}",
-                           "--spec=#{spec}"
-          system "make"
-          system "make", "install"
-          system "make", "clean"
-        end
-      end
-    end
 
     if build.with? "plugin"
       mkpath prefix/"plugins/designer"
