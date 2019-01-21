@@ -87,6 +87,10 @@ class OctaveOctaveApp4410 < Formula
   cxxstdlib_check :skip
 
   def install
+    # Hack: munge HG-ID to reflect that we're adding patches
+    hg_id = `cat HG-ID`.chomp;
+    Pathname.new("HG-ID").write "#{hg_id} + patches\n"
+
     # do not execute a test that may trigger a dialog to install java
     inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
 
