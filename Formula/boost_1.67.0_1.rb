@@ -28,8 +28,6 @@ class Boost16701 < Formula
 
   depends_on "icu4c_62.1_0" => :optional
 
-  needs :cxx11
-
   def install
     # Force boost to compile with the desired compiler
     open("user-config.jam", "a") do |file|

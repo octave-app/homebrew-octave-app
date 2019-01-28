@@ -35,8 +35,6 @@ class GnuplotOctaveApp5240 < Formula
   depends_on "wxmac_3.0.4_1" => :optional
   depends_on :x11 => :optional
 
-  needs :cxx11 if build.with? "qt"
-
   resource "libcerf" do
     url "http://apps.jcns.fz-juelich.de/src/libcerf/libcerf-1.5.tgz"
     mirror "https://www.mirrorservice.org/sites/distfiles.macports.org/libcerf/libcerf-1.5.tgz"

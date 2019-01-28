@@ -11,8 +11,6 @@ class SourceHighlight3189 < Formula
 
   depends_on "boost_1.67.0_1"
 
-  needs :cxx11
-
   def install
     system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}",

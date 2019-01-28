@@ -32,8 +32,6 @@ class Gnuplot5260 < Formula
   depends_on "wxmac_3.0.4_1" => :optional
   depends_on :x11 => :optional
 
-  needs :cxx11 if build.with? "qt"
-
   def install
     # Qt5 requires c++11 (and the other backends do not care)
     ENV.cxx11 if build.with? "qt"
