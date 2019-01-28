@@ -19,11 +19,6 @@ class Flac132 < Formula
   depends_on "pkg-config_0.29.2" => :build
   depends_on "libogg_1.3.3"
 
-  fails_with :clang do
-    build 500
-    cause "Undefined symbols ___cpuid and ___cpuid_count"
-  end
-
   def install
     args = %W[
       --disable-dependency-tracking

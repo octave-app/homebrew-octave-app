@@ -40,7 +40,6 @@ class Rust13110 < Formula
   depends_on "pkg-config_0.29.2_0"
 
   # According to the official readme, GCC 4.7+ is required
-  fails_with :gcc_4_2
   ("4.3".."4.6").each do |n|
     fails_with :gcc => n
   end

@@ -9,7 +9,6 @@ class X265290 < Formula
 
   depends_on "cmake_3.12.4_0" => :build
   depends_on "nasm_2.13.03_0" => :build
-  depends_on :macos => :lion
 
   def install
     # Build based off the script at ./build/linux/multilib.sh

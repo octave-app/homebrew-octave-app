@@ -43,7 +43,6 @@ class Rust13000 < Formula
   depends_on "llvm_7.0.0_0" => :optional
 
   # According to the official readme, GCC 4.7+ is required
-  fails_with :gcc_4_2
   ("4.3".."4.6").each do |n|
     fails_with :gcc => n
   end
