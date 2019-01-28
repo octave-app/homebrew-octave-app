@@ -88,7 +88,8 @@ class OctaveOctaveApp4410 < Formula
 
   def install
     # Hack: munge HG-ID to reflect that we're adding patches
-    hg_id = `cat HG-ID`.chomp;
+    hg_id = `cat HG-ID`.chomp
+    File.delete("HG-ID")
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
 
     # do not execute a test that may trigger a dialog to install java
