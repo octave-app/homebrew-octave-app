@@ -17,24 +17,19 @@ class Gnuplot5260 < Formula
   option "with-aquaterm", "Build with AquaTerm support"
   option "with-wxmac", "Build with wxmac support"
 
-  deprecated_option "qt" => "with-qt"
-  deprecated_option "with-qt5" => "with-qt"
-  deprecated_option "with-x" => "with-x11"
-  deprecated_option "wx" => "with-wxmac"
-
   depends_on "pkg-config_0.29.2_0" => :build
   depends_on "gd_2.2.5_0"
   depends_on "libcerf_1.11_0"
   depends_on "lua_5.3.5_1"
   depends_on "pango_1.42.4_0"
   depends_on "readline_7.0.5_0"
-  depends_on "qt_5.12.0_0" => :optional
+  depends_on "qt_5.12.0_0"
   depends_on "wxmac_3.0.4_1" => :optional
   depends_on :x11 => :optional
 
   def install
     # Qt5 requires c++11 (and the other backends do not care)
-    ENV.cxx11 if build.with? "qt"
+    ENV.cxx11
 
     if build.with? "aquaterm"
       # Add "/Library/Frameworks" to the default framework search path, so that an
@@ -54,7 +49,7 @@ class Gnuplot5260 < Formula
 
     args << "--disable-wxwidgets" if build.without? "wxmac"
     args << (build.with?("aquaterm") ? "--with-aquaterm" : "--without-aquaterm")
-    args << (build.with?("qt") ? "--with-qt" : "--with-qt=no")
+    args << "--with-qt"
     args << (build.with?("x11") ? "--with-x" : "--without-x")
 
     system "./prepare" if build.head?
