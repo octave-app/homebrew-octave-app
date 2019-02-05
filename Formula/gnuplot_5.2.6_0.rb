@@ -23,7 +23,7 @@ class Gnuplot5260 < Formula
   depends_on "lua_5.3.5_1"
   depends_on "pango_1.42.4_0"
   depends_on "readline_7.0.5_0"
-  depends_on "qt_5.12.0_0"
+  depends_on "qt_5.11.2_0"
   depends_on "wxmac_3.0.4_1" => :optional
   depends_on :x11 => :optional
 

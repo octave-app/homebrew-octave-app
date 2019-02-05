@@ -65,7 +65,7 @@ class OctaveOctaveApp4410 < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt_5.12.0_0"
+    depends_on "qt_5.11.2_0"
     depends_on "qscintilla2_2.10.4_0_1"
 
     # Fix bug #49053: retina scaling of figures
@@ -168,7 +168,7 @@ class OctaveOctaveApp4410 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt_5.12.0_0"].opt_bin}/qcollectiongenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt_5.11.2_0"].opt_bin}/qcollectiongenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end

@@ -12,7 +12,7 @@ class Qscintilla2210401 < Formula
   option "with-python", "Build Python3 bindings"
   option "with-python2", "Build Python2 bindings"
 
-  depends_on "qt_5.12.0_0"
+  depends_on "qt_5.11.2_0"
   
   def install
     spec = (ENV.compiler == :clang && MacOS.version >= :mavericks) ? "macx-clang" : "macx-g++"
