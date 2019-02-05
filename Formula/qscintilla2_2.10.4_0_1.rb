@@ -1,8 +1,5 @@
 # A version of Qscintilla2 customized to work with Octave.app's bundling scheme.
 # This means it uses python2 instead of python@2.
-#
-# This "_1" subrevision has been manually tweaked by Octave.app to depend on
-# Qt 5.11.2 instead of 5.11.1.
 class Qscintilla2210401 < Formula
   desc "Port to Qt of the Scintilla editing component"
   homepage "https://www.riverbankcomputing.com/software/qscintilla/intro"
@@ -15,7 +12,7 @@ class Qscintilla2210401 < Formula
   option "with-python", "Build Python3 bindings"
   option "with-python2", "Build Python2 bindings"
 
-  depends_on "qt_5.11.2_0"
+  depends_on "qt_5.12.0_0"
   
   def install
     spec = (ENV.compiler == :clang && MacOS.version >= :mavericks) ? "macx-clang" : "macx-g++"
