@@ -52,6 +52,7 @@ class OctaveOctaveAppAT510 < Formula
   depends_on "hdf5"
   depends_on "libsndfile"
   depends_on "libtool"
+  depends_on "openjdk"
   depends_on "pcre"
   depends_on "portaudio"
   depends_on "pstoedit"
@@ -62,7 +63,6 @@ class OctaveOctaveAppAT510 < Formula
   depends_on "sundials@2"
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on "veclibfort"
-  depends_on :java => ["1.8", :recommended]
   depends_on MacTeXRequirement if build.with?("docs")
 
   # Dependencies for the graphical user interface
@@ -123,10 +123,6 @@ class OctaveOctaveAppAT510 < Formula
       "--with-sndfile"
     ]
 
-    if build.without? "java"
-      args << "--disable-java"
-    end
-
     if build.without? "qt"
       args << "--without-qt"
     else
@@ -146,6 +142,9 @@ class OctaveOctaveAppAT510 < Formula
     else
       ENV.prepend_path "PATH", "/Library/TeX/texbin/"
     end
+
+    # Force use of our bundled JDK
+    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}/Contents/Home"
 
     # fix aclocal version issue
     system "autoreconf", "-f", "-i"
