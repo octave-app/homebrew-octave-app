@@ -88,6 +88,13 @@ class OctaveDefault < Formula
       url "https://savannah.gnu.org/bugs/download.php?file_id=45733"
       sha256 "d7937a083af72d74f073c9dbc59feab178e00ca0ce952f61fa3430b9eafaa2e1"
     end
+
+    # Fix bug #55836: Add 1024x1024 app icon
+    # see https://savannah.gnu.org/bugs/index.php?55836
+    patch do
+      url "https://savannah.gnu.org/bugs/download.php?file_id=46433"
+      sha256 "f00383db6fb0c1d1032017a90840bd13cc7b6e52b47a8124a4fc7abd03d72b3b"
+    end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
