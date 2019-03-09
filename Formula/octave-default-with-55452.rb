@@ -85,10 +85,16 @@ class OctaveDefaultWith55452 < Formula
       sha256 "d7937a083af72d74f073c9dbc59feab178e00ca0ce952f61fa3430b9eafaa2e1"
     end
 
-    # WIP on bug #55452: adds preliminary support for textscan/fgetl
+    # WIP on bug #55452: do encoding conversion after formatting
     patch do
-      url "https://savannah.gnu.org/file/bug55452_fgetl.diff?file_id=46477"
-      sha256 "8222f9d2dd15319758d8c92b5484c13c602a02563f38d550459d7821d63d492b"
+      url "https://savannah.gnu.org/file/bug55452_fopen_convert_stream.patch?file_id=46480"
+      sha256 "7a764485b2b9873d63450b0ba044d27b8941d7ad5218f943f18e620fee1a0d41"
+    end
+
+    # WIP on bug #55452: basic fgetl and fgets support
+    patch do
+      url "https://savannah.gnu.org/file/bug55452_fgetl_v2.diff?file_id=46481"
+      sha256 "72ceb99a41ccb142d440e5b95fbf6038f4d34337aebe9b8bb58c1178bf4d2588"
     end
   end
 
