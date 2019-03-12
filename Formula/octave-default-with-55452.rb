@@ -24,7 +24,7 @@ class OctaveDefaultWith55452 < Formula
   keg_only "so it can be installed alongside released octave"
 
   option "without-qt", "Compile without qt-based graphical user interface"
-  option "without-docs", "Skip documentation (requires MacTeX)"
+  option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
