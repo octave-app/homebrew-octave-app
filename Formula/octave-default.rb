@@ -67,7 +67,7 @@ class OctaveDefault < Formula
   depends_on "sundials"
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on "veclibfort"
-  depends_on :java => ["1.8", :recommended]
+  depends_on :java => ["1.8+", :recommended]
   depends_on MacTeXRequirement if build.with?("docs")
 
   # Dependencies for the graphical user interface
