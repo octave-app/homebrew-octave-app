@@ -85,6 +85,13 @@ class OctaveOctaveAppAT510 < Formula
       sha256 "d7937a083af72d74f073c9dbc59feab178e00ca0ce952f61fa3430b9eafaa2e1"
     end
 
+    # Fix bug https://github.com/octave-app/octave-app-bundler/issues/10
+    # tar.m and unpack.m use plain "tar" but expect a GNU tar
+    patch do
+      url "https://raw.githubusercontent.com/octave-app/formula-patches/80d1a98d982e4207e66d424c7cc685536607c66c/octave/4.4.0-gtar-instead-of-tar.patch"
+      sha256 "25a14fabf39841a4089667ebc5c326a2d40640b99432ae97ae49ce0a9a496878"
+    end
+
     # Fix bug #55836: Add 1024x1024 app icon
     # see https://savannah.gnu.org/bugs/index.php?55836
     patch do
