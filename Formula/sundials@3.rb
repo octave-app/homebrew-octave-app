@@ -1,11 +1,11 @@
-class SundialsAT2 < Formula
+class SundialsAT3 < Formula
   desc "Nonlinear and differential/algebraic equations solver"
   homepage "https://computation.llnl.gov/casc/sundials/main.html"
   # The official download site is always really slow, so use a mirror instead
-  url "https://github.com/octave-app/homebrew-octave-app/releases/download/v0.1/sundials-2.7.0.tar.gz"
+  url "https://github.com/octave-app/homebrew-octave-app/releases/download/v0.1/sundials-3.2.1.tar.gz"
   # This is actually the official download
-  mirror "https://computation.llnl.gov/projects/sundials/download/sundials-2.7.0.tar.gz"
-  sha256 "d39fcac7175d701398e4eb209f7e92a5b30a78358d4a0c0fcc23db23c11ba104"
+  mirror "https://computation.llnl.gov/projects/sundials/download/sundials-3.2.1.tar.gz"
+  sha256 "47d94d977ab2382cdcdd02f72a25ebd4ba8ca2634bbb2f191fe1636e71c86808"
 
   keg_only :versioned_formula
 
@@ -15,12 +15,10 @@ class SundialsAT2 < Formula
   depends_on "cmake" => :build
   depends_on "python" => :build
   depends_on "gcc" # for gfortran
-  depends_on "open-mpi" if build.with? "mpi"
+  depends_on "open-mpi"
   depends_on "openblas"
   depends_on "suite-sparse"
   depends_on "veclibfort"
-
-  fails_with :clang if build.with? "openmp"
 
   def install
     blas = "-L#{Formula["veclibfort"].opt_lib} -lvecLibFort"
@@ -32,9 +30,8 @@ class SundialsAT2 < Formula
       -DKLU_INCLUDE_DIR=#{Formula["suite-sparse"].opt_include}
       -DLAPACK_ENABLE=ON
       -DLAPACK_LIBRARIES=#{blas};#{blas}
+      -DMPI_ENABLE=ON
     ]
-    args << "-DOPENMP_ENABLE=ON" if build.with? "openmp"
-    args << "-DMPI_ENABLE=ON" if build.with? "mpi"
 
     mkdir "build" do
       system "cmake", "..", *args
