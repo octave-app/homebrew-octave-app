@@ -1,3 +1,6 @@
+# Note: the current release is not working on macOS; you will
+# probably need to install this (and its qtermwidget dependency)
+# with --HEAD to get it to work.
 class Qterminal < Formula
   desc "A lightweight Qt-based terminal emulator"
   homepage "http://lxqt.org"
