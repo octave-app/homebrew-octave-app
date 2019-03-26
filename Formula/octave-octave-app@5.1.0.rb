@@ -1,11 +1,4 @@
 # GNU Octave, Qt-enabled, with build customized for Octave.app
-#
-# This version of Octave is kept at the current version. It is only
-# used for grabbing the dependencies of Octave; it is not used for
-# building Octave.app itself. The versioned octave formulae are used
-# for that. This formula does not have versioned dependencies.
-# This is kept separate from Homebrew's main "octave" formula so we
-# can fiddle around with its version independently.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -197,7 +190,7 @@ class OctaveOctaveAppAT510 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app@5.1.0"
   end
 
   test do
