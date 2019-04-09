@@ -34,7 +34,7 @@ class OctaveOctaveAppAT510 < Formula
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
-  depends_on "fig2dev"
+  depends_on "fig2dev-octave-app"
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "ghostscript"
