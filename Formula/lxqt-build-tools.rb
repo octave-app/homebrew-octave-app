@@ -10,6 +10,13 @@ class LxqtBuildTools < Formula
   depends_on "qt"
   depends_on "glib"
 
+  if build.head?
+    patch do
+      url "https://patch-diff.githubusercontent.com/raw/lxqt/lxqt-build-tools/pull/45.patch"
+      sha256 "8083be3d991e06509e1ddb9ad182ac8cf55b691746a2030cbf93c846f2cd2f8d"
+    end
+  end
+
   def install
     mkdir "build" do
       system "cmake", "..", *std_cmake_args
