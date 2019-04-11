@@ -41,7 +41,7 @@ class OctaveOctaveAppQt511AT510 < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on "gnuplot"
+  depends_on "gnuplot-qt511"
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
@@ -62,7 +62,7 @@ class OctaveOctaveAppQt511AT510 < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt@5.11"
+    depends_on "qt_5.11"
     depends_on "qscintilla2-qt511"
 
     # Fix bug #50025: Octave window freezes

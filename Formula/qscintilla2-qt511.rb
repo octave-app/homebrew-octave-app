@@ -9,7 +9,7 @@ class Qscintilla2Qt511 < Formula
 
   option "with-plugin", "Build the Qt Designer plugin"
 
-  depends_on "qt@5.11"
+  depends_on "qt_5.11"
 
   def install
     spec = (ENV.compiler == :clang && MacOS.version >= :mavericks) ? "macx-clang" : "macx-g++"

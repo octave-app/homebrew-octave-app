@@ -1,6 +1,6 @@
 # Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
 # rather than their bug-report Jira. The latter is rarely reviewed by Qt.
-class QtAT511 < Formula
+class Qt511 < Formula
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz"
@@ -8,7 +8,8 @@ class QtAT511 < Formula
   mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.11.2.tar.xz"
   sha256 "c6104b840b6caee596fa9a35bc5f57f67ed5a99d6a36497b6fe66f990a53ca81"
 
-  keg_only :versioned_formula
+  #keg_only :versioned_formula
+  keg_only "versioned formula"
 
   option "with-examples", "Build examples"
   option "without-proprietary-codecs", "Don't build with proprietary codecs (e.g. mp3)"
