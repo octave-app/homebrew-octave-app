@@ -3,10 +3,10 @@
 class Qt511 < Formula
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz"
-  mirror "https://qt.mirror.constant.com/archive/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz"
-  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.11.2.tar.xz"
-  sha256 "c6104b840b6caee596fa9a35bc5f57f67ed5a99d6a36497b6fe66f990a53ca81"
+  url "https://download.qt.io/official_releases/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.tar.xz"
+  mirror "https://qt.mirror.constant.com/archive/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.tar.xz"
+  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.11.3.tar.xz"
+  sha256 "859417642713cee2493ee3646a7fee782c9f1db39e41d7bb1322bba0c5f0ff4d"
 
   #keg_only :versioned_formula
   keg_only "versioned formula"
@@ -35,10 +35,11 @@ class Qt511 < Formula
   # Chromium build failures with Xcode 10, fixed upstream:
   # https://bugs.chromium.org/p/chromium/issues/detail?id=840251
   # https://bugs.chromium.org/p/chromium/issues/detail?id=849689
-  patch do
-    url "https://raw.githubusercontent.com/Homebrew/formula-patches/962f0f/qt/xcode10.diff"
-    sha256 "c064398411c69f2e1c516c0cd49fcd0755bc29bb19e65c5694c6d726c43389a6"
-  end
+  # Commenting out bc I think this is fixed as of Qt 5.11.3 -apjanke
+  #patch do
+  #  url "https://raw.githubusercontent.com/Homebrew/formula-patches/962f0f/qt/xcode10.diff"
+  #  sha256 "c064398411c69f2e1c516c0cd49fcd0755bc29bb19e65c5694c6d726c43389a6"
+  #end
 
   def install
     args = %W[
