@@ -137,7 +137,7 @@ class OctaveOctaveAppAT510 < Formula
       args << "--with-qt=5"
       # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
       # source hasn't been updated to auto-detect this yet.
-      ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
+      #ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
       ENV['QT_CPPFLAGS']="-I#{Formula["qt_5.11"].opt_include}"
       ENV.append 'CPPFLAGS', "-I#{Formula["qt_5.11"].opt_include}"
