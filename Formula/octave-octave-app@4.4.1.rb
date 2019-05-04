@@ -57,6 +57,7 @@ class OctaveOctaveAppAT441 < Formula
   depends_on "hdf5"
   depends_on "libsndfile"
   depends_on "libtool"
+  depends_on "openjdk"
   depends_on "pcre"
   depends_on "portaudio"
   depends_on "pstoedit"
@@ -67,13 +68,12 @@ class OctaveOctaveAppAT441 < Formula
   depends_on "sundials@2"
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on "veclibfort"
-  depends_on :java => ["1.8", :recommended]
   depends_on MacTeXRequirement if build.with?("docs")
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt"
-    depends_on "qscintilla2"
+    depends_on "qt_5.11"
+    depends_on "qscintilla2-qt511"
 
     if build.stable?
       # Fix bug #49053: retina scaling of figures
@@ -111,8 +111,8 @@ class OctaveOctaveAppAT441 < Formula
 
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials@2"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2"].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2"].opt_lib}"
+    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2-qt511"].opt_include}"
+    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2-qt511"].opt_lib}"
 
     args = [
       "--prefix=#{prefix}",
@@ -138,14 +138,11 @@ class OctaveOctaveAppAT441 < Formula
       args << "--without-qt"
     else
       args << "--with-qt=5"
-      # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
-      # source hasn't been updated to auto-detect this yet.
-      ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
-      ENV['QT_CPPFLAGS']="-I#{Formula["qt"].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula["qt"].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula["qt"].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula["qt"].opt_lib}"
+      ENV['QT_CPPFLAGS']="-I#{Formula["qt_5.11"].opt_include}"
+      ENV.append 'CPPFLAGS', "-I#{Formula["qt_5.11"].opt_include}"
+      ENV['QT_LDFLAGS']="-F#{Formula["qt_5.11"].opt_lib}"
+      ENV.append 'LDFLAGS', "-F#{Formula["qt_5.11"].opt_lib}"
     end
 
     if build.without? "docs"
@@ -184,7 +181,7 @@ class OctaveOctaveAppAT441 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt_5.11"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
