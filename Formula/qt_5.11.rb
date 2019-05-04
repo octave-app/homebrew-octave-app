@@ -32,14 +32,6 @@ class Qt511 < Formula
     sha256 "48ff18be2f4050de7288bddbae7f47e949512ac4bcd126c2f504be2ac701158b"
   end
 
-  # Chromium build failures with Xcode 10, fixed upstream:
-  # https://bugs.chromium.org/p/chromium/issues/detail?id=840251
-  # https://bugs.chromium.org/p/chromium/issues/detail?id=849689
-  patch do
-    url "https://raw.githubusercontent.com/Homebrew/formula-patches/962f0f/qt/xcode10.diff"
-    sha256 "c064398411c69f2e1c516c0cd49fcd0755bc29bb19e65c5694c6d726c43389a6"
-  end
-
   def install
     args = %W[
       -verbose
