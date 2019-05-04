@@ -3,10 +3,10 @@
 class Qt511 < Formula
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz"
-  mirror "https://qt.mirror.constant.com/archive/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz"
-  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.11.2.tar.xz"
-  sha256 "c6104b840b6caee596fa9a35bc5f57f67ed5a99d6a36497b6fe66f990a53ca81"
+  url "https://download.qt.io/official_releases/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.tar.xz"
+  mirror "https://qt.mirror.constant.com/archive/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.tar.xz"
+  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.11.3.tar.xz"
+  sha256 "859417642713cee2493ee3646a7fee782c9f1db39e41d7bb1322bba0c5f0ff4d"
 
   #keg_only :versioned_formula
   keg_only "versioned formula"
