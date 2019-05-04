@@ -151,6 +151,9 @@ class OctaveOctaveAppAT441 < Formula
       ENV.prepend_path "PATH", "/Library/TeX/texbin/"
     end
 
+    # Force use of our bundled JDK
+    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}/Contents/Home"
+
     # fix aclocal version issue
     system "autoreconf", "-f", "-i"
     system "./configure", *args
