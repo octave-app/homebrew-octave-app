@@ -33,6 +33,7 @@ class OctaveOctaveAppAT441 < Formula
 
   keg_only "so it can be installed alongside regular octave"
 
+  option "without-java", "Compile without Java support"
   option "without-qt", "Compile without qt-based graphical user interface"
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
