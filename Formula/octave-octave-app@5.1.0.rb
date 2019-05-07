@@ -44,6 +44,7 @@ class OctaveOctaveAppAT510 < Formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
+  depends_on "librsvg"
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openjdk"
