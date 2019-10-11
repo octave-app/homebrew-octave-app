@@ -74,8 +74,8 @@ class OctaveDefaultWithImplicitConversions < Formula
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025
     patch do
-      url "https://savannah.gnu.org/support/download.php?file_id=45382"
-      sha256 "e179c3a0e53f6f0f4a48b5adafd18c0f9c33de276748b8049c7d1007282f7f6e"
+      url "https://savannah.gnu.org/bugs/download.php?file_id=47650"
+      sha256 "b37563fad88b95b71f49731c92e4aac5c7282ffc0455a38c065c1d515309fbb8"
     end
 
     # Fix bug #55268: crash during build
