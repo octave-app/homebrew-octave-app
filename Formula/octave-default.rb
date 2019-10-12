@@ -76,13 +76,6 @@ class OctaveDefault < Formula
     depends_on "qt"
     depends_on "qscintilla2"
 
-    # Fix bug #50025: Octave window freezes
-    # see https://savannah.gnu.org/bugs/?50025
-    patch do
-      url "https://savannah.gnu.org/bugs/download.php?file_id=47650"
-      sha256 "b37563fad88b95b71f49731c92e4aac5c7282ffc0455a38c065c1d515309fbb8"
-    end
-
     # Fix bug #55268: crash during build
     # see https://savannah.gnu.org/bugs/index.php?55268
     patch do
