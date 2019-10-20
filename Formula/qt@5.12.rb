@@ -3,7 +3,7 @@
 #
 # Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
 # rather than their bug-report Jira. The latter is rarely reviewed by Qt.
-class QtOctaveApp < Formula
+class QtAT512 < Formula
   desc "Cross-platform application and UI framework, 5.12 LTS version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.tar.xz"
