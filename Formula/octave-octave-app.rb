@@ -6,6 +6,10 @@
 # for that. This formula does not have versioned dependencies.
 # This is kept separate from Homebrew's main "octave" formula so we
 # can fiddle around with its version independently.
+#
+# This builds against the specific Qt 5.12 LTS instead of the "current" default
+# Qt because the build fails against Qt 5.13, and also we want to use LTS Qt
+# releases.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -68,8 +72,8 @@ class OctaveOctaveApp < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt"
-    depends_on "qscintilla2"
+    depends_on "qt@5.12"
+    depends_on "qscintilla2-qt512"
 
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025
@@ -119,8 +123,8 @@ class OctaveOctaveApp < Formula
 
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials@2"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2"].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2"].opt_lib}"
+    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2-qt512"].opt_include}"
+    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2-qt512"].opt_lib}"
 
     args = [
       "--prefix=#{prefix}",
@@ -146,10 +150,10 @@ class OctaveOctaveApp < Formula
       # source hasn't been updated to auto-detect this yet.
       ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
-      ENV['QT_CPPFLAGS']="-I#{Formula["qt"].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula["qt"].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula["qt"].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula["qt"].opt_lib}"
+      ENV['QT_CPPFLAGS']="-I#{Formula["qt@5.12"].opt_include}"
+      ENV.append 'CPPFLAGS', "-I#{Formula["qt@5.12"].opt_include}"
+      ENV['QT_LDFLAGS']="-F#{Formula["qt@5.12"].opt_lib}"
+      ENV.append 'LDFLAGS', "-F#{Formula["qt@5.12"].opt_lib}"
     end
 
     if build.without? "docs"
@@ -191,7 +195,7 @@ class OctaveOctaveApp < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt@5.12"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
