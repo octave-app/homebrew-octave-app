@@ -186,7 +186,7 @@ class OctaveOctaveAppAT441 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app-4.4.1"
   end
 
   test do
