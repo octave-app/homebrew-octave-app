@@ -1,4 +1,5 @@
-# GNU Octave, Qt-enabled, with build customized for Octave.app
+# GNU Octave, Qt-enabled, with build customized for Octave.app, using Qt
+# 5.12 instead of latest Qt
 #
 # This version of Octave is kept at the current version. It is only
 # used for grabbing the dependencies of Octave; it is not used for
@@ -68,7 +69,7 @@ class OctaveOctaveAppQt512 < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt"
+    depends_on "qt@5.12"
     depends_on "qscintilla2"
 
     # Fix bug #50025: Octave window freezes
@@ -146,10 +147,10 @@ class OctaveOctaveAppQt512 < Formula
       # source hasn't been updated to auto-detect this yet.
       ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
-      ENV['QT_CPPFLAGS']="-I#{Formula["qt"].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula["qt"].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula["qt"].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula["qt"].opt_lib}"
+      ENV['QT_CPPFLAGS']="-I#{Formula["qt@5.12"].opt_include}"
+      ENV.append 'CPPFLAGS', "-I#{Formula["qt@5.12"].opt_include}"
+      ENV['QT_LDFLAGS']="-F#{Formula["qt@5.12"].opt_lib}"
+      ENV.append 'LDFLAGS', "-F#{Formula["qt@5.12"].opt_lib}"
     end
 
     if build.without? "docs"
@@ -191,7 +192,7 @@ class OctaveOctaveAppQt512 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt@5.12"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
