@@ -1,7 +1,7 @@
 # Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
 # rather than their bug-report Jira. The latter is rarely reviewed by Qt.
 class QtOctaveApp < Formula
-  desc "Cross-platform application and UI framework, Octave.app-hacked version"
+  desc "Cross-platform application and UI framework, 5.12 version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.12/5.12.0/single/qt-everywhere-src-5.12.0.tar.xz"
   mirror "https://qt.mirror.constant.com/archive/qt/5.12/5.12.0/single/qt-everywhere-src-5.12.0.tar.xz"
@@ -21,13 +21,6 @@ class QtOctaveApp < Formula
   depends_on :xcode => :build
   depends_on "mysql-client" => :optional
   depends_on "postgresql" => :optional
-
-  # Disable FSEventStreamFlushSync to avoid warnings in the GUI
-  # See https://github.com/octave-app/octave-app-bundler/issues/13
-  patch do
-    url "https://raw.githubusercontent.com/octave-app/formula-patches/0ffa4aa98468b2355b5cc4424ed41cf869a0ee58/qt/disable-FSEventStreamFlushSync.patch"
-    sha256 "f21a965257a567244e200c48eb5e81ebdf5e94900254c59b71340492a38e06fb"
-  end
 
   def install
     args = %W[

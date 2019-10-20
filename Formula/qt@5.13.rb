@@ -1,33 +1,28 @@
 # Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
 # rather than their bug-report Jira. The latter is rarely reviewed by Qt.
-class QtOctaveApp < Formula
-  desc "Cross-platform application and UI framework, Octave.app-hacked version"
+class QtAT513 < Formula
+  desc "Cross-platform application and UI framework, 5.13 version"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.12/5.12.0/single/qt-everywhere-src-5.12.0.tar.xz"
-  mirror "https://qt.mirror.constant.com/archive/qt/5.12/5.12.0/single/qt-everywhere-src-5.12.0.tar.xz"
-  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.12.0.tar.xz"
-  sha256 "356f42d9087718f22f03d13d0c2cdfb308f91dc3cf0c6318bed33f2094cd9d6c"
-  head "https://code.qt.io/qt/qt5.git", :branch => "5.12", :shallow => false
+  url "https://download.qt.io/official_releases/qt/5.13/5.13.1/single/qt-everywhere-src-5.13.1.tar.xz"
+  mirror "https://qt.mirror.constant.com/archive/qt/5.13/5.13.1/single/qt-everywhere-src-5.13.1.tar.xz"
+  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.13.1.tar.xz"
+  sha256 "adf00266dc38352a166a9739f1a24a1e36f1be9c04bf72e16e142a256436974e"
+
+  head "https://code.qt.io/qt/qt5.git", :branch => "dev", :shallow => false
+
+  bottle do
+    cellar :any
+    sha256 "d734eff21324701858605d7896763cbba2440c1350969cd3804d3969b3147d89" => :catalina
+    sha256 "a58effe9b3aa460fcd6cc41aa4cef235b6e88d83fe1c863100a6423a37482f8b" => :mojave
+    sha256 "eae71268c2333dd6429a704123021ccca05737a629f89d5f7efbf1b1b7c0250b" => :high_sierra
+    sha256 "3af3d51d19936f6e46bab0f1dc6c3b1e650090796d74110a2b607b985006b0b1" => :sierra
+  end
 
   keg_only "Qt 5 has CMake issues when linked"
 
-  option "with-docs", "Build documentation"
-  option "with-examples", "Build examples"
-  option "without-proprietary-codecs", "Don't build with proprietary codecs (e.g. mp3)"
-
-  deprecated_option "with-mysql" => "with-mysql-client"
-
   depends_on "pkg-config" => :build
   depends_on :xcode => :build
-  depends_on "mysql-client" => :optional
-  depends_on "postgresql" => :optional
-
-  # Disable FSEventStreamFlushSync to avoid warnings in the GUI
-  # See https://github.com/octave-app/octave-app-bundler/issues/13
-  patch do
-    url "https://raw.githubusercontent.com/octave-app/formula-patches/0ffa4aa98468b2355b5cc4424ed41cf869a0ee58/qt/disable-FSEventStreamFlushSync.patch"
-    sha256 "f21a965257a567244e200c48eb5e81ebdf5e94900254c59b71340492a38e06fb"
-  end
+  depends_on :macos => :sierra
 
   def install
     args = %W[
@@ -40,6 +35,7 @@ class QtOctaveApp < Formula
       -qt-libjpeg
       -qt-freetype
       -qt-pcre
+      -nomake examples
       -nomake tests
       -no-rpath
       -pkg-config
@@ -47,34 +43,10 @@ class QtOctaveApp < Formula
       -proprietary-codecs
     ]
 
-    args << "-nomake" << "examples" if build.without? "examples"
-
-    if build.with? "mysql-client"
-      args << "-plugin-sql-mysql"
-      (buildpath/"brew_shim/mysql_config").write <<~EOS
-        #!/bin/sh
-        if [ x"$1" = x"--libs" ]; then
-          mysql_config --libs | sed "s/-lssl -lcrypto//"
-        else
-          exec mysql_config "$@"
-        fi
-      EOS
-      chmod 0755, "brew_shim/mysql_config"
-      args << "-mysql_config" << buildpath/"brew_shim/mysql_config"
-    end
-
-    args << "-plugin-sql-psql" if build.with? "postgresql"
-    args << "-proprietary-codecs" if build.with? "proprietary-codecs"
-
     system "./configure", *args
     system "make"
     ENV.deparallelize
     system "make", "install"
-
-    if build.with? "docs"
-      system "make", "docs"
-      system "make", "install_docs"
-    end
 
     # Some config scripts will only find Qt in a "Frameworks" folder
     frameworks.install_symlink Dir["#{lib}/*.framework"]

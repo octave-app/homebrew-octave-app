@@ -5,7 +5,7 @@
 # Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
 # rather than their bug-report Jira. The latter is rarely reviewed by Qt.
 class QtAT59 < Formula
-  desc "Cross-platform application and UI framework, Long-Term Support version"
+  desc "Cross-platform application and UI framework, 5.9 Long-Term Support version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.9/5.9.7/single/qt-everywhere-opensource-src-5.9.7.tar.xz"
   mirror "https://www.mirrorservice.org/sites/download.qt-project.org/official_releases/qt/5.9/5.9.7/single/qt-everywhere-opensource-src-5.9.7.tar.xz"
