@@ -2,7 +2,7 @@
 # Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
 # rather than their bug-report Jira. The latter is rarely reviewed by Qt.
 class QtAT5113 < Formula
-  desc "Cross-platform application and UI framework"
+  desc "Cross-platform application and UI framework, 5.11.3 version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.tar.xz"
   mirror "https://qt.mirror.constant.com/archive/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.tar.xz"
