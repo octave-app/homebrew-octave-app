@@ -1,9 +1,13 @@
 # Qt 5.12 LTS is kept as a versioned formula because it's an LTS release, under support
 # until 2021.
 #
+# This is named "qt_5.12" instead of "qt@5.12" because having an "@" in the
+# formula name breaks the build, due to some ninja problem in Qt's build
+# system.
+#
 # Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
 # rather than their bug-report Jira. The latter is rarely reviewed by Qt.
-class QtAT512 < Formula
+class Qt512 < Formula
   desc "Cross-platform application and UI framework, 5.12 LTS version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.12/5.12.5/single/qt-everywhere-src-5.12.5.tar.xz"
