@@ -50,7 +50,7 @@ class OctaveOctaveApp < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on "gnuplot"
+  depends_on "gnuplot-qt512"
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"

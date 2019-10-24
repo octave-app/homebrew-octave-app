@@ -47,7 +47,7 @@ class OctaveOctaveAppQt512 < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on "gnuplot"
+  depends_on "gnuplot-qt512"
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
@@ -70,7 +70,7 @@ class OctaveOctaveAppQt512 < Formula
   # Dependencies for the graphical user interface
   if build.with?("qt")
     depends_on "qt_5.12"
-    depends_on "qscintilla2"
+    depends_on "qscintilla2-qt512"
 
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025
@@ -120,8 +120,8 @@ class OctaveOctaveAppQt512 < Formula
 
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials@2"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2"].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2"].opt_lib}"
+    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2-qt512"].opt_include}"
+    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2-qt512"].opt_lib}"
 
     args = [
       "--prefix=#{prefix}",

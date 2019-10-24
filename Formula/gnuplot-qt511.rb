@@ -1,3 +1,4 @@
+# Custom gnuplot that uses our custom qt@5.11 instead of regular qt
 class GnuplotQt511 < Formula
   desc "Command-driven, interactive function plotting"
   homepage "http://www.gnuplot.info/"

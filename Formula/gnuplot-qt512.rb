@@ -1,5 +1,5 @@
-# Custom gnuplot that builds against our hacked qt-octave-app instead of regular qt
-class GnuplotOctaveApp < Formula
+# Custom gnuplot that uses our custom qt_5.12 instead of regular qt
+class GnuplotQt512 < Formula
   desc "Command-driven, interactive function plotting"
   homepage "http://www.gnuplot.info/"
   url "https://downloads.sourceforge.net/project/gnuplot/gnuplot/5.2.5/gnuplot-5.2.5.tar.gz"
@@ -30,7 +30,7 @@ class GnuplotOctaveApp < Formula
   depends_on "readline"
   depends_on "lua" => :recommended
   depends_on "pango" if build.with?("cairo") || build.with?("wxmac")
-  depends_on "qt-octave-app" if build.with?("qt")
+  depends_on "qt_5.12" if build.with?("qt")
   depends_on "wxmac" => :optional
   depends_on :x11 => :optional
 
