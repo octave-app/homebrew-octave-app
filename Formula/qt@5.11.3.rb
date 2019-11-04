@@ -1,6 +1,8 @@
 # Qt 5.11.3. This is not the main qt@5.11.rb formula yet, because the build is failing.
-# Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
-# rather than their bug-report Jira. The latter is rarely reviewed by Qt.
+# Because Qt 5.11 is EOL as of May 2019, this is unlikely to get fixed upstream.
+# Instead of spending much effort getting this to work, we should probably just ditch Qt 5.11
+# and switch to the Qt 5.12 LTS release everywhere.
+
 class QtAT5113 < Formula
   desc "Cross-platform application and UI framework, 5.11.3 version"
   homepage "https://www.qt.io/"

@@ -1,14 +1,19 @@
-# Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
-# rather than their bug-report Jira. The latter is rarely reviewed by Qt.
+# Qt 5.11 is kept as a versioned formula because our 4.4.1 release line was built
+# against 5.11.
+# Qt 5.11 is out of support. Per https://www.qt.io/blog/2018/05/22/qt-5-11-released, it was
+# released on May 22, 2019, so its support ran out in May 2019.
+# Our qt@5.11 formula is kept at version 5.11.2, even though there's a 5.11.3 out, because
+# the Qt 5.11.3 build fails for us. As Qt 5.11 is EOL, there's no fix forthcoming, so we'll
+# just sit on 5.11.2.
+
 class QtAT511 < Formula
   desc "Cross-platform application and UI framework, 5.11 version"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.tar.xz"
-  mirror "https://qt.mirror.constant.com/archive/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.tar.xz"
-  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.11.3.tar.xz"
-  sha256 "859417642713cee2493ee3646a7fee782c9f1db39e41d7bb1322bba0c5f0ff4d"
+  url "https://download.qt.io/official_releases/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz"
+  mirror "https://qt.mirror.constant.com/archive/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz"
+  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.11.2.tar.xz"
+  sha256 "c6104b840b6caee596fa9a35bc5f57f67ed5a99d6a36497b6fe66f990a53ca81"
 
-  #keg_only :versioned_formula
   keg_only "versioned formula"
 
   option "with-examples", "Build examples"

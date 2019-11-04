@@ -4,6 +4,8 @@
 # This is named "qt_5.12" instead of "qt@5.12" because having an "@" in the
 # formula name breaks the build, due to some ninja problem in Qt's build
 # system.
+# https://github.com/octave-app/octave-app/issues/143
+# https://bugreports.qt.io/browse/QTBUG-79711
 #
 # Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
 # rather than their bug-report Jira. The latter is rarely reviewed by Qt.
