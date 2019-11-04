@@ -30,6 +30,10 @@ class OctaveOctaveAppVanillaQt < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
+  @qt_formula = "qt"
+  @qscintilla2_formula = "qscintilla2"
+  @gnuplot_formula = "gnuplot"
+
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
   depends_on "autoconf" => :build
@@ -44,7 +48,7 @@ class OctaveOctaveAppVanillaQt < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on "gnuplot"
+  depends_on @gnuplot_formula
   depends_on "gnu-tar-octave-app"
   depends_on "graphicsmagick"
   depends_on "hdf5"
@@ -67,8 +71,8 @@ class OctaveOctaveAppVanillaQt < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt"
-    depends_on "qscintilla2"
+    depends_on @qt_formula
+    depends_on @qscintilla2_formula
 
     # Fix bug #49053: retina scaling of figures
     # see https://savannah.gnu.org/bugs/?49053
@@ -99,8 +103,8 @@ class OctaveOctaveAppVanillaQt < Formula
 
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials@2"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2"].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2"].opt_lib}"
+    ENV.append "CXXFLAGS", "-I#{Formula[@qscintilla2_formula].opt_include}"
+    ENV.append "LDFLAGS", "-L#{Formula[@qscintilla2_formula].opt_lib}"
 
     args = [
       "--prefix=#{prefix}",
@@ -130,10 +134,10 @@ class OctaveOctaveAppVanillaQt < Formula
       # source hasn't been updated to auto-detect this yet.
       ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
-      ENV['QT_CPPFLAGS']="-I#{Formula["qt"].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula["qt"].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula["qt"].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula["qt"].opt_lib}"
+      ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
+      ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
+      ENV['QT_LDFLAGS']="-F#{Formula[@qt_formula].opt_lib}"
+      ENV.append 'LDFLAGS', "-F#{Formula[@qt_formula].opt_lib}"
     end
 
     if build.without? "docs"
@@ -172,7 +176,7 @@ class OctaveOctaveAppVanillaQt < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula[@qt_formula].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
