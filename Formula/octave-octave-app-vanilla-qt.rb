@@ -21,8 +21,8 @@ end
 class OctaveOctaveAppVanillaQt < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "ftp://ftp.gnu.org/gnu/octave/octave-4.4.1.tar.lz"
-  sha256 "1e6e3a72b4fd4b4db73ccb9f3046e4f727201c2e934b77afb04a804d7f7c4d4b"
+  url "ftp://ftp.gnu.org/gnu/octave/octave-5.1.0.tar.lz"
+  sha256 "0633a2e6149350f4aaa1b107c90a486069110bb07805b285ee70052cfced9c87"
 
   keg_only "so it can be installed alongside regular octave"
 
@@ -38,6 +38,7 @@ class OctaveOctaveAppVanillaQt < Formula
   depends_on "automake" => :build
   depends_on "autoconf" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
+  depends_on "librsvg" => :build
   depends_on "pkg-config" => :build
   depends_on "arpack"
   depends_on "epstool"
@@ -75,18 +76,32 @@ class OctaveOctaveAppVanillaQt < Formula
     depends_on @qt_formula
     depends_on @qscintilla2_formula
 
-    # Fix bug #49053: retina scaling of figures
-    # see https://savannah.gnu.org/bugs/?49053
-    patch do
-      url "https://savannah.gnu.org/support/download.php?file_id=44041"
-      sha256 "bf7aaa6ddc7bd7c63da24b48daa76f5bdf8ab3a2f902334da91a8d8140e39ff0"
-    end
-
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025
     patch do
       url "https://savannah.gnu.org/support/download.php?file_id=45382"
       sha256 "e179c3a0e53f6f0f4a48b5adafd18c0f9c33de276748b8049c7d1007282f7f6e"
+    end
+
+    # Fix bug #55268: crash during build
+    # see https://savannah.gnu.org/bugs/index.php?55268
+    patch do
+      url "https://savannah.gnu.org/bugs/download.php?file_id=45733"
+      sha256 "d7937a083af72d74f073c9dbc59feab178e00ca0ce952f61fa3430b9eafaa2e1"
+    end
+
+    # Fix bug https://github.com/octave-app/octave-app-bundler/issues/10
+    # tar.m and unpack.m use plain "tar" but expect a GNU tar
+    patch do
+      url "https://raw.githubusercontent.com/octave-app/formula-patches/80d1a98d982e4207e66d424c7cc685536607c66c/octave/4.4.0-gtar-instead-of-tar.patch"
+      sha256 "25a14fabf39841a4089667ebc5c326a2d40640b99432ae97ae49ce0a9a496878"
+    end
+
+    # Fix bug #55836: Add 1024x1024 app icon
+    # see https://savannah.gnu.org/bugs/index.php?55836
+    patch do
+      url "https://savannah.gnu.org/bugs/download.php?file_id=46433"
+      sha256 "f00383db6fb0c1d1032017a90840bd13cc7b6e52b47a8124a4fc7abd03d72b3b"
     end
   end
 
@@ -198,29 +213,5 @@ class OctaveOctaveAppVanillaQt < Formula
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
   end
 
-__END__
-diff --git a/libgui/src/main-window.cc b/libgui/src/main-window.cc
---- a/libgui/src/main-window.cc
-+++ b/libgui/src/main-window.cc
-@@ -221,9 +221,6 @@
-              this, SLOT (handle_octave_ready (void)));
- 
-     connect (m_interpreter, SIGNAL (octave_finished_signal (int)),
-              this, SLOT (handle_octave_finished (int)));
--
--    connect (m_interpreter, SIGNAL (octave_finished_signal (int)),
--             m_main_thread, SLOT (quit (void)));
- 
-     connect (m_main_thread, SIGNAL (finished (void)),
-@@ -1536,6 +1533,9 @@
- 
-   void main_window::handle_octave_finished (int exit_status)
-   {
-+    /* fprintf to stderr is needed by macOS */
-+    fprintf(stderr, "\n");
-+    m_main_thread->quit();
-     qApp->exit (exit_status);
-   }
- 
   puts "at end of class definition: qt_formula is #{@qt_formula}"
 end
