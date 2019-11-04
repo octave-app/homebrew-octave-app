@@ -1,4 +1,4 @@
-# Qt 5.11.3. This is not the main qt@5.11.rb formula yet, because the build is failing.
+# Qt 5.11.3. This is not the main qt_5.11.rb formula yet, because the build is failing.
 # Because Qt 5.11 is EOL as of May 2019, this is unlikely to get fixed upstream.
 # Instead of spending much effort getting this to work, we should probably just ditch Qt 5.11
 # and switch to the Qt 5.12 LTS release everywhere.
