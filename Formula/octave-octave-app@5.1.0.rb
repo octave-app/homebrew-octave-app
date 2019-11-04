@@ -29,9 +29,9 @@ class OctaveOctaveAppAT510 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt_5.12"
-  @qscintilla2_formula = "qscintilla2-qt512"
-  @gnuplot_formula = "gnuplot-qt512"
+  @qt_formula = "qt"
+  @qscintilla2_formula = "qscintilla2"
+  @gnuplot_formula = "gnuplot"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
