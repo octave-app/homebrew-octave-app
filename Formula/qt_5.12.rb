@@ -44,7 +44,6 @@ class Qt512 < Formula
       -no-rpath
       -pkg-config
       -dbus-runtime
-      -proprietary-codecs
     ]
 
     args << "-nomake" << "examples" if build.without? "examples"
