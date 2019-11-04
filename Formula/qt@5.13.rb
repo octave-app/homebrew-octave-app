@@ -10,7 +10,7 @@ class QtAT513 < Formula
 
   head "https://code.qt.io/qt/qt5.git", :branch => "dev", :shallow => false
 
-  keg_only "Qt 5 has CMake issues when linked"
+  keg_only "versioned formula"
 
   depends_on "pkg-config" => :build
   depends_on :xcode => :build
