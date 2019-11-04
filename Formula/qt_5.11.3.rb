@@ -2,8 +2,14 @@
 # Because Qt 5.11 is EOL as of May 2019, this is unlikely to get fixed upstream.
 # Instead of spending much effort getting this to work, we should probably just ditch Qt 5.11
 # and switch to the Qt 5.12 LTS release everywhere.
+#
+# This is named "qt_5.11.3" instead of "qt@5.11.3" because having an "@" in the
+# formula name breaks the build, due to some ninja problem in Qt's build
+# system.
+# https://github.com/octave-app/octave-app/issues/143
+# https://bugreports.qt.io/browse/QTBUG-79711
 
-class QtAT5113 < Formula
+class Qt5113 < Formula
   desc "Cross-platform application and UI framework, 5.11.3 version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.11/5.11.3/single/qt-everywhere-src-5.11.3.tar.xz"

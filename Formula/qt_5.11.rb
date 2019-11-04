@@ -2,11 +2,17 @@
 # against 5.11.
 # Qt 5.11 is out of support. Per https://www.qt.io/blog/2018/05/22/qt-5-11-released, it was
 # released on May 22, 2019, so its support ran out in May 2019.
-# Our qt@5.11 formula is kept at version 5.11.2, even though there's a 5.11.3 out, because
+# Our qt_5.11 formula is kept at version 5.11.2, even though there's a 5.11.3 out, because
 # the Qt 5.11.3 build fails for us. As Qt 5.11 is EOL, there's no fix forthcoming, so we'll
 # just sit on 5.11.2.
+#
+# This is named "qt_5.11" instead of "qt@5.11" because having an "@" in the
+# formula name breaks the build, due to some ninja problem in Qt's build
+# system.
+# https://github.com/octave-app/octave-app/issues/143
+# https://bugreports.qt.io/browse/QTBUG-79711
 
-class QtAT511 < Formula
+class Qt511 < Formula
   desc "Cross-platform application and UI framework, 5.11 version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.11/5.11.2/single/qt-everywhere-src-5.11.2.tar.xz"

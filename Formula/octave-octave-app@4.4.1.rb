@@ -68,7 +68,7 @@ class OctaveOctaveAppAT441 < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt@5.11"
+    depends_on "qt_5.11"
     depends_on "qscintilla2-qt511"
 
     if build.stable?
@@ -135,10 +135,10 @@ class OctaveOctaveAppAT441 < Formula
     else
       args << "--with-qt=5"
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
-      ENV['QT_CPPFLAGS']="-I#{Formula["qt@5.11"].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula["qt@5.11"].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula["qt@5.11"].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula["qt@5.11"].opt_lib}"
+      ENV['QT_CPPFLAGS']="-I#{Formula["qt_5.11"].opt_include}"
+      ENV.append 'CPPFLAGS', "-I#{Formula["qt_5.11"].opt_include}"
+      ENV['QT_LDFLAGS']="-F#{Formula["qt_5.11"].opt_lib}"
+      ENV.append 'LDFLAGS', "-F#{Formula["qt_5.11"].opt_lib}"
     end
 
     if build.without? "docs"
@@ -180,7 +180,7 @@ class OctaveOctaveAppAT441 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt@5.11"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt_5.11"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
