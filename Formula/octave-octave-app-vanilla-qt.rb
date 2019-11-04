@@ -71,6 +71,7 @@ class OctaveOctaveAppVanillaQt < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
+    puts "in build.with?: qt_formula is #{@qt_formula}"
     depends_on @qt_formula
     depends_on @qscintilla2_formula
 
@@ -92,7 +93,14 @@ class OctaveOctaveAppVanillaQt < Formula
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
+  puts "before def install: qt_formula is #{@qt_formula}"
+
   def install
+    puts "in install: qt_formula is #{@qt_formula}"
+    # HACK: For some reason, @qt_formula and friends disappear before install() is called
+    @qt_formula = "qt"
+    @qscintilla2_formula = "qscintilla2"
+    puts "in install: qt_formula is #{@qt_formula}"
     # do not execute a test that may trigger a dialog to install java
     inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
 
@@ -134,6 +142,7 @@ class OctaveOctaveAppVanillaQt < Formula
       # source hasn't been updated to auto-detect this yet.
       ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
+      puts "in install step 2: qt_formula is #{@qt_formula}"
       ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
       ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
       ENV['QT_LDFLAGS']="-F#{Formula[@qt_formula].opt_lib}"
@@ -188,7 +197,6 @@ class OctaveOctaveAppVanillaQt < Formula
     # Test java bindings: check if javaclasspath is working, return error if not
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
   end
-end
 
 __END__
 diff --git a/libgui/src/main-window.cc b/libgui/src/main-window.cc
@@ -214,3 +222,5 @@ diff --git a/libgui/src/main-window.cc b/libgui/src/main-window.cc
      qApp->exit (exit_status);
    }
  
+  puts "at end of class definition: qt_formula is #{@qt_formula}"
+end
