@@ -17,7 +17,6 @@ class Qt5113 < Formula
   mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.11.3.tar.xz"
   sha256 "859417642713cee2493ee3646a7fee782c9f1db39e41d7bb1322bba0c5f0ff4d"
 
-  #keg_only :versioned_formula
   keg_only "versioned formula"
 
   option "with-examples", "Build examples"
