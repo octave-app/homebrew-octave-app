@@ -2,6 +2,9 @@
 #
 # This formula is here for historical interest. You probably want to use
 # octave-octave-app@4.4.1 instead.
+#
+# TODO: Decide whether this should build against the versioned qt_5.11 or the
+# regular floating qt.
 
 class MacTeXRequirement < Requirement
   fatal true
