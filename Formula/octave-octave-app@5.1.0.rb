@@ -30,9 +30,9 @@ class OctaveOctaveAppAT510 < Formula
   option "with-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt"
-  @qscintilla2_formula = "qscintilla2"
-  @gnuplot_formula = "gnuplot"
+  @qt_formula = "qt_5.13"
+  @qscintilla2_formula = "qscintilla2-qt513"
+  @gnuplot_formula = "gnuplot-qt513"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
@@ -107,9 +107,9 @@ class OctaveOctaveAppAT510 < Formula
 
   def install
     # HACK: These class instance values sometimes disappear before install() is called ?!?!
-    @qt_formula = "qt"
-    @qscintilla2_formula = "qscintilla2"
-    @gnuplot_formula = "gnuplot"
+    @qt_formula = "qt_5.13"
+    @qscintilla2_formula = "qscintilla2-qt513"
+    @gnuplot_formula = "gnuplot-qt513"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;

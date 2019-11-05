@@ -1,5 +1,5 @@
-# A version of Qscintilla2 customized to use Qt 5.12 instead of the current Qt
-class Qscintilla2Qt512 < Formula
+# A version of Qscintilla2 customized to use Qt 5.13 instead of the current Qt
+class Qscintilla2Qt513 < Formula
   desc "Port to Qt of the Scintilla editing component"
   homepage "https://www.riverbankcomputing.com/software/qscintilla/intro"
   url "https://downloads.sourceforge.net/project/pyqt/QScintilla2/QScintilla-2.10.4/QScintilla_gpl-2.10.4.tar.gz"
@@ -9,7 +9,7 @@ class Qscintilla2Qt512 < Formula
 
   option "with-plugin", "Build the Qt Designer plugin"
 
-  depends_on "qt_5.12"
+  depends_on "qt_5.13"
 
   def install
     spec = (ENV.compiler == :clang && MacOS.version >= :mavericks) ? "macx-clang" : "macx-g++"
