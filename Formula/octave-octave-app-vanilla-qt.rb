@@ -30,10 +30,6 @@ class OctaveOctaveAppVanillaQt < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt"
-  @qscintilla2_formula = "qscintilla2"
-  @gnuplot_formula = "gnuplot"
-
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
   depends_on "autoconf" => :build
@@ -49,7 +45,7 @@ class OctaveOctaveAppVanillaQt < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on @gnuplot_formula
+  depends_on "gnuplot"
   depends_on "gnu-tar-octave-app"
   depends_on "graphicsmagick"
   depends_on "hdf5"
@@ -72,9 +68,8 @@ class OctaveOctaveAppVanillaQt < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    puts "in build.with?: qt_formula is #{@qt_formula}"
-    depends_on @qt_formula
-    depends_on @qscintilla2_formula
+    depends_on "qt"
+    depends_on "qscintilla2"
 
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025
@@ -108,14 +103,7 @@ class OctaveOctaveAppVanillaQt < Formula
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
-  puts "before def install: qt_formula is #{@qt_formula}"
-
   def install
-    puts "in install: qt_formula is #{@qt_formula}"
-    # HACK: For some reason, @qt_formula and friends disappear before install() is called
-    @qt_formula = "qt"
-    @qscintilla2_formula = "qscintilla2"
-    puts "in install: qt_formula is #{@qt_formula}"
     # do not execute a test that may trigger a dialog to install java
     inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
 
@@ -126,8 +114,8 @@ class OctaveOctaveAppVanillaQt < Formula
 
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials@2"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula[@qscintilla2_formula].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula[@qscintilla2_formula].opt_lib}"
+    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2"].opt_include}"
+    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2"].opt_lib}"
 
     args = [
       "--prefix=#{prefix}",
@@ -156,12 +144,10 @@ class OctaveOctaveAppVanillaQt < Formula
       # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
       # source hasn't been updated to auto-detect this yet.
       ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
-      # These "shouldn't" be necessary, but the build breaks if I don't include them.
-      puts "in install step 2: qt_formula is #{@qt_formula}"
-      ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula[@qt_formula].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula[@qt_formula].opt_lib}"
+      ENV['QT_CPPFLAGS']="-I#{Formula["qt"].opt_include}"
+      ENV.append 'CPPFLAGS', "-I#{Formula["qt"].opt_include}"
+      ENV['QT_LDFLAGS']="-F#{Formula["qt"].opt_lib}"
+      ENV.append 'LDFLAGS', "-F#{Formula["qt"].opt_lib}"
     end
 
     if build.without? "docs"
@@ -213,5 +199,4 @@ class OctaveOctaveAppVanillaQt < Formula
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
   end
 
-  puts "at end of class definition: qt_formula is #{@qt_formula}"
 end

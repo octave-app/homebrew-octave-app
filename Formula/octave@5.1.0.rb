@@ -25,6 +25,10 @@ class OctaveAT510 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
+  @qt_formula = "qt"
+  @qscintilla2_formula = "qscintilla2"
+  @gnuplot_formula = "gnuplot"
+
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
   depends_on "autoconf" => :build
@@ -60,8 +64,8 @@ class OctaveAT510 < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt"
-    depends_on "qscintilla2"
+    depends_on @qt_formula
+    depends_on @qscintilla2_formula
 
     # Fix bug #55268: crash during build
     # see https://savannah.gnu.org/bugs/index.php?55268
@@ -75,7 +79,11 @@ class OctaveAT510 < Formula
   cxxstdlib_check :skip
 
   def install
-    # Hack: munge HG-ID to reflect that we're adding patches
+    @qt_formula = "qt"
+    @qscintilla2_formula = "qscintilla2"
+    @gnuplot_formula = "gnuplot"
+  
+      # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
@@ -90,8 +98,8 @@ class OctaveAT510 < Formula
 
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials@2"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2"].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2"].opt_lib}"
+    ENV.append "CXXFLAGS", "-I#{Formula[@qscintilla2_formula].opt_include}"
+    ENV.append "LDFLAGS", "-L#{Formula[@qscintilla2_formula].opt_lib}"
 
     args = [
       "--prefix=#{prefix}",
@@ -117,10 +125,10 @@ class OctaveAT510 < Formula
       # source hasn't been updated to auto-detect this yet.
       ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
-      ENV['QT_CPPFLAGS']="-I#{Formula["qt"].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula["qt"].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula["qt"].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula["qt"].opt_lib}"
+      ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
+      ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
+      ENV['QT_LDFLAGS']="-F#{Formula[@qt_formula].opt_lib}"
+      ENV.append 'LDFLAGS', "-F#{Formula[@qt_formula].opt_lib}"
     end
 
     if build.without? "docs"

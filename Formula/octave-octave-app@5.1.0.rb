@@ -105,7 +105,6 @@ class OctaveOctaveAppAT510 < Formula
   cxxstdlib_check :skip
 
   def install
-    # HACK: These class instance values sometimes disappear before install() is called ?!?!
     @qt_formula = "qt_5.13"
     @qscintilla2_formula = "qscintilla2-qt513"
     @gnuplot_formula = "gnuplot-qt513"

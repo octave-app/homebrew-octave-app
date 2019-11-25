@@ -112,6 +112,10 @@ class OctaveOctaveApp < Formula
   cxxstdlib_check :skip
 
   def install
+    @qt_formula = "qt_5.12"
+    @qscintilla2_formula = "qscintilla2-qt512"
+    @gnuplot_formula = "gnuplot-qt512"
+  
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");

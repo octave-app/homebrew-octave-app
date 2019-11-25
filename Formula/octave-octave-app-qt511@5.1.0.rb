@@ -26,9 +26,9 @@ class OctaveOctaveAppQt511AT510 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt_5.11"
-  @qscintilla2_formula = "qscintilla2-qt511"
-  @gnuplot_formula = "gnuplot-qt511"
+  @qt_formula = "qt_5.13"
+  @qscintilla2_formula = "qscintilla2-qt513"
+  @gnuplot_formula = "gnuplot-qt513"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
@@ -102,7 +102,10 @@ class OctaveOctaveAppQt511AT510 < Formula
   cxxstdlib_check :skip
 
   def install
-    # Hack: munge HG-ID to reflect that we're adding patches
+    @qt_formula = "qt_5.13"
+    @qscintilla2_formula = "qscintilla2-qt513"
+    @gnuplot_formula = "gnuplot-qt513"
+      # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"

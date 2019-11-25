@@ -51,7 +51,7 @@ class OctaveOctaveAppQt512 < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on @gnuplot_formula
+  depends_on "gnuplot-qt512"
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
@@ -73,8 +73,8 @@ class OctaveOctaveAppQt512 < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on @qt_formula
-    depends_on @qscintilla2_formula
+    depends_on "qt_5.12"
+    depends_on "qscintilla2-qt512"
 
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025
@@ -109,7 +109,11 @@ class OctaveOctaveAppQt512 < Formula
   cxxstdlib_check :skip
 
   def install
-    # Hack: munge HG-ID to reflect that we're adding patches
+    @qt_formula = "qt_5.12"
+    @qscintilla2_formula = "qscintilla2-qt512"
+    @gnuplot_formula = "gnuplot-qt512"
+  
+      # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
