@@ -26,9 +26,9 @@ class OctaveOctaveAppQt511AT510 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt_5.13"
-  @qscintilla2_formula = "qscintilla2-qt513"
-  @gnuplot_formula = "gnuplot-qt513"
+  @qt_formula = "qt_5.11"
+  @qscintilla2_formula = "qscintilla2-qt511"
+  @gnuplot_formula = "gnuplot-qt511"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
@@ -52,6 +52,7 @@ class OctaveOctaveAppQt511AT510 < Formula
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openjdk"
+  depends_on "openblas"
   depends_on "pcre"
   depends_on "portaudio"
   depends_on "pstoedit"
@@ -61,7 +62,6 @@ class OctaveOctaveAppQt511AT510 < Formula
   depends_on "suite-sparse"
   depends_on "sundials@2"
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
-  depends_on "veclibfort"
   depends_on MacTeXRequirement if build.with?("docs")
 
   # Dependencies for the graphical user interface
@@ -102,9 +102,9 @@ class OctaveOctaveAppQt511AT510 < Formula
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt_5.13"
-    @qscintilla2_formula = "qscintilla2-qt513"
-    @gnuplot_formula = "gnuplot-qt513"
+    @qt_formula = "qt_5.11"
+    @qscintilla2_formula = "qscintilla2-qt511"
+    @gnuplot_formula = "gnuplot-qt511"
       # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
@@ -134,7 +134,7 @@ class OctaveOctaveAppQt511AT510 < Formula
       "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
       "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
       "--with-x=no",
-      "--with-blas=-L#{Formula["veclibfort"].opt_lib} -lvecLibFort",
+      "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
       "--with-portaudio",
       "--with-sndfile"
     ]
@@ -160,7 +160,7 @@ class OctaveOctaveAppQt511AT510 < Formula
     end
 
     # Force use of our bundled JDK
-    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}/Contents/Home"
+    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
     # fix aclocal version issue
     system "autoreconf", "-f", "-i"
@@ -203,7 +203,7 @@ class OctaveOctaveAppQt511AT510 < Formula
 
   test do
     system bin/"octave", "--eval", "(22/7 - pi)/pi"
-    # This is supposed to crash octave if there is a problem with veclibfort
+    # This is supposed to crash octave if there is a problem with BLAS
     system bin/"octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
     # Test java bindings: check if javaclasspath is working, return error if not
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"

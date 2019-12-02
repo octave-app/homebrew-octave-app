@@ -61,6 +61,7 @@ class OctaveOctaveApp < Formula
   depends_on "librsvg"
   depends_on "libsndfile"
   depends_on "libtool"
+  depends_on "openblas"
   depends_on "openjdk"
   depends_on "pcre"
   depends_on "portaudio"
@@ -145,7 +146,7 @@ class OctaveOctaveApp < Formula
       "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
       "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
       "--with-x=no",
-      "--with-blas=-L#{Formula["veclibfort"].opt_lib} -lvecLibFort",
+      "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
       "--with-portaudio",
       "--with-sndfile"
     ]
@@ -171,7 +172,7 @@ class OctaveOctaveApp < Formula
     end
 
     # Force use of our bundled JDK
-    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}/Contents/Home"
+    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
     # fix aclocal version issue
     system "autoreconf", "-f", "-i"

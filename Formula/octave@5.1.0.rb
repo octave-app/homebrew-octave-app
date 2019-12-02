@@ -50,6 +50,8 @@ class OctaveAT510 < Formula
   depends_on "hdf5"
   depends_on "libsndfile"
   depends_on "libtool"
+  depends_on "openblas"
+  depends_on "openjdk"
   depends_on "pcre"
   depends_on "portaudio"
   depends_on "pstoedit"
@@ -59,7 +61,6 @@ class OctaveAT510 < Formula
   depends_on "suite-sparse"
   depends_on "sundials@2"
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
-  depends_on "veclibfort"
   depends_on MacTeXRequirement if build.with?("docs")
 
   # Dependencies for the graphical user interface
@@ -112,7 +113,7 @@ class OctaveAT510 < Formula
       "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
       "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
       "--with-x=no",
-      "--with-blas=-L#{Formula["veclibfort"].opt_lib} -lvecLibFort",
+      "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
       "--with-portaudio",
       "--with-sndfile"
     ]
@@ -178,7 +179,7 @@ class OctaveAT510 < Formula
 
   test do
     system bin/"octave", "--eval", "(22/7 - pi)/pi"
-    # This is supposed to crash octave if there is a problem with veclibfort
+    # This is supposed to crash octave if there is a problem with BLAS
     system bin/"octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
     # Test java bindings: check if javaclasspath is working, return error if not
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
