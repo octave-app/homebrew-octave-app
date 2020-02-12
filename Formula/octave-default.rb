@@ -71,13 +71,6 @@ class OctaveDefault < Formula
   depends_on :java => ["1.8+", :recommended]
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Fix for bug #57049: gnulib CoreFoundation discovery issue
-  # https://savannah.gnu.org/bugs/index.php?57049
-  patch do
-    url "https://savannah.gnu.org/bugs/download.php?file_id=47800"
-    sha256 "93d27d1ba1dc311b1352c6e26cacae0e51325edaa8b6bae9ede9f4f935ef348a"
-  end
-
   # Dependencies for the graphical user interface
   if build.with?("qt")
     depends_on "qt"
