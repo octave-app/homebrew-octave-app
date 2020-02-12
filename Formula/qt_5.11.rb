@@ -1,5 +1,6 @@
 # Qt 5.11 is kept as a versioned formula because our 4.4.1 release line was built
 # against 5.11.
+#
 # Qt 5.11 is out of support. Per https://www.qt.io/blog/2018/05/22/qt-5-11-released, it was
 # released on May 22, 2019, so its support ran out in May 2019.
 # Our qt_5.11 formula is kept at version 5.11.2, even though there's a 5.11.3 out, because

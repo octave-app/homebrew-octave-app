@@ -6,9 +6,6 @@
 # system.
 # https://github.com/octave-app/octave-app/issues/143
 # https://bugreports.qt.io/browse/QTBUG-79711
-#
-# Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
-# rather than their bug-report Jira. The latter is rarely reviewed by Qt.
 class Qt512 < Formula
   desc "Cross-platform application and UI framework, 5.12 LTS version"
   homepage "https://www.qt.io/"

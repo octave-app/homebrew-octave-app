@@ -1,5 +1,11 @@
-# Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
-# rather than their bug-report Jira. The latter is rarely reviewed by Qt.
+# Qt, hacked for Octave.app
+#
+# Our hack just suppresses an "FSEvents assertion failure" warning message. Nothing
+# else; a shame we have to pay for the whole Qt build for it.
+#
+# This formula will track the version of Qt we're using for Octave.app builds, which
+# might be the LTS version, the latest version, or something else, depending on what
+# works best for Octave.app.
 class QtOctaveApp < Formula
   desc "Cross-platform application and UI framework, Octave.app-hacked version"
   homepage "https://www.qt.io/"

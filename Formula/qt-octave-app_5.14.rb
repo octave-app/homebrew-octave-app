@@ -1,14 +1,14 @@
-# Qt, version 5.13
+# Qt 5.14, hacked for Octave.app
 #
-# This formula is named qt_5.13 instead of qt@5.13 because having an "@" in the formula
+# This formula is named qt_5.14 instead of qt@5.14 because having an "@" in the formula
 # name causes a ninja build error.
-class Qt513 < Formula
-  desc "Cross-platform application and UI framework, 5.13 version"
+class QtOctaveApp514 < Formula
+  desc "Cross-platform application and UI framework, 5.14 version, Octave.app-hacked version"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.13/5.13.2/single/qt-everywhere-src-5.13.2.tar.xz"
-  mirror "https://qt.mirror.constant.com/archive/qt/5.13/5.13.2/single/qt-everywhere-src-5.13.2.tar.xz"
-  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.13.2.tar.xz"
-  sha256 "55e8273536be41f4f63064a79e552a22133848bb419400b6fa8e9fc0dc05de08"
+  url "https://download.qt.io/official_releases/qt/5.14/5.14.1/single/qt-everywhere-src-5.14.1.tar.xz"
+  mirror "https://qt.mirror.constant.com/archive/qt/5.14/5.14.1/single/qt-everywhere-src-5.14.1.tar.xz"
+  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.14.1.tar.xz"
+  sha256 "6f17f488f512b39c2feb57d83a5e0a13dcef32999bea2e2a8f832f54a29badb8"
 
   head "https://code.qt.io/qt/qt5.git", :branch => "dev", :shallow => false
 
@@ -17,6 +17,13 @@ class Qt513 < Formula
   depends_on "pkg-config" => :build
   depends_on :xcode => :build
   depends_on :macos => :sierra
+
+  # Disable FSEventStreamFlushSync to avoid warnings in the GUI
+  # See https://github.com/octave-app/octave-app-bundler/issues/13
+  patch do
+    url "https://raw.githubusercontent.com/octave-app/formula-patches/0ffa4aa98468b2355b5cc4424ed41cf869a0ee58/qt/disable-FSEventStreamFlushSync.patch"
+    sha256 "f21a965257a567244e200c48eb5e81ebdf5e94900254c59b71340492a38e06fb"
+  end
 
   def install
     args = %W[

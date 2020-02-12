@@ -1,5 +1,4 @@
-# Patches for Qt must be at the very least submitted to Qt's Gerrit codereview
-# rather than their bug-report Jira. The latter is rarely reviewed by Qt.
+# Qt, version 5.14
 #
 # This formula is named qt_5.14 instead of qt@5.14 because having an "@" in the formula
 # name causes a ninja build error.
