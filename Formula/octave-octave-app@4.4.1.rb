@@ -1,11 +1,4 @@
-# GNU Octave, Qt-enabled, with build customized for Octave.app
-#
-# This version of Octave is kept at the current version. It is only
-# used for grabbing the dependencies of Octave; it is not used for
-# building Octave.app itself. The versioned octave formulae are used
-# for that. This formula does not have versioned dependencies.
-# This is kept separate from Homebrew's main "octave" formula so we
-# can fiddle around with its version independently.
+# GNU Octave 4.4.1, Qt-enabled, with build customized for Octave.app
 
 class MacTeXRequirement < Requirement
   fatal true

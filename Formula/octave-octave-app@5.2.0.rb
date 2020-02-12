@@ -1,4 +1,4 @@
-# GNU Octave, Qt-enabled, with build customized for Octave.app
+# GNU Octave 5.2.0, Qt-enabled, with build customized for Octave.app
 #
 # This builds against the specific Qt 5.12 LTS instead of the "current" default
 # Qt because the build fails against Qt 5.13, and also we want to use LTS Qt
