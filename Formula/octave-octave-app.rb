@@ -27,8 +27,8 @@ end
 class OctaveOctaveApp < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "ftp://ftp.gnu.org/gnu/octave/octave-5.1.0.tar.lz"
-  sha256 "0633a2e6149350f4aaa1b107c90a486069110bb07805b285ee70052cfced9c87"
+  url "ftp://ftp.gnu.org/gnu/octave/octave-5.2.0.tar.lz"
+  sha256 "86ae3ad64380e0727e4e2d696d13e226e15722ece6b22cf94354fd6e0d6e88a0"
 
   keg_only "so it can be installed alongside regular octave"
 

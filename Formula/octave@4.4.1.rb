@@ -1,9 +1,9 @@
-# GNU Octave, Qt-enabled, version 4.4.1
+# GNU Octave 4.4.1, Qt-enabled, with macOS patches, but not Octave.app customizations
 #
 # This formula is here for historical interest. You probably want to use
 # octave-octave-app@4.4.1 instead.
 #
-# TODO: Decide whether this should build against the versioned qt_5.11 or the
+# TODO: Decide whether this should build against the versioned qt_5.12 or the
 # regular floating qt.
 
 class MacTeXRequirement < Requirement

@@ -1,4 +1,8 @@
-# GNU Octave 5.1.0, Qt-enabled, with macOS patches, but not Octave.app customizations
+# GNU Octave, Qt-enabled, with build customized for Octave.app
+#
+# This builds against the specific Qt 5.12 LTS instead of the "current" default
+# Qt because the build fails against Qt 5.13, and also we want to use LTS Qt
+# releases.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -13,11 +17,11 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveAT510 < Formula
+class OctaveOctaveAppAT520 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "ftp://ftp.gnu.org/gnu/octave/octave-5.1.0.tar.lz"
-  sha256 "0633a2e6149350f4aaa1b107c90a486069110bb07805b285ee70052cfced9c87"
+  url "ftp://ftp.gnu.org/gnu/octave/octave-5.2.0.tar.lz"
+  sha256 "86ae3ad64380e0727e4e2d696d13e226e15722ece6b22cf94354fd6e0d6e88a0"
 
   keg_only "so it can be installed alongside regular octave"
 
@@ -25,9 +29,9 @@ class OctaveAT510 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt"
-  @qscintilla2_formula = "qscintilla2"
-  @gnuplot_formula = "gnuplot"
+  @qt_formula = "qt-octave-app"
+  @qscintilla2_formula = "qscintilla2-octave-app"
+  @gnuplot_formula = "gnuplot-octave-app"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
@@ -38,13 +42,13 @@ class OctaveAT510 < Formula
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
-  depends_on "fig2dev"
+  depends_on "fig2dev-octave-app"
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on "gnuplot"
+  depends_on @gnuplot_formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
@@ -68,23 +72,38 @@ class OctaveAT510 < Formula
     depends_on @qt_formula
     depends_on @qscintilla2_formula
 
+    # Fix bug #50025: Octave window freezes
+    # see https://savannah.gnu.org/bugs/?50025
+    patch do
+      url "https://savannah.gnu.org/support/download.php?file_id=45382"
+      sha256 "e179c3a0e53f6f0f4a48b5adafd18c0f9c33de276748b8049c7d1007282f7f6e"
+    end
+
     # Fix bug #55268: crash during build
     # see https://savannah.gnu.org/bugs/index.php?55268
     patch do
       url "https://savannah.gnu.org/bugs/download.php?file_id=45733"
       sha256 "d7937a083af72d74f073c9dbc59feab178e00ca0ce952f61fa3430b9eafaa2e1"
     end
+
+    # Fix bug https://github.com/octave-app/octave-app-bundler/issues/10
+    # tar.m and unpack.m use plain "tar" but expect a GNU tar
+    patch do
+      url "https://raw.githubusercontent.com/octave-app/formula-patches/80d1a98d982e4207e66d424c7cc685536607c66c/octave/4.4.0-gtar-instead-of-tar.patch"
+      sha256 "25a14fabf39841a4089667ebc5c326a2d40640b99432ae97ae49ce0a9a496878"
+    end
+
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt"
-    @qscintilla2_formula = "qscintilla2"
-    @gnuplot_formula = "gnuplot"
+    @qt_formula = "qt-octave-app"
+    @qscintilla2_formula = "qscintilla2-octave-app"
+    @gnuplot_formula = "gnuplot-octave-app"
   
-      # Hack: munge HG-ID to reflect that we're adding patches
+    # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
@@ -124,7 +143,7 @@ class OctaveAT510 < Formula
       args << "--with-qt=5"
       # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
       # source hasn't been updated to auto-detect this yet.
-      ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
+      #ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
       ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
       ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
@@ -137,6 +156,9 @@ class OctaveAT510 < Formula
     else
       ENV.prepend_path "PATH", "/Library/TeX/texbin/"
     end
+
+    # Force use of our bundled JDK
+    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
     # fix aclocal version issue
     system "autoreconf", "-f", "-i"
@@ -168,13 +190,13 @@ class OctaveAT510 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula[@qt_formula].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@5.1.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app@5.1.0"
   end
 
   test do
