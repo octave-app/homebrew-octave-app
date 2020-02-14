@@ -51,7 +51,7 @@ class OctaveAT520 < Formula
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"
-  depends_on "openjdk"
+  depends_on "openjdk@11"
   depends_on "pcre"
   depends_on "portaudio"
   depends_on "pstoedit"

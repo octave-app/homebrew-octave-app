@@ -55,7 +55,7 @@ class OctaveOctaveAppAT510 < Formula
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"
-  depends_on "openjdk"
+  depends_on "openjdk@11"
   depends_on "pcre"
   depends_on "portaudio"
   depends_on "pstoedit"
@@ -164,7 +164,7 @@ class OctaveOctaveAppAT510 < Formula
     end
 
     # Force use of our bundled JDK
-    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
+    ENV['JAVA_HOME']="#{Formula["openjdk@11"].opt_prefix}"
 
     # fix aclocal version issue
     system "autoreconf", "-f", "-i"
