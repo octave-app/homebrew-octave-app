@@ -64,6 +64,7 @@ class OctaveOctaveAppAT441 < Formula
 
   # Dependencies for Octave Forge packages
   depends_on "cfitsio"  # fits package
+  depends_on "gsl"      # gsl package
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
