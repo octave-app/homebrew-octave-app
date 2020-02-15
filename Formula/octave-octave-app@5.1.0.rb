@@ -71,6 +71,7 @@ class OctaveOctaveAppAT510 < Formula
   depends_on "cfitsio"  # fits package
   depends_on "gsl"      # gsl package
   depends_on "proj@5"   # octproj package
+  depends_on "zeromq"   # zeromq package
 
   # Get Octave to build with JDKs newer than Java 11
   # See: https://savannah.gnu.org/patch/index.php?9806

@@ -79,6 +79,7 @@ class OctaveOctaveApp < Formula
   depends_on "cfitsio"  # fits package
   depends_on "gsl"      # gsl package
   depends_on "proj"     # octproj package
+  depends_on "zeromq"   # zeromq package
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
