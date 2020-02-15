@@ -67,6 +67,9 @@ class OctaveOctaveAppAT510 < Formula
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
+  # Dependencies for Octave Forge packages
+  depends_on "cfitsio"  # fits package
+
   # Get Octave to build with JDKs newer than Java 11
   # See: https://savannah.gnu.org/patch/index.php?9806
   patch do

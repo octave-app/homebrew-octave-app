@@ -75,6 +75,9 @@ class OctaveOctaveApp < Formula
   depends_on "veclibfort"
   depends_on MacTeXRequirement if build.with?("docs")
 
+  # Dependencies for Octave Forge packages
+  depends_on "cfitsio"  # fits package
+
   # Dependencies for the graphical user interface
   if build.with?("qt")
     depends_on @qt_formula

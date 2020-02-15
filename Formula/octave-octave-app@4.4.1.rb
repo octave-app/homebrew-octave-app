@@ -62,6 +62,9 @@ class OctaveOctaveAppAT441 < Formula
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
+  # Dependencies for Octave Forge packages
+  depends_on "cfitsio"  # fits package
+
   # Dependencies for the graphical user interface
   if build.with?("qt")
     depends_on @qt_formula
