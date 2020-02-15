@@ -102,10 +102,11 @@ class OctaveOctaveAppQt514AT52 < Formula
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt_5.11"
-    @qscintilla2_formula = "qscintilla2-qt511"
-    @gnuplot_formula = "gnuplot-qt511"
-      # Hack: munge HG-ID to reflect that we're adding patches
+    @qt_formula = "qt_5.14"
+    @qscintilla2_formula = "qscintilla2-qt514"
+    @gnuplot_formula = "gnuplot-qt514"
+
+    # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
@@ -198,7 +199,7 @@ class OctaveOctaveAppQt514AT52 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app-qt511@5.1.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app-qt514@5.2.0"
   end
 
   test do
