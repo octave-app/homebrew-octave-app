@@ -55,7 +55,7 @@ class OctaveOctaveAppAT520 < Formula
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"
-  depends_on "openjdk@11"
+  depends_on "openjdk"
   depends_on "pcre"
   depends_on "portaudio"
   depends_on "pstoedit"
@@ -66,6 +66,13 @@ class OctaveOctaveAppAT520 < Formula
   depends_on "sundials@2"
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
+
+  # Get Octave to build with JDKs newer than Java 11
+  # See: https://savannah.gnu.org/patch/index.php?9806
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/master/octave/5.1.0-java-version.patch"
+    sha256 "7ea1e9b410a759fa136d153fb8482ecfc3425a39bfe71c1e71b3ff0f7d9a0b54"
+  end
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
@@ -158,7 +165,7 @@ class OctaveOctaveAppAT520 < Formula
     end
 
     # Force use of our bundled JDK
-    ENV['JAVA_HOME']="#{Formula["openjdk@11"].opt_prefix}"
+    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
     # fix aclocal version issue
     system "autoreconf", "-f", "-i"
