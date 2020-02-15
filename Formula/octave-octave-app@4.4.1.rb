@@ -65,6 +65,7 @@ class OctaveOctaveAppAT441 < Formula
   # Dependencies for Octave Forge packages
   depends_on "cfitsio"  # fits package
   depends_on "gsl"      # gsl package
+  depends_on "mpfr"     # interval package
   depends_on "proj@5"   # octproj package
   depends_on "zeromq"   # zeromq package
 
