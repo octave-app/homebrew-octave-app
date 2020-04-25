@@ -9,10 +9,10 @@
 class QtOctaveApp < Formula
   desc "Cross-platform application and UI framework, Octave.app-hacked version"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.14/5.14.1/single/qt-everywhere-src-5.14.1.tar.xz"
-  mirror "https://qt.mirror.constant.com/archive/qt/5.14/5.14.1/single/qt-everywhere-src-5.14.1.tar.xz"
+  url "https://download.qt.io/official_releases/qt/5.14/5.14.2/single/qt-everywhere-src-5.14.2.tar.xz"
+  mirror "https://qt.mirror.constant.com/archive/qt/5.14/5.14.2/single/qt-everywhere-src-5.14.2.tar.xz"
   mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.14.1.tar.xz"
-  sha256 "6f17f488f512b39c2feb57d83a5e0a13dcef32999bea2e2a8f832f54a29badb8"
+  sha256 "c6fcd53c744df89e7d3223c02838a33309bd1c291fcb6f9341505fe99f7f19fa"
   head "https://code.qt.io/qt/qt5.git", :branch => "5.14", :shallow => false
 
   keg_only "Qt 5 has CMake issues when linked"
