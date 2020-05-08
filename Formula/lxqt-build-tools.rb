@@ -1,8 +1,8 @@
 class LxqtBuildTools < Formula
   desc "Various packaging tools and scripts for LXQt applications"
   homepage "http://lxqt.org"
-  url "https://github.com/lxqt/lxqt-build-tools/releases/download/0.6.0/lxqt-build-tools-0.6.0.tar.xz"
-  sha256 "2488f1105ba8008996b4f6a0df5c556c657c733a47a422ea3f2e59115c051758"
+  url "https://github.com/lxqt/lxqt-build-tools/releases/download/0.7.0/lxqt-build-tools-0.7.0.tar.xz"
+  sha256 "85fe1946a92731f22585c30eda8bea923f5221ffbea0e31dc834d722d86cfb90"
   head "https://github.com/lxqt/lxqt-build-tools.git"
   
   depends_on "cmake" => :build

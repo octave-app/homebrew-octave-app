@@ -4,8 +4,8 @@
 class Qterminal < Formula
   desc "A lightweight Qt-based terminal emulator"
   homepage "http://lxqt.org"
-  url "https://github.com/lxqt/qterminal/releases/download/0.14.1/qterminal-0.14.1.tar.xz"
-  sha256 "e018ece0bd38124a2879a6fbb76dd6b9d70ae2b231845650ad363eeca756fe31"
+  url "https://github.com/lxqt/qterminal/releases/download/0.15.0/qterminal-0.15.0.tar.xz"
+  sha256 "557f74a946d009bb6e598c5d0c6de9356cda325f674876a457874c7525affd64"
   head "https://github.com/lxqt/qterminal.git"
 
   depends_on "cmake" => :build
