@@ -185,7 +185,7 @@ class OctaveAT6090 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@5.2.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@6.0.90"
   end
 
   def caveats; <<~EOS
