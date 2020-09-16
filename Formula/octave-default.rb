@@ -35,7 +35,7 @@ class OctaveDefault < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "autoconf" => :build
-  depends_on "bison@3.2" => :build
+  depends_on "bison" => :build
   depends_on "doxygen" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
   depends_on "icoutils" => :build
