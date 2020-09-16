@@ -68,7 +68,7 @@ class OctaveStable < Formula
   depends_on "qrupdate"
   depends_on "readline"
   depends_on "suite-sparse"
-  depends_on "sundials@2"
+  depends_on "sundials"
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on :java => ["1.8+", :recommended]
   depends_on MacTeXRequirement if build.with?("docs")
@@ -111,7 +111,7 @@ class OctaveStable < Formula
     inreplace "src/mkoctfile.in.cc", /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/, '""'
 
     # Pick up non-linked libraries
-    ENV.append "CXXFLAGS", "-I#{Formula["sundials@2"].opt_include}"
+    ENV.append "CXXFLAGS", "-I#{Formula["sundials"].opt_include}"
     ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2"].opt_include}"
     ENV.append "LDFLAGS", "-L#{Formula["qscintilla2"].opt_lib}"
 
