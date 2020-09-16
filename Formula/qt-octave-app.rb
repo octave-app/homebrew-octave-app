@@ -9,11 +9,12 @@
 class QtOctaveApp < Formula
   desc "Cross-platform application and UI framework, Octave.app-hacked version"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.14/5.14.2/single/qt-everywhere-src-5.14.2.tar.xz"
-  mirror "https://qt.mirror.constant.com/archive/qt/5.14/5.14.2/single/qt-everywhere-src-5.14.2.tar.xz"
-  mirror "https://ftp.osuosl.org/pub/blfs/conglomeration/qt5/qt-everywhere-src-5.14.1.tar.xz"
-  sha256 "c6fcd53c744df89e7d3223c02838a33309bd1c291fcb6f9341505fe99f7f19fa"
-  head "https://code.qt.io/qt/qt5.git", :branch => "5.14", :shallow => false
+  url "https://download.qt.io/official_releases/qt/5.15/5.15.1/single/qt-everywhere-src-5.15.1.tar.xz"
+  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.1/single/qt-everywhere-src-5.15.1.tar.xz"
+  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.1/single/qt-everywhere-src-5.15.1.tar.xz"
+  sha256 "44da876057e21e1be42de31facd99be7d5f9f07893e1ea762359bcee0ef64ee9"
+  
+  head "https://code.qt.io/qt/qt5.git", :branch => "5.15", :shallow => false
 
   keg_only "Qt 5 has CMake issues when linked"
 
@@ -73,6 +74,12 @@ class QtOctaveApp < Formula
     args << "-proprietary-codecs" if build.with? "proprietary-codecs"
 
     system "./configure", *args
+
+    # Remove reference to shims directory
+    inreplace "qtbase/mkspecs/qmodule.pri",
+              /^PKG_CONFIG_EXECUTABLE = .*$/,
+              "PKG_CONFIG_EXECUTABLE = #{Formula["pkg-config"].opt_bin/"pkg-config"}"
+
     system "make"
     ENV.deparallelize
     system "make", "install"

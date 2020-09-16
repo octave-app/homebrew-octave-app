@@ -1,3 +1,4 @@
+#TODO: Document why we use the old bison 3.2 instead of current 3.7+
 class BisonAT32 < Formula
   desc "Parser generator"
   homepage "https://www.gnu.org/software/bison/"
