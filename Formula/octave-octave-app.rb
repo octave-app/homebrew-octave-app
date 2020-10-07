@@ -58,6 +58,7 @@ class OctaveOctaveApp < Formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
+  depends_on "librsb" # for sparsersb Forge package
   depends_on "librsvg"
   depends_on "libsndfile"
   depends_on "libtool"
@@ -110,10 +111,11 @@ class OctaveOctaveApp < Formula
 
     # Fix bug #55836: Add 1024x1024 app icon
     # see https://savannah.gnu.org/bugs/index.php?55836
-    patch do
-      url "https://savannah.gnu.org/bugs/download.php?file_id=46433"
-      sha256 "f00383db6fb0c1d1032017a90840bd13cc7b6e52b47a8124a4fc7abd03d72b3b"
-    end
+    # Fails to apply as of 2020-10-05?
+    #patch do
+    #  url "https://savannah.gnu.org/bugs/download.php?file_id=46433"
+    #  sha256 "f00383db6fb0c1d1032017a90840bd13cc7b6e52b47a8124a4fc7abd03d72b3b"
+    #end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
