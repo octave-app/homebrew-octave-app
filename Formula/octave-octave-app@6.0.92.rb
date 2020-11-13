@@ -1,4 +1,4 @@
-# GNU Octave 6.0.90 RELEASE CANDIDATE, Qt-enabled, with build customized for Octave.app
+# GNU Octave 6.0.92 RELEASE CANDIDATE, Qt-enabled, with build customized for Octave.app
 #
 # This is pre-release software!
 
@@ -15,11 +15,11 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctaveAppAT6090 < Formula
+class OctaveOctaveAppAT6092 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "ftp://alpha.gnu.org/gnu/octave/octave-6.0.90.tar.lz"
-  sha256 "d50a5074dbe1c26d56f9f740e09c73f7be42baf8abe804707a43e5df2519b360"
+  url "ftp://alpha.gnu.org/gnu/octave/octave-6.0.92.tar.lz"
+  sha256 "27326ef4af61f5524325bdabf27be47da6b5988698a95fd81b2a30b598f4b2b2"
 
   keg_only "so it can be installed alongside regular octave"
 
