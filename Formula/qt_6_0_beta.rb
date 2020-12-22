@@ -1,29 +1,16 @@
-# Qt 5.15 LTS, hacked for Octave.app
+# Qt, version 6.0 Beta
 #
-# This formula is named qt-octave-app_5.15 instead of qt-octave-app@5.15 because having an "@" in the formula
-# name causes a ninja build error.
-class QtOctaveApp515 < Formula
-  desc "Cross-platform application and UI framework, 5.15 version, Octave.app-hacked version"
+class Qt60Beta < Formula
+  desc "Cross-platform application and UI framework, 6.0 beta version"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz"
-  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz"
-  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz"
-  sha256 "3a530d1b243b5dec00bc54937455471aaa3e56849d2593edb8ded07228202240"
-
-  head "https://code.qt.io/qt/qt5.git", :branch => "dev", :shallow => false
+  url "https://download.qt.io/development_releases/qt/6.0/6.0.0-beta4/single/qt-everywhere-src-6.0.0-beta4.tar.xz"
+  sha256 "3b35a834491408e74c4ea97c6599e44d0657fcd00a0709083815d25a507d6899"
 
   keg_only "versioned formula"
 
   depends_on "pkg-config" => :build
   depends_on :xcode => :build
   depends_on :macos => :sierra
-
-  # Disable FSEventStreamFlushSync to avoid warnings in the GUI
-  # See https://github.com/octave-app/octave-app-bundler/issues/13
-  patch do
-    url "https://raw.githubusercontent.com/octave-app/formula-patches/0ffa4aa98468b2355b5cc4424ed41cf869a0ee58/qt/disable-FSEventStreamFlushSync.patch"
-    sha256 "f21a965257a567244e200c48eb5e81ebdf5e94900254c59b71340492a38e06fb"
-  end
 
   def install
     args = %W[

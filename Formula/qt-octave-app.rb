@@ -9,10 +9,10 @@
 class QtOctaveApp < Formula
   desc "Cross-platform application and UI framework, Octave.app-hacked version"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.15/5.15.1/single/qt-everywhere-src-5.15.1.tar.xz"
-  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.1/single/qt-everywhere-src-5.15.1.tar.xz"
-  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.1/single/qt-everywhere-src-5.15.1.tar.xz"
-  sha256 "44da876057e21e1be42de31facd99be7d5f9f07893e1ea762359bcee0ef64ee9"
+  url "https://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz"
+  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz"
+  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz"
+  sha256 "3a530d1b243b5dec00bc54937455471aaa3e56849d2593edb8ded07228202240"
   
   head "https://code.qt.io/qt/qt5.git", :branch => "5.15", :shallow => false
 

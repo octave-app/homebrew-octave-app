@@ -19,7 +19,6 @@ class GnuplotOctaveApp < Formula
   option "with-wxmac", "Build wxmac support. Need with-cairo to build wxt terminal"
   option "without-qt", "Build without Qt support"
 
-  deprecated_option "with-x" => "with-x11"
   deprecated_option "wx" => "with-wxmac"
   deprecated_option "cairo" => "with-cairo"
   deprecated_option "nolua" => "without-lua"
@@ -32,7 +31,6 @@ class GnuplotOctaveApp < Formula
   depends_on "pango" if build.with?("cairo") || build.with?("wxmac")
   depends_on "qt-octave-app" if build.with?("qt")
   depends_on "wxmac" => :optional
-  depends_on :x11 => :optional
 
   resource "libcerf" do
     url "http://apps.jcns.fz-juelich.de/src/libcerf/libcerf-1.5.tgz"
@@ -79,7 +77,6 @@ class GnuplotOctaveApp < Formula
     end
 
     args << (build.with?("aquaterm") ? "--with-aquaterm" : "--without-aquaterm")
-    args << (build.with?("x11") ? "--with-x" : "--without-x")
 
     system "./prepare" if build.head?
     system "./configure", *args
