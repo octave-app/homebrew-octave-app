@@ -63,6 +63,7 @@ class GnuplotOctaveApp < Formula
       --prefix=#{prefix}
       --with-readline=#{Formula["readline"].opt_prefix}
       --without-tutorial
+      --without-x
     ]
 
     if build.without? "wxmac"
