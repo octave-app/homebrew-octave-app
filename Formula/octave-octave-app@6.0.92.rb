@@ -53,6 +53,7 @@ class OctaveOctaveAppAT6092 < Formula
   depends_on "librsb" # for sparsersb Forge package
   depends_on "libsndfile"
   depends_on "libtool"
+  depends_on "netcdf"
   depends_on "openblas"
   depends_on "openjdk"
   depends_on "pcre"

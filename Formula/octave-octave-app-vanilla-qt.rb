@@ -49,6 +49,7 @@ class OctaveOctaveAppVanillaQt < Formula
   depends_on "gnu-tar-octave-app"
   depends_on "graphicsmagick"
   depends_on "hdf5"
+  depends_on "netcdf"
   depends_on "librsb" # for sparsersb Forge package
   depends_on "libsndfile"
   depends_on "libtool"
