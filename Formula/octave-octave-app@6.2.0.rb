@@ -1,11 +1,4 @@
-# GNU Octave, Qt-enabled, with build customized for Octave.app
-#
-# This version of Octave is kept at the current version. It is only
-# used for grabbing the dependencies of Octave; it is not used for
-# building Octave.app itself. The versioned octave formulae are used
-# for that. This formula does not have versioned dependencies.
-# This is kept separate from Homebrew's main "octave" formula so we
-# can fiddle around with its version independently.
+# GNU Octave 6.2.0, Qt-enabled, with build customized for Octave.app
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -20,7 +13,7 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctaveApp < Formula
+class OctaveOctaveAppAT620 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "ftp://ftp.gnu.org/gnu/octave/octave-6.2.0.tar.lz"
@@ -40,6 +33,7 @@ class OctaveOctaveApp < Formula
   depends_on "automake" => :build
   depends_on "autoconf" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
+  depends_on "librsvg" => :build
   depends_on "pkg-config" => :build
   depends_on "arpack"
   depends_on "epstool"
@@ -55,7 +49,6 @@ class OctaveOctaveApp < Formula
   depends_on "graphicsmagick"
   depends_on "hdf5"
   depends_on "librsb" # for sparsersb Forge package
-  depends_on "librsvg"
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "netcdf"
@@ -68,16 +61,15 @@ class OctaveOctaveApp < Formula
   depends_on "qrupdate"
   depends_on "readline"
   depends_on "suite-sparse"
-  depends_on "sundials@2"
+  depends_on "sundials"
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
-  depends_on "veclibfort"
   depends_on MacTeXRequirement if build.with?("docs")
 
   # Dependencies for Octave Forge packages
   depends_on "cfitsio"  # fits package
   depends_on "gsl"      # gsl package
   depends_on "mpfr"     # interval package
-  depends_on "proj"     # octproj package
+  depends_on "proj@5"   # octproj package
   depends_on "zeromq"   # zeromq package
 
   # Dependencies for the graphical user interface
@@ -93,7 +85,7 @@ class OctaveOctaveApp < Formula
     @qt_formula = "qt-octave-app"
     @qscintilla2_formula = "qscintilla2-octave-app"
     @gnuplot_formula = "gnuplot-octave-app"
-    
+  
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
@@ -108,7 +100,7 @@ class OctaveOctaveApp < Formula
     inreplace "src/mkoctfile.in.cc", /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/, '""'
 
     # Pick up keg-only libraries
-    ENV.append "CXXFLAGS", "-I#{Formula["sundials@2"].opt_include}"
+    ENV.append "CXXFLAGS", "-I#{Formula["sundials"].opt_include}"
     ENV.append "CXXFLAGS", "-I#{Formula[@qscintilla2_formula].opt_include}"
     ENV.append "LDFLAGS", "-L#{Formula[@qscintilla2_formula].opt_lib}"
 
@@ -134,7 +126,7 @@ class OctaveOctaveApp < Formula
       args << "--with-qt=5"
       # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
       # source hasn't been updated to auto-detect this yet.
-      ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
+      #ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
       ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
       ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
@@ -187,12 +179,12 @@ class OctaveOctaveApp < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app@6.0.90"
   end
 
   test do
     system bin/"octave", "--eval", "(22/7 - pi)/pi"
-    # This is supposed to crash octave if there is a problem with veclibfort
+    # This is supposed to crash octave if there is a problem with BLAS
     system bin/"octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
     # Test java bindings: check if javaclasspath is working, return error if not
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"

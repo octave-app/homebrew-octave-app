@@ -6,6 +6,7 @@
 # This formula will track the version of Qt we're using for Octave.app builds, which
 # might be the LTS version, the latest version, or something else, depending on what
 # works best for Octave.app.
+
 class QtOctaveApp < Formula
   desc "Cross-platform application and UI framework, Octave.app-hacked version"
   homepage "https://www.qt.io/"
