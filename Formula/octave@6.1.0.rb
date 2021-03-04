@@ -13,7 +13,7 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveAT6092 < Formula
+class OctaveAT610 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "ftp://alpha.gnu.org/gnu/octave/octave-6.1.0.tar.lz"
