@@ -6,7 +6,7 @@ cask 'octave-app' do
   name 'Octave'
   homepage 'https://octave-app.org'
 
-  auto_updates true
+  auto_updates false
  
   livecheck do
     url "https://github.com/octave-app/octave-app/releases"
