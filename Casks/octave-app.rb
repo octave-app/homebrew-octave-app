@@ -16,5 +16,5 @@ cask 'octave-app' do
 
   depends_on macos: '>= :mojave'
 
-  app 'Octave-#{version}.app'
+  app 'Octave-6.2.0.app'
 end
