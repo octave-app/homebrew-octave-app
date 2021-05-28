@@ -1,14 +1,20 @@
 cask 'octave-app' do
-  version '6.1.0'
-  sha256 'fe45f23e307e922e6ad75d3e4ef1b357b3e4d656205f659741986704f96a17f7'
+  version '6.2.0'
+  sha256 'f847a22d386cbb357d996d8a67f03969f9a668d14f512b3890cdd18ec9a2a958'
 
-  url "https://github.com/octave-app/octave-app/releases/download/v6.1.0/Octave-6.1.0.dmg"
+  url "https://github.com/octave-app/octave-app/releases/download/v#{version}/Octave-#{version}.dmg"
   name 'Octave'
   homepage 'https://octave-app.org'
 
+  auto_updates false
+ 
+  livecheck do
+    url "https://github.com/octave-app/octave-app/releases"
+    strategy :page_match
+    regex(%r{href=.*?/Octave[._-]?(\d+(?:\.\d+)+)\.dmg}i)
+  end
+
   depends_on macos: '>= :mojave'
 
-  auto_updates false
-
-  app 'Octave-6.1.0.app'
+  app 'Octave-6.2.0.app'
 end
