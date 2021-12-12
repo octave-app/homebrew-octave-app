@@ -12,6 +12,7 @@ class Qt515 < Formula
   mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.15/single/qt-everywhere-src-5.15.15.tar.xz"
   mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.15/single/qt-everywhere-src-5.15.15.tar.xz"
   sha256 "3a530d1b243b5dec00bc54937455471aaa3e56849d2593edb8ded07228202240"
+  license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
 
   head "https://code.qt.io/qt/qt5.git", :branch => "dev", :shallow => false
 
@@ -20,6 +21,34 @@ class Qt515 < Formula
   depends_on "pkg-config" => :build
   depends_on :xcode => :build
   depends_on :macos => :sierra
+
+  uses_from_macos "gperf" => :build
+  uses_from_macos "bison"
+  uses_from_macos "flex"
+  uses_from_macos "sqlite"
+
+  fails_with gcc: "5"
+
+  # Fix build for GCC 11
+  patch do
+    url "https://invent.kde.org/qt/qt/qtbase/commit/8252ef5fc6d043004ddf7085e1c1fe1bf2ca39f7.patch"
+    sha256 "8ab742b991ed5c43e8da4b1ce1982fd38fe611aaac3d57ee37728b59932b518a"
+    directory "qtbase"
+  end
+
+  # Fix build for GCC 11
+  patch do
+    url "https://invent.kde.org/qt/qt/qtbase/commit/cb2da673f53815a5cfe15f50df49b98032429f9e.patch"
+    sha256 "33304570431c0dd3becc22f3f0911ccfc781a1ce6c7926c3acb08278cd2e60c3"
+    directory "qtbase"
+  end
+
+  # Fix build for GCC 11
+  patch do
+    url "https://invent.kde.org/qt/qt/qtdeclarative/commit/4f08a2da5b0da675cf6a75683a43a106f5a1e7b8.patch"
+    sha256 "193c2e159eccc0592b7092b1e9ff31ad9556b38462d70633e507822f75d4d24a"
+    directory "qtdeclarative"
+  end
 
   def install
     args = %W[

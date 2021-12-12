@@ -18,11 +18,50 @@ class QtOctapp514 < Formula
   depends_on :xcode => :build
   depends_on :macos => :sierra
 
+  uses_from_macos "gperf" => :build
+  uses_from_macos "bison"
+  uses_from_macos "flex"
+  uses_from_macos "sqlite"
+
+  fails_with gcc: "5"
+
+  # Octave.app-specific patches
+
   # Disable FSEventStreamFlushSync to avoid warnings in the GUI
   # See https://github.com/octave-app/octave-app-bundler/issues/13
   patch do
     url "https://raw.githubusercontent.com/octave-app/formula-patches/0ffa4aa98468b2355b5cc4424ed41cf869a0ee58/qt/disable-FSEventStreamFlushSync.patch"
     sha256 "f21a965257a567244e200c48eb5e81ebdf5e94900254c59b71340492a38e06fb"
+  end
+
+  # Regular patches also used in main Homebrew formula
+
+  # Find SDK for 11.x macOS
+  # Upstreamed, remove when Qt updates Chromium
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/92d4cf/qt/5.15.2.diff"
+    sha256 "fa99c7ffb8a510d140c02694a11e6c321930f43797dbf2fe8f2476680db4c2b2"
+  end
+
+  # Fix build for GCC 11
+  patch do
+    url "https://invent.kde.org/qt/qt/qtbase/commit/8252ef5fc6d043004ddf7085e1c1fe1bf2ca39f7.patch"
+    sha256 "8ab742b991ed5c43e8da4b1ce1982fd38fe611aaac3d57ee37728b59932b518a"
+    directory "qtbase"
+  end
+
+  # Fix build for GCC 11
+  patch do
+    url "https://invent.kde.org/qt/qt/qtbase/commit/cb2da673f53815a5cfe15f50df49b98032429f9e.patch"
+    sha256 "33304570431c0dd3becc22f3f0911ccfc781a1ce6c7926c3acb08278cd2e60c3"
+    directory "qtbase"
+  end
+
+  # Fix build for GCC 11
+  patch do
+    url "https://invent.kde.org/qt/qt/qtdeclarative/commit/4f08a2da5b0da675cf6a75683a43a106f5a1e7b8.patch"
+    sha256 "193c2e159eccc0592b7092b1e9ff31ad9556b38462d70633e507822f75d4d24a"
+    directory "qtdeclarative"
   end
 
   def install
