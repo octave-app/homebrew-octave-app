@@ -186,11 +186,6 @@ class OctaveAT610 < Formula
     system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@6.0.90"
   end
 
-  def caveats; <<~EOS
-    Octave 6.0.90 is pre-release software! It may still be buggy!
-  EOS
-  end
-
   test do
     system bin/"octave", "--eval", "(22/7 - pi)/pi"
     # This is supposed to crash octave if there is a problem with BLAS
