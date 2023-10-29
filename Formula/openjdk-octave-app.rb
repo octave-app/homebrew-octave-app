@@ -1,3 +1,7 @@
+# OpenJDK as a formula, used back when Homebrew only shipped it as a cask, so we could
+# take a dep on it, and have it installed under the Homebrew prefix.
+# Some time around 2020, they converted openjdk to a regular formula, and this is probably
+# no longer needed.
 class OpenjdkOctaveApp < Formula
   desc "AdoptOpenJDK JDK, as a formula instead of a Cask"
   homepage "https://adoptopenjdk.net/"
