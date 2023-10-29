@@ -64,24 +64,13 @@ class OctaveDefault < Formula
   depends_on "pstoedit"
   depends_on "qhull"
   depends_on "qrupdate"
+  depends_on "qscintilla2" if build.with?("qt")
+  depends_on "qt" if build.with?("qt")
   depends_on "readline"
   depends_on "suite-sparse"
   depends_on "sundials"
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
-
-  # Dependencies for the graphical user interface
-  if build.with?("qt")
-    depends_on "qt"
-    depends_on "qscintilla2"
-
-    # Fix bug #55268: crash during build
-    # see https://savannah.gnu.org/bugs/index.php?55268
-    patch do
-      url "https://savannah.gnu.org/bugs/download.php?file_id=45733"
-      sha256 "d7937a083af72d74f073c9dbc59feab178e00ca0ce952f61fa3430b9eafaa2e1"
-    end
-  end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip

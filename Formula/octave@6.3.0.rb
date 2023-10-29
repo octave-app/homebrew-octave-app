@@ -80,7 +80,7 @@ class OctaveAT630 < Formula
     #end
   end
 
-  # Dependencies use Fortran, leading to spurious messages about GCC
+  # Suppress spurious messages about GCC caused by dependencies using Fortran
   cxxstdlib_check :skip
 
   def install

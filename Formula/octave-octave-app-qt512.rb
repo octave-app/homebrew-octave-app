@@ -7,6 +7,9 @@
 # for that. This formula does not have versioned dependencies.
 # This is kept separate from Homebrew's main "octave" formula so we
 # can fiddle around with its version independently.
+#
+# I can't remember why we have this "-qt512" variant. Maybe there were some
+# compatibility problems with newer Qt 5.x versions?
 
 class MacTeXRequirement < Requirement
   fatal true

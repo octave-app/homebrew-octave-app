@@ -62,6 +62,8 @@ class OctaveOctaveAppAT620 < Formula
   depends_on "pstoedit"
   depends_on "qhull"
   depends_on "qrupdate"
+  depends_on @qscintilla2_formula if build.with?("qt")
+  depends_on @qt_formula if build.with?("qt")
   depends_on "readline"
   depends_on "suite-sparse"
   depends_on "sundials"
@@ -74,12 +76,6 @@ class OctaveOctaveAppAT620 < Formula
   depends_on "mpfr"     # interval package
   depends_on "proj@5"   # octproj package
   depends_on "zeromq"   # zeromq package
-
-  # Dependencies for the graphical user interface
-  if build.with?("qt")
-    depends_on @qt_formula
-    depends_on @qscintilla2_formula
-  end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
@@ -94,7 +90,7 @@ class OctaveOctaveAppAT620 < Formula
     File.delete("HG-ID");
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
 
-    # do not execute a test that may trigger a dialog to install java
+    # Do not execute a test that may trigger a dialog to install Java
     inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
 
     # Default configuration passes all linker flags to mkoctfile, to be
@@ -146,31 +142,31 @@ class OctaveOctaveAppAT620 < Formula
     # Force use of our bundled JDK
     ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
-    # fix aclocal version issue
+    # Fix aclocal version issue
     system "autoreconf", "-f", "-i"
+
     system "./configure", *args
     system "make", "all"
 
     if build.with? "test"
       system "make check 2>&1 | tee \"test/make-check.log\""
-      # check if all tests have passed (FAIL 0)
+      # Check if all tests have passed (FAIL 0)
       results = File.readlines "test/make-check.log"
       matches = results.join("\n").match(/^\s*(FAIL)\s*0/i)
       if matches.nil?
         opoo "Some tests failed. Details are given in #{opt_prefix}/make-check.log."
       end
-      # install test results
+      # Install test results
       prefix.install "test/make-check.log"
     end
 
-    # make sure that Octave uses the modern texinfo
+    # Make sure that Octave uses the modern texinfo
     rcfile = buildpath/"scripts/startup/site-rcfile"
     rcfile.append_lines "makeinfo_program(\"#{Formula["texinfo"].opt_bin}/makeinfo\");"
 
     system "make", "install"
 
-    # create empty qt help to avoid error dialog of GUI
-    # if no documentation is found
+    # Create empty Qt help to avoid error dialog in GUI if no documentation is found
     if build.without?("docs") && build.with?("qt") && !build.stable?
       File.open("doc/octave_interpreter.qhcp", "w") do |f|
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
@@ -193,5 +189,4 @@ class OctaveOctaveAppAT620 < Formula
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
   end
 end
-
 

@@ -1,32 +1,48 @@
-# A version of Qscintilla2 customized to work with Octave.app's bundling scheme
-# This means it uses python2 instead of python@2.
+# Qscintilla2, Octave.app-hacked variant.
+# The Octave.app hacks are just having it depend on octapp-hacked versions of other
+# formulae, like qt and pyqt.
+
+# This is currently broken; it fails with an "empty install" error.
+# Ideas:
+#   * need an -octave-app variant of pyqt-builder?
+# Oh wait: it's the pyqt-octave-app dependency that's failing with "empty install"!
 class Qscintilla2OctaveApp < Formula
-  desc "Port to Qt of the Scintilla editing component"
+  desc "Port to Qt of the Scintilla editing component, Octave.app-hacked variant"
   homepage "https://www.riverbankcomputing.com/software/qscintilla/intro"
-  url "https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.11.5/QScintilla-2.11.5.tar.gz"
-  sha256 "9361e26fd7fb7b5819a7eb92c5c1880a18de9bd3ed9dd2eb008e57388696716b"
+  url "https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.14.1/QScintilla_src-2.14.1.tar.gz"
+  sha256 "dfe13c6acc9d85dfcba76ccc8061e71a223957a6c02f3c343b30a9d43a4cdd4d"
+  license "GPL-3.0-only"
 
   keg_only "conflicts with regular qscintilla2"
 
-  option "with-plugin", "Build the Qt Designer plugin"
-  option "with-python", "Build Python3 bindings"
-  option "with-python2", "Build Python2 bindings"
-
-  depends_on "qt-octave-app"
-  depends_on "python" => :optional
-  depends_on "python2" => :optional
+  depends_on "pyqt-builder" => :build
   
-  if build.with?("python") || build.with?("python2")
-    depends_on "pyqt-octave-app"
-    depends_on "sip-octave-app"
+  depends_on "pyqt-octave-app"
+  depends_on "python@3.11"
+  depends_on "qt-octave-app"
+  # TODO: Do we really need a sip-octave-app variant at all any more, now that things have
+  # settled on Python 3?
+  # depends_on "sip-octave-app"
+  depends_on "sip"
+
+  fails_with gcc: "5"
+
+  def python3
+    "python3.11"
   end
 
   def install
-    spec = (ENV.compiler == :clang && MacOS.version >= :mavericks) ? "macx-clang" : "macx-g++"
+    spec = (ENV.compiler == :clang) ? "macx-clang" : "macx-g++"
     args = %W[-config release -spec #{spec}]
 
-    cd "Qt4Qt5" do
+    pyqt = Formula["pyqt-octave-app"]
+    qt = Formula["qt-octave-app"]
+    site_packages = Language::Python.site_packages(python3)
+
+    cd "src" do
       inreplace "qscintilla.pro" do |s|
+        s.gsub! "QMAKE_POST_LINK += install_name_tool -id @rpath/$(TARGET1) $(TARGET)",
+          "QMAKE_POST_LINK += install_name_tool -id #{lib}/$(TARGET1) $(TARGET)"
         s.gsub! "$$[QT_INSTALL_LIBS]", lib
         s.gsub! "$$[QT_INSTALL_HEADERS]", include
         s.gsub! "$$[QT_INSTALL_TRANSLATIONS]", prefix/"trans"
@@ -39,57 +55,36 @@ class Qscintilla2OctaveApp < Formula
         s.gsub! "$$[QT_INSTALL_HEADERS]", include
       end
 
-      system "qmake", "qscintilla.pro", *args
+      system qt.opt_bin/"qmake", "qscintilla.pro", *args
       system "make"
       system "make", "install"
     end
 
-    # Add qscintilla2 features search path, since it is not installed in Qt keg's mkspecs/features/
-    ENV["QMAKEFEATURES"] = prefix/"data/mkspecs/features"
+    cd "Python" do
+      mv "pyproject-qt#{qt.version.major}.toml", "pyproject.toml"
+      (buildpath/"Python/pyproject.toml").append_lines <<~EOS
+        [tool.sip.project]
+        sip-include-dirs = ["#{pyqt.opt_prefix/site_packages}/PyQt#{pyqt.version.major}/bindings"]
+      EOS
 
-    if build.with?("python") || build.with?("python2")
-      cd "Python" do
-        Language::Python.each_python(build) do |python, version|
-          (share/"sip").mkpath
-          system python, "configure.py", "-o", lib, "-n", include,
-                           "--apidir=#{prefix}/qsci",
-                           "--destdir=#{lib}/python#{version}/site-packages/PyQt5",
-                           "--stubsdir=#{lib}/python#{version}/site-packages/PyQt5",
-                           "--qsci-sipdir=#{share}/sip",
-                           "--qsci-incdir=#{include}",
-                           "--qsci-libdir=#{lib}",
-                           "--pyqt=PyQt5",
-                           "--pyqt-sipdir=#{Formula["pyqt-octave-app"].opt_share}/sip/Qt5",
-                           "--sip-incdir=#{Formula["sip-octave-app"].opt_include}",
-                           "--spec=#{spec}"
-          system "make"
-          system "make", "install"
-          system "make", "clean"
-        end
-      end
-    end
-
-    if build.with? "plugin"
-      mkpath prefix/"plugins/designer"
-      cd "designer-Qt4Qt5" do
-        inreplace "designer.pro" do |s|
-          s.sub! "$$[QT_INSTALL_PLUGINS]", "#{lib}/qt/plugins"
-          s.sub! "$$[QT_INSTALL_LIBS]", lib
-        end
-        system "qmake", "designer.pro", *args
-        system "make"
-        system "make", "install"
-      end
+      args = %W[
+        --target-dir #{prefix/site_packages}
+        --qsci-features-dir #{prefix}/data/mkspecs/features
+        --qsci-include-dir #{include}
+        --qsci-library-dir #{lib}
+        --api-dir #{prefix}/data/qsci/api/python
+      ]
+      system "sip-install", *args
     end
   end
 
   test do
+    pyqt = Formula["pyqt-octave-app"]
     (testpath/"test.py").write <<~EOS
-      import PyQt5.Qsci
-      assert("QsciLexer" in dir(PyQt5.Qsci))
+      import PyQt#{pyqt.version.major}.Qsci
+      assert("QsciLexer" in dir(PyQt#{pyqt.version.major}.Qsci))
     EOS
-    Language::Python.each_python(build) do |python, _version|
-      system python, "test.py"
-    end
+
+    system python3, "test.py"
   end
 end

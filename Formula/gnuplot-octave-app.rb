@@ -1,12 +1,19 @@
 # Custom gnuplot that builds against our hacked qt-octave-app instead of regular qt
+#
+# We use Qt 5. That means this formula is stuck on gnuplot 5.4.8 as of 2023-10-25, because
+# I can't get 5.4.9 or 5.4.10 to build against qt@5 or our hacked qt formulae.
+#
+# TODO: Re-enable aquaterm support? Don't think we can really do that, since AquaTerm
+# installs as a cask and not a regular formula.
 class GnuplotOctaveApp < Formula
-  desc "Command-driven, interactive function plotting"
+  desc "Command-driven, interactive function plotting, Octave.app-hacked variant"
   homepage "http://www.gnuplot.info/"
-  url "https://downloads.sourceforge.net/project/gnuplot/gnuplot/5.4.0/gnuplot-5.4.0.tar.gz"
-  sha256 "eb4082f03a399fd1e9e2b380cf7a4f785e77023d8dcc7e17570c1b5570a49c47"
+  url "https://downloads.sourceforge.net/project/gnuplot/gnuplot/5.4.8/gnuplot-5.4.8.tar.gz"
+  sha256 "931279c7caad1aff7d46cb4766f1ff41c26d9be9daf0bcf0c79deeee3d91f5cf"
+  license "gnuplot"
 
   head do
-    url "https://git.code.sf.net/p/gnuplot/gnuplot-main.git"
+    url "https://git.code.sf.net/p/gnuplot/gnuplot-main.git", branch: "master"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
@@ -15,86 +22,56 @@ class GnuplotOctaveApp < Formula
 
   keg_only "conflicts with regular gnuplot"
 
-  option "with-aquaterm", "Build with AquaTerm support"
-  option "with-wxmac", "Build wxmac support. Need with-cairo to build wxt terminal"
-  option "without-qt", "Build without Qt support"
-
-  deprecated_option "wx" => "with-wxmac"
-  deprecated_option "cairo" => "with-cairo"
-  deprecated_option "nolua" => "without-lua"
-
   depends_on "pkg-config" => :build
   depends_on "cairo"
   depends_on "gd"
+  depends_on "libcerf"
+  depends_on "lua"
+  depends_on "pango"
+  depends_on "qt-octave-app"
   depends_on "readline"
-  depends_on "lua" => :recommended
-  depends_on "pango" if build.with?("cairo") || build.with?("wxmac")
-  depends_on "qt-octave-app" if build.with?("qt")
-  depends_on "wxmac" => :optional
 
-  resource "libcerf" do
-    url "http://apps.jcns.fz-juelich.de/src/libcerf/libcerf-1.5.tgz"
-    mirror "https://www.mirrorservice.org/sites/distfiles.macports.org/libcerf/libcerf-1.5.tgz"
-    sha256 "e36dc147e7fff81143074a21550c259b5aac1b99fc314fc0ae33294231ca5c86"
-  end
+  fails_with gcc: "5"
 
   def install
-    # Qt5 requires c++11 (and the other backends do not care)
-    ENV.cxx11 if build.with? "qt"
-
-    if build.with? "aquaterm"
-      # Add "/Library/Frameworks" to the default framework search path, so that an
-      # installed AquaTerm framework can be found. Brew does not add this path
-      # when building against an SDK (Nov 2013).
-      ENV.prepend "CPPFLAGS", "-F/Library/Frameworks"
-      ENV.prepend "LDFLAGS", "-F/Library/Frameworks"
-    end
-
-    # Build libcerf
-    resource("libcerf").stage do
-      system "./configure", "--prefix=#{buildpath}/libcerf", "--enable-static", "--disable-shared"
-      system "make", "install"
-    end
-    ENV.prepend_path "PKG_CONFIG_PATH", buildpath/"libcerf/lib/pkgconfig"
-
     args = %W[
-      --disable-dependency-tracking
       --disable-silent-rules
-      --prefix=#{prefix}
+      --disable-wxwidgets
+      --with-qt
       --with-readline=#{Formula["readline"].opt_prefix}
-      --without-tutorial
+      --without-aquaterm
       --without-x
+      --without-latex
+      LRELEASE=#{Formula["qt-octave-app"].bin}/lrelease
     ]
 
-    if build.without? "wxmac"
-      args << "--disable-wxwidgets"
-      args << "--without-cairo" if build.without? "cairo"
+    # pkg-config files are not shipped on macOS, making our job harder
+    # https://bugreports.qt.io/browse/QTBUG-86080
+    # Hopefully in the future gnuplot can autodetect this information
+    # https://sourceforge.net/p/gnuplot/feature-requests/560/
+    qtcflags = []
+    qtlibs = %W[-F#{Formula["qt-octave-app"].opt_prefix}/Frameworks]
+    # This list copied from the core formula is for Qt 6. Core5Compat is a Qt 5
+    # back-compatibility thing, and not needed or present with Qt 5.
+    # %w[Core Gui Network Svg PrintSupport Widgets Core5Compat].each do |m|
+    %w[Core Gui Network Svg PrintSupport Widgets].each do |m|
+      qtcflags << "-I#{Formula["qt-octave-app"].opt_include}/Qt#{m}"
+      qtlibs << "-framework Qt#{m}"
     end
+    args += %W[
+      QT_CFLAGS=#{qtcflags.join(" ")}
+      QT_LIBS=#{qtlibs.join(" ")}
+    ]
 
-    if build.with? "qt"
-      args << "--with-qt"
-    else
-      args << "--with-qt=no"
-    end
-
-    args << (build.with?("aquaterm") ? "--with-aquaterm" : "--without-aquaterm")
+    # Qt5 requires c++11 (and the other backends do not care)
+    ENV.cxx11
 
     system "./prepare" if build.head?
-    system "./configure", *args
+    system "./configure", *std_configure_args.reject { |s| s["--disable-debug"] },
+                          *args
     ENV.deparallelize # or else emacs tries to edit the same file with two threads
     system "make"
     system "make", "install"
-  end
-
-  def caveats
-    if build.with? "aquaterm"
-      <<~EOS
-        AquaTerm support will only be built into Gnuplot if the standard AquaTerm
-        package from SourceForge has already been installed onto your system.
-        If you subsequently remove AquaTerm, you will need to uninstall and then
-        reinstall Gnuplot.
-      EOS
-    end
   end
 
   test do

@@ -1,16 +1,20 @@
+# sip, hacked for Octave.app
+# This uses sip 4.x. As of 2023, sip is up to 6.x.
+# TODO: I forgot what hacks/customization Octave.app even does to sip? It's a Python/C tool;
+# it doesn't use Qt.
 class SipOctaveApp < Formula
   desc "Tool to create Python bindings for C and C++ libraries"
   homepage "https://www.riverbankcomputing.com/software/sip/intro"
   url "https://dl.bintray.com/homebrew/mirror/sip-4.19.8.tar.gz"
   mirror "https://downloads.sourceforge.net/project/pyqt/sip/sip-4.19.8/sip-4.19.8.tar.gz"
   sha256 "7eaf7a2ea7d4d38a56dd6d2506574464bddf7cf284c960801679942377c297bc"
-  revision 3
+  license any_of: ["GPL-2.0-only", "GPL-3.0-only"]
+  revision 4
   head "https://www.riverbankcomputing.com/hg/sip", :using => :hg
 
   keg_only "conflicts with regular sip"
 
-  depends_on "python" => :optional
-  depends_on "python2" => :optional
+  depends_on "python@3.11"
 
   def install
     ENV.prepend_path "PATH", Formula["python2"].opt_libexec/"bin"
