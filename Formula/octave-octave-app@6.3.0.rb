@@ -16,8 +16,11 @@ end
 class OctaveOctaveAppAT630 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "ftp://ftp.gnu.org/gnu/octave/octave-6.3.0.tar.lz"
+  url "https://ftp.gnu.org/gnu/octave/octave-6.3.0.tar.lz"
+  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-6.3.0.tar.lz"
   sha256 "718cd5b5be492c3b89cc60e02e83a03dcbe1919523cb6205e38c99918e0333b0"
+  license "GPL-3.0-or-later"
+  revision 1
 
   keg_only "so it can be installed alongside regular octave"
 
@@ -179,7 +182,7 @@ class OctaveOctaveAppAT630 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app@6.0.90"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app@6.3.0"
   end
 
   test do
