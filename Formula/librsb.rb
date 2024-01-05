@@ -1,8 +1,8 @@
 class Librsb < Formula
   desc "Recursive Sparse Blocks shared memory parallel sparce matrix library"
   homepage "http://librsb.sourceforge.net/"
-  url "https://sourceforge.net/projects/librsb/files/librsb-1.2.0.8.tar.gz"
-  sha256 "8bebd19a1866d80ade13eabfdd0f07ae7e8a485c0b975b5d15f531ac204d80cb"
+  url "https://sourceforge.net/projects/librsb/files/librsb-1.3.0.2.tar.gz"
+  sha256 "f188236c4bcc8421169917a1141a4913430a4149b1cf01cbb65fb33805437070"
 
   depends_on "libomp"
 

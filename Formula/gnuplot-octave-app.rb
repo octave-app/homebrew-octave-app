@@ -3,6 +3,11 @@
 # We use Qt 5. That means this formula is stuck on gnuplot 5.4.8 as of 2023-10-25, because
 # I can't get 5.4.9 or 5.4.10 to build against qt@5 or our hacked qt formulae.
 #
+# As of 2023 and Octave 8.x, the core Homebrw octave formula has dropped its gnuplot
+# dependency, with a note that upstream says gnuplot is unmaintained and problematic, and
+# recommends just using Qt instead. See:
+#  * https://github.com/Homebrew/homebrew-core/pull/138117
+#
 # TODO: Re-enable aquaterm support? Don't think we can really do that, since AquaTerm
 # installs as a cask and not a regular formula.
 class GnuplotOctaveApp < Formula
@@ -28,7 +33,7 @@ class GnuplotOctaveApp < Formula
   depends_on "libcerf"
   depends_on "lua"
   depends_on "pango"
-  depends_on "qt-octave-app"
+  depends_on "qt-octave-app_5"
   depends_on "readline"
 
   fails_with gcc: "5"
@@ -42,7 +47,7 @@ class GnuplotOctaveApp < Formula
       --without-aquaterm
       --without-x
       --without-latex
-      LRELEASE=#{Formula["qt-octave-app"].bin}/lrelease
+      LRELEASE=#{Formula["qt-octave-app_5"].bin}/lrelease
     ]
 
     # pkg-config files are not shipped on macOS, making our job harder
@@ -50,12 +55,12 @@ class GnuplotOctaveApp < Formula
     # Hopefully in the future gnuplot can autodetect this information
     # https://sourceforge.net/p/gnuplot/feature-requests/560/
     qtcflags = []
-    qtlibs = %W[-F#{Formula["qt-octave-app"].opt_prefix}/Frameworks]
+    qtlibs = %W[-F#{Formula["qt-octave-app_5"].opt_prefix}/Frameworks]
     # This list copied from the core formula is for Qt 6. Core5Compat is a Qt 5
     # back-compatibility thing, and not needed or present with Qt 5.
     # %w[Core Gui Network Svg PrintSupport Widgets Core5Compat].each do |m|
     %w[Core Gui Network Svg PrintSupport Widgets].each do |m|
-      qtcflags << "-I#{Formula["qt-octave-app"].opt_include}/Qt#{m}"
+      qtcflags << "-I#{Formula["qt-octave-app_5"].opt_include}/Qt#{m}"
       qtlibs << "-framework Qt#{m}"
     end
     args += %W[

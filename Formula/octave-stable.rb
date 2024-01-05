@@ -75,7 +75,7 @@ class OctaveStable < Formula
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
-    depends_on "qt"
+    depends_on "qt@5"
     depends_on "qscintilla2"
 
     # Fix bug #50025: Octave window freezes
@@ -143,10 +143,10 @@ class OctaveStable < Formula
       # source hasn't been updated to auto-detect this yet.
       ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
-      ENV['QT_CPPFLAGS']="-I#{Formula["qt"].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula["qt"].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula["qt"].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula["qt"].opt_lib}"
+      ENV['QT_CPPFLAGS']="-I#{Formula["qt@5"].opt_include}"
+      ENV.append 'CPPFLAGS', "-I#{Formula["qt@5"].opt_include}"
+      ENV['QT_LDFLAGS']="-F#{Formula["qt@5"].opt_lib}"
+      ENV.append 'LDFLAGS', "-F#{Formula["qt@5"].opt_lib}"
     end
 
     if build.without? "docs"

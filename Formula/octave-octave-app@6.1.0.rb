@@ -29,7 +29,7 @@ class OctaveOctaveAppAT610 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt-octave-app"
+  @qt_formula = "qt-octave-app_5"
   @qscintilla2_formula = "qscintilla2-octave-app"
   @gnuplot_formula = "gnuplot-octave-app"
 
@@ -42,7 +42,7 @@ class OctaveOctaveAppAT610 < Formula
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
-  depends_on "fig2dev-octave-app"
+  depends_on "fig2dev"
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "ghostscript"
@@ -69,12 +69,12 @@ class OctaveOctaveAppAT610 < Formula
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Dependencies for Octave Forge packages
-  depends_on "cfitsio"  # fits package
-  depends_on "gsl"      # gsl package
-  depends_on "mpfr"     # interval package
-  depends_on "proj@5"   # octproj package
-  depends_on "zeromq"   # zeromq package
+  # Dependencies for Octave Forge packages (not Octave itself)
+  depends_on "cfitsio"  # for fits OF package
+  depends_on "gsl"      # for gsl OF package
+  depends_on "mpfr"     # for interval OF package
+  depends_on "proj@5"   # for octproj OF package
+  depends_on "zeromq"   # for zeromq OF package
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
@@ -86,10 +86,10 @@ class OctaveOctaveAppAT610 < Formula
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt-octave-app"
+    @qt_formula = "qt-octave-app_5"
     @qscintilla2_formula = "qscintilla2-octave-app"
     @gnuplot_formula = "gnuplot-octave-app"
-  
+
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");

@@ -25,7 +25,7 @@ class OctaveOctaveAppAT441 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt-octave-app"
+  @qt_formula = "qt-octave-app_5"
   @qscintilla2_formula = "qscintilla2-octave-app"
   @gnuplot_formula = "gnuplot-octave-app"
 
@@ -37,7 +37,7 @@ class OctaveOctaveAppAT441 < Formula
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
-  depends_on "fig2dev-octave-app"
+  depends_on "fig2dev"
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "ghostscript"
@@ -97,10 +97,10 @@ class OctaveOctaveAppAT441 < Formula
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt-octave-app"
+    @qt_formula = "qt-octave-app_5"
     @qscintilla2_formula = "qscintilla2-octave-app"
     @gnuplot_formula = "gnuplot-octave-app"
-  
+
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");

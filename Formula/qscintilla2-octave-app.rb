@@ -16,13 +16,10 @@ class Qscintilla2OctaveApp < Formula
   keg_only "conflicts with regular qscintilla2"
 
   depends_on "pyqt-builder" => :build
-  
-  depends_on "pyqt-octave-app"
+
+  depends_on "pyqt-octave-app@5"
   depends_on "python@3.11"
-  depends_on "qt-octave-app"
-  # TODO: Do we really need a sip-octave-app variant at all any more, now that things have
-  # settled on Python 3?
-  # depends_on "sip-octave-app"
+  depends_on "qt-octave-app_5"
   depends_on "sip"
 
   fails_with gcc: "5"
@@ -35,8 +32,8 @@ class Qscintilla2OctaveApp < Formula
     spec = (ENV.compiler == :clang) ? "macx-clang" : "macx-g++"
     args = %W[-config release -spec #{spec}]
 
-    pyqt = Formula["pyqt-octave-app"]
-    qt = Formula["qt-octave-app"]
+    pyqt = Formula["pyqt-octave-app@5"]
+    qt = Formula["qt-octave-app_5"]
     site_packages = Language::Python.site_packages(python3)
 
     cd "src" do
@@ -79,7 +76,7 @@ class Qscintilla2OctaveApp < Formula
   end
 
   test do
-    pyqt = Formula["pyqt-octave-app"]
+    pyqt = Formula["pyqt-octave-app@5"]
     (testpath/"test.py").write <<~EOS
       import PyQt#{pyqt.version.major}.Qsci
       assert("QsciLexer" in dir(PyQt#{pyqt.version.major}.Qsci))

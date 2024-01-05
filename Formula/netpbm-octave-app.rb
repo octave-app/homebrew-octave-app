@@ -1,6 +1,7 @@
 # This customization of netpbm.rb just changes it to download from our tarball
 # mirror instead of Netpbm's SVN repo, because we can't use svn to get it on
-# macOS 10.12.
+# macOS 10.12. Now that we've dropped support for macOS versions < 11, can probably
+# remove this and use regular netpbm instead.
 # See https://github.com/octave-app/octave-app-bundler/issues/76
 class NetpbmOctaveApp < Formula
   desc "Image manipulation"

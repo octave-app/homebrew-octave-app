@@ -1,7 +1,7 @@
 # sip, hacked for Octave.app
 # This uses sip 4.x. As of 2023, sip is up to 6.x.
 # TODO: I forgot what hacks/customization Octave.app even does to sip? It's a Python/C tool;
-# it doesn't use Qt.
+# it doesn't use Qt. Maybe it was just to retain python@2 support?
 class SipOctaveApp < Formula
   desc "Tool to create Python bindings for C and C++ libraries"
   homepage "https://www.riverbankcomputing.com/software/sip/intro"
@@ -15,9 +15,12 @@ class SipOctaveApp < Formula
   keg_only "conflicts with regular sip"
 
   depends_on "python@3.11"
+  depends_on "python-packaging"
+  depends_on "python-ply"
+  depends_on "python-setuptools"
 
   def install
-    ENV.prepend_path "PATH", Formula["python2"].opt_libexec/"bin"
+    ENV.prepend_path "PATH", Formula["python@3.11"].opt_libexec/"bin"
 
     if build.head?
       # Link the Mercurial repository into the download directory so

@@ -2,12 +2,15 @@
 #
 # This formula is named qt_5.15 instead of qt@5.15 because having an "@" in the formula
 # name causes a ninja build error.
+
+# Was 5.15.2 as of 2023-12-31. Trying latest 5.15.15 now.
+
 class Qt515 < Formula
   desc "Cross-platform application and UI framework, 5.15 version"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz"
-  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz"
-  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.2/single/qt-everywhere-src-5.15.2.tar.xz"
+  url "https://download.qt.io/official_releases/qt/5.15/5.15.15/single/qt-everywhere-src-5.15.15.tar.xz"
+  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.15/single/qt-everywhere-src-5.15.15.tar.xz"
+  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.15/single/qt-everywhere-src-5.15.15.tar.xz"
   sha256 "3a530d1b243b5dec00bc54937455471aaa3e56849d2593edb8ded07228202240"
 
   head "https://code.qt.io/qt/qt5.git", :branch => "dev", :shallow => false

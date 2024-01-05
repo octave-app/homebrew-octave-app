@@ -48,7 +48,7 @@ class OctaveOctaveAppQt512 < Formula
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
-  depends_on "fig2dev-octave-app"
+  depends_on "fig2dev"
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "ghostscript"
@@ -117,7 +117,7 @@ class OctaveOctaveAppQt512 < Formula
     @qt_formula = "qt_5.12"
     @qscintilla2_formula = "qscintilla2-qt512"
     @gnuplot_formula = "gnuplot-qt512"
-  
+
       # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");

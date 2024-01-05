@@ -2,14 +2,14 @@
 #
 # This formula is named qt-octave-app_5.15 instead of qt-octave-app@5.15 because having an "@" in the formula
 # name causes a ninja build error.
+# Was 5.15.2 as of 2023-12-31. Trying latest 5.15.15 now.
 class QtOctaveApp515 < Formula
   desc "Cross-platform application and UI framework, 5.15.x version, Octave.app-hacked version"
   homepage "https://www.qt.io/"
-  # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
-  url "https://download.qt.io/official_releases/qt/5.15/5.15.10/single/qt-everywhere-opensource-src-5.15.10.tar.xz"
-  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.10/single/qt-everywhere-opensource-src-5.15.10.tar.xz"
-  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.10/single/qt-everywhere-opensource-src-5.15.10.tar.xz"
-  sha256 "b545cb83c60934adc9a6bbd27e2af79e5013de77d46f5b9f5bb2a3c762bf55ca"
+  url "https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
+  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
+  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
+  sha256 "93f2c0889ee2e9cdf30c170d353c3f829de5f29ba21c119167dee5995e48ccce"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
 
   head "https://code.qt.io/qt/qt5.git", :branch => "dev", :shallow => false
@@ -47,7 +47,7 @@ class QtOctaveApp515 < Formula
   end
 
   # End Octave.app-specific hacks and patches
-  
+
   resource "qtwebengine" do
     url "https://code.qt.io/qt/qtwebengine.git",
         tag:      "v5.15.11-lts",
@@ -113,7 +113,7 @@ class QtOctaveApp515 < Formula
     url "https://raw.githubusercontent.com/Homebrew/formula-patches/3f509180/qt5/qt5-qtmultimedia-xcode15.patch"
     sha256 "887d6cb4fd115ce82323d17e69fafa606c51cef98c820b82309ab38288f21e08"
   end
-  
+
   def install
     rm_r "qtwebengine"
 
@@ -300,7 +300,7 @@ index 6298f5ed1983b84205479d1a714bd657435789f9..ca7e2dffc1076f82d2cabf55eae0681a
 +        );
      return rt;
  }
- 
+
 @@ -113,19 +121,31 @@ __asm__ volatile(\
  // avoid +32 for shift optimization (gcc should do that ...)
  #define NEG_SSR32 NEG_SSR32
@@ -318,7 +318,7 @@ index 6298f5ed1983b84205479d1a714bd657435789f9..ca7e2dffc1076f82d2cabf55eae0681a
 +        );
      return a;
  }
- 
+
  #define NEG_USR32 NEG_USR32
  static inline uint32_t NEG_USR32(uint32_t a, int8_t s){
 +    if (__builtin_constant_p(s))
@@ -334,4 +334,4 @@ index 6298f5ed1983b84205479d1a714bd657435789f9..ca7e2dffc1076f82d2cabf55eae0681a
 +        );
      return a;
  }
- 
+

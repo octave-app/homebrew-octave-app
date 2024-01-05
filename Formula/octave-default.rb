@@ -65,7 +65,7 @@ class OctaveDefault < Formula
   depends_on "qhull"
   depends_on "qrupdate"
   depends_on "qscintilla2" if build.with?("qt")
-  depends_on "qt" if build.with?("qt")
+  depends_on "qt@5" if build.with?("qt")
   depends_on "readline"
   depends_on "suite-sparse"
   depends_on "sundials"
@@ -121,10 +121,10 @@ class OctaveDefault < Formula
       # source hasn't been updated to auto-detect this yet.
       ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
-      ENV['QT_CPPFLAGS']="-I#{Formula["qt"].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula["qt"].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula["qt"].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula["qt"].opt_lib}"
+      ENV['QT_CPPFLAGS']="-I#{Formula["qt@5"].opt_include}"
+      ENV.append 'CPPFLAGS', "-I#{Formula["qt@5"].opt_include}"
+      ENV['QT_LDFLAGS']="-F#{Formula["qt@5"].opt_lib}"
+      ENV.append 'LDFLAGS', "-F#{Formula["qt@5"].opt_lib}"
     end
 
     if build.without? "docs"
@@ -163,7 +163,7 @@ class OctaveDefault < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt@5"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end

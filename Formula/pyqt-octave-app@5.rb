@@ -1,25 +1,26 @@
 # Pyqt, but for Qt 5 (core is on Qt 6; this uses pyqt@5), and hacked for Octave.app.
 # The hacks: uses qt-octave-app instead of core qt@5
-class PyqtOctaveApp < Formula
+class PyqtOctaveAppAT5 < Formula
   desc "Python bindings for v5 of Qt, Octave.app-hacked variant"
-  homepage "https://www.riverbankcomputing.com/software/pyqt/intro"
-  url "https://files.pythonhosted.org/packages/5c/46/b4b6eae1e24d9432905ef1d4e7c28b6610e28252527cdc38f2a75997d8b5/PyQt5-5.15.9.tar.gz"
-  sha256 "dc41e8401a90dc3e2b692b411bd5492ab559ae27a27424eed4bd3915564ec4c0"
+  homepage "https://www.riverbankcomputing.com/software/pyqt/download5"
+  url "https://files.pythonhosted.org/packages/4d/5d/b8b6e26956ec113ad3f566e02abd12ac3a56b103fcc7e0735e27ee4a1df3/PyQt5-5.15.10.tar.gz"
+  sha256 "d46b7804b1b10a4ff91753f8113e5b5580d2b4462f3226288e2d84497334898a"
   license "GPL-3.0-only"
 
   depends_on "pyqt-builder" => :build
+  depends_on "python-setuptools" => :build
   depends_on "python@3.10"  => [:build, :test]
   depends_on "python@3.11"  => [:build, :test]
-  depends_on "python@3.9"   => [:build, :test]
+  depends_on "python@3.12"  => [:build, :test]
   depends_on "sip"          => :build
-  depends_on "qt-octave-app"
+  depends_on "qt-octave-app_5"
 
   fails_with gcc: "5"
 
   # extra components
   resource "PyQt5-sip" do
-    url "https://files.pythonhosted.org/packages/c1/61/4055e7a0f36339964956ff415e36f4abf82561904cc49c021da32949fc55/PyQt5_sip-12.12.1.tar.gz"
-    sha256 "8fdc6e0148abd12d977a1d3828e7b79aae958e83c6cb5adae614916d888a6b10"
+    url "https://files.pythonhosted.org/packages/ee/81/fce2a475aa56c1f49707d9306b930695b6ff078c2242c9f2fd72a3214e1f/PyQt5_sip-12.13.0.tar.gz"
+    sha256 "7f321daf84b9c9dbca61b80e1ef37bdaffc0e93312edae2cd7da25b953971d91"
   end
 
   resource "PyQt3D" do
@@ -88,7 +89,7 @@ class PyqtOctaveApp < Formula
     end
 
     # Replace hardcoded reference to Python version used with sip/pyqt-builder with generic python3.
-    bin.children.each { |script| inreplace script, Formula["python@3.11"].opt_bin/"python3.11", "python3" }
+    bin.children.each { |script| inreplace script, Formula["python@3.12"].opt_bin/"python3.12", "python3" }
   end
 
   test do
