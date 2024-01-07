@@ -51,7 +51,6 @@ class OctaveOctappAT630 < Formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
-  depends_on "librsb" # for sparsersb Forge package
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "netcdf"
@@ -73,6 +72,8 @@ class OctaveOctappAT630 < Formula
   # Dependencies for Octave Forge packages
   depends_on "cfitsio"  # fits package
   depends_on "gsl"      # gsl package
+  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
+  # depends_on "librsb" # for sparsersb Forge package
   depends_on "mpfr"     # interval package
   depends_on "proj@5"   # octproj package
   depends_on "zeromq"   # zeromq package
