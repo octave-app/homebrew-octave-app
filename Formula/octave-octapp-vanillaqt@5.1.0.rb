@@ -18,8 +18,8 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctappVanillaQtAT510 < Formula
-  desc "High-level interpreted language for numerical computing"
+class OctaveOctappVanillaqtAT510 < Formula
+  desc "GNU Octave, customized for Octave.app, but using vanilla Qt, v. 5.1.0"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "ftp://ftp.gnu.org/gnu/octave/octave-5.1.0.tar.lz"
   sha256 "0633a2e6149350f4aaa1b107c90a486069110bb07805b285ee70052cfced9c87"

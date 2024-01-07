@@ -14,7 +14,7 @@ class MacTeXRequirement < Requirement
 end
 
 class OctaveOctappAT441 < Formula
-  desc "High-level interpreted language for numerical computing"
+  desc "GNU Octave, customized for Octave.app, v. 4.4.1"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "ftp://ftp.gnu.org/gnu/octave/octave-4.4.1.tar.lz"
   sha256 "1e6e3a72b4fd4b4db73ccb9f3046e4f727201c2e934b77afb04a804d7f7c4d4b"

@@ -14,7 +14,7 @@ class MacTeXRequirement < Requirement
 end
 
 class OctaveOctappAT640 < Formula
-  desc "High-level interpreted language for numerical computing"
+  desc "GNU Octave, customized for Octave.app, v. 6.4.0"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "https://ftp.gnu.org/gnu/octave/octave-6.4.0.tar.lz"
   mirror "https://ftpmirror.gnu.org/gnu/octave/octave-6.4.0.tar.lz"
@@ -49,8 +49,6 @@ class OctaveOctappAT640 < Formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
-  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # for sparsersb Forge package
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "netcdf"
@@ -72,6 +70,8 @@ class OctaveOctappAT640 < Formula
   # Dependencies for Octave Forge packages (not Octave itself)
   depends_on "cfitsio"  # for fits OF package
   depends_on "gsl"      # for gsl OF package
+  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
+  # depends_on "librsb" # for sparsersb Forge package
   depends_on "mpfr"     # for interval OF package
   depends_on "proj@5"   # for octproj OF package
   depends_on "zeromq"   # for zeromq OF package

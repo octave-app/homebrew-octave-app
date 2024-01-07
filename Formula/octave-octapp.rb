@@ -22,7 +22,7 @@ class MacTeXRequirement < Requirement
 end
 
 class OctaveOctapp < Formula
-  desc "High-level interpreted language for numerical computing"
+  desc "GNU Octave, customized for Octave.app, most recent version"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "https://ftp.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
   mirror "https://ftpmirror.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
