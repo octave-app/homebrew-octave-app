@@ -1,4 +1,4 @@
-# GNU Octave 6.4.0, Qt-enabled, with build customized for Octave.app
+# GNU Octave 6.2.0, Qt-enabled, with build customized for Octave.app
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -13,12 +13,12 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctaveAppAT640 < Formula
+class OctaveOctappAT620 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://ftp.gnu.org/gnu/octave/octave-6.4.0.tar.lz"
-  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-6.4.0.tar.lz"
-  sha256 "40eaa1492ec1baf5084a1694288febdcba568838f4983450f8dac5819934059a"
+  url "https://ftp.gnu.org/gnu/octave/octave-6.2.0.tar.lz"
+  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-6.2.0.tar.lz"
+  sha256 "27326ef4af61f5524325bdabf27be47da6b5988698a95fd81b2a30b598f4b2b2"
   license "GPL-3.0-or-later"
   revision 1
 
@@ -28,12 +28,13 @@ class OctaveOctaveAppAT640 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt-octave-app_5"
-  @qscintilla2_formula = "qscintilla2-octave-app"
+  @qt_formula = "qt-octapp_5"
+  @qscintilla2_formula = "qscintilla2-octapp"
+  @gnuplot_formula = "gnuplot-octapp"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
-  depends_on "autoconf" => :build
   depends_on "automake" => :build
+  depends_on "autoconf" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
   depends_on "librsvg" => :build
   depends_on "pkg-config" => :build
@@ -46,11 +47,11 @@ class OctaveOctaveAppAT640 < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
+  depends_on @gnuplot_formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
-  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # for sparsersb Forge package
+  depends_on "librsb" # for sparsersb Forge package
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "netcdf"
@@ -69,19 +70,20 @@ class OctaveOctaveAppAT640 < Formula
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Dependencies for Octave Forge packages (not Octave itself)
-  depends_on "cfitsio"  # for fits OF package
-  depends_on "gsl"      # for gsl OF package
-  depends_on "mpfr"     # for interval OF package
-  depends_on "proj@5"   # for octproj OF package
-  depends_on "zeromq"   # for zeromq OF package
+  # Dependencies for Octave Forge packages
+  depends_on "cfitsio"  # fits package
+  depends_on "gsl"      # gsl package
+  depends_on "mpfr"     # interval package
+  depends_on "proj@5"   # octproj package
+  depends_on "zeromq"   # zeromq package
 
-  # Suppress spurious messages about GCC caused by dependencies using Fortran
+  # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt-octave-app_5"
-    @qscintilla2_formula = "qscintilla2-octave-app"
+    @qt_formula = "qt-octapp_5"
+    @qscintilla2_formula = "qscintilla2-octapp"
+    @gnuplot_formula = "gnuplot-octapp"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
@@ -101,19 +103,21 @@ class OctaveOctaveAppAT640 < Formula
     ENV.append "CXXFLAGS", "-I#{Formula[@qscintilla2_formula].opt_include}"
     ENV.append "LDFLAGS", "-L#{Formula[@qscintilla2_formula].opt_lib}"
 
-    args = ["--prefix=#{prefix}",
-            "--disable-dependency-tracking",
-            "--disable-silent-rules",
-            "--enable-link-all-dependencies",
-            "--enable-shared",
-            "--disable-static",
-            "--without-fltk",
-            "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
-            "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
-            "--with-x=no",
-            "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
-            "--with-portaudio",
-            "--with-sndfile"]
+    args = [
+      "--prefix=#{prefix}",
+      "--disable-dependency-tracking",
+      "--disable-silent-rules",
+      "--enable-link-all-dependencies",
+      "--enable-shared",
+      "--disable-static",
+      "--without-fltk",
+      "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
+      "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
+      "--with-x=no",
+      "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
+      "--with-portaudio",
+      "--with-sndfile"
+    ]
 
     if build.without? "qt"
       args << "--without-qt"
@@ -140,16 +144,9 @@ class OctaveOctaveAppAT640 < Formula
 
     # Fix aclocal version issue
     system "autoreconf", "-f", "-i"
-    # TODO: Maybe this would work instead? It's what the core octave formula uses.
-    # Need to regenerate aclocal.m4 so that it will work with brewed automake
-    # system "aclocal"
 
     system "./configure", *args
     system "make", "all"
-
-    # Make sure that Octave uses the modern texinfo
-    rcfile = buildpath/"scripts/startup/site-rcfile"
-    rcfile.append_lines "makeinfo_program(\"#{Formula["texinfo"].opt_bin}/makeinfo\");"
 
     if build.with? "test"
       system "make check 2>&1 | tee \"test/make-check.log\""
@@ -162,6 +159,10 @@ class OctaveOctaveAppAT640 < Formula
       # Install test results
       prefix.install "test/make-check.log"
     end
+
+    # Make sure that Octave uses the modern texinfo
+    rcfile = buildpath/"scripts/startup/site-rcfile"
+    rcfile.append_lines "makeinfo_program(\"#{Formula["texinfo"].opt_bin}/makeinfo\");"
 
     system "make", "install"
 
@@ -177,7 +178,7 @@ class OctaveOctaveAppAT640 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app@6.4.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@6.2.0"
   end
 
   test do

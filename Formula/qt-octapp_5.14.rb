@@ -2,7 +2,7 @@
 #
 # This formula is named qt_5.14 instead of qt@5.14 because having an "@" in the formula
 # name causes a ninja build error.
-class QtOctaveApp514 < Formula
+class QtOctapp514 < Formula
   desc "Cross-platform application and UI framework, 5.14 version, Octave.app-hacked version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.14/5.14.2/single/qt-everywhere-src-5.14.2.tar.xz"

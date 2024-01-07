@@ -1,10 +1,4 @@
-# GNU Octave 4.4.1, Qt-enabled, with macOS patches, but not Octave.app customizations
-#
-# This formula is here for historical interest. You probably want to use
-# octave-octapp@4.4.1 instead.
-#
-# TODO: Decide whether this should build against the versioned qt_5.12 or the
-# regular floating qt.
+# GNU Octave 4.4.1, Qt-enabled, with build customized for Octave.app
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -19,7 +13,7 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveAT441 < Formula
+class OctaveOctappAT441 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "ftp://ftp.gnu.org/gnu/octave/octave-4.4.1.tar.lz"
@@ -31,9 +25,9 @@ class OctaveAT441 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt_5.12"
-  @qscintilla2_formula = "qscintilla2-qt512"
-  @gnuplot_formula = "gnuplot-qt512"
+  @qt_formula = "qt-octapp_5"
+  @qscintilla2_formula = "qscintilla2-octapp"
+  @gnuplot_formula = "gnuplot-octapp"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
@@ -46,7 +40,6 @@ class OctaveAT441 < Formula
   depends_on "fig2dev"
   depends_on "fontconfig"
   depends_on "freetype"
-  depends_on "gcc" # for gfortran
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
@@ -54,6 +47,8 @@ class OctaveAT441 < Formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
+  depends_on "netcdf"
+  depends_on "librsb" # for sparsersb Forge package
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"
@@ -69,24 +64,47 @@ class OctaveAT441 < Formula
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
+  # Dependencies for Octave Forge packages
+  depends_on "cfitsio"  # fits package
+  depends_on "gsl"      # gsl package
+  depends_on "mpfr"     # interval package
+  depends_on "proj@5"   # octproj package
+  depends_on "zeromq"   # zeromq package
+
   # Dependencies for the graphical user interface
   if build.with?("qt")
     depends_on @qt_formula
     depends_on @qscintilla2_formula
+
+    if build.stable?
+      # Fix bug #49053: retina scaling of figures
+      # see https://savannah.gnu.org/bugs/?49053
+      patch do
+        url "https://savannah.gnu.org/support/download.php?file_id=44041"
+        sha256 "bf7aaa6ddc7bd7c63da24b48daa76f5bdf8ab3a2f902334da91a8d8140e39ff0"
+      end
+    end
+
+    # Fix bug #50025: Octave window freezes
+    # see https://savannah.gnu.org/bugs/?50025
+    patch do
+      url "https://savannah.gnu.org/support/download.php?file_id=45382"
+      sha256 "e179c3a0e53f6f0f4a48b5adafd18c0f9c33de276748b8049c7d1007282f7f6e"
+    end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt_5.12"
-    @qscintilla2_formula = "qscintilla2-qt512"
-    @gnuplot_formula = "gnuplot-qt512"
-  
+    @qt_formula = "qt-octapp_5"
+    @qscintilla2_formula = "qscintilla2-octapp"
+    @gnuplot_formula = "gnuplot-octapp"
+
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
-    Pathname.new("HG-ID").write "#{hg_id}\n"
+    Pathname.new("HG-ID").write "#{hg_id} + patches\n"
 
     # do not execute a test that may trigger a dialog to install java
     inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
@@ -173,7 +191,7 @@ class OctaveAT441 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-4.4.1"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-4.4.1"
   end
 
   test do

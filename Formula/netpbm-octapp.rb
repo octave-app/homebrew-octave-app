@@ -3,7 +3,7 @@
 # macOS 10.12. Now that we've dropped support for macOS versions < 11, can probably
 # remove this and use regular netpbm instead.
 # See https://github.com/octave-app/octave-app-bundler/issues/76
-class NetpbmOctaveApp < Formula
+class NetpbmOctapp < Formula
   desc "Image manipulation"
   homepage "https://netpbm.sourceforge.io/"
   url "https://github.com/octave-app/homebrew-octave-app/releases/download/netpbm-10.73.26/netpbm-10.73.26.tar.gz"

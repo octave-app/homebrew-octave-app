@@ -1,9 +1,9 @@
 # Qt 5.15 LTS, hacked for Octave.app
 #
-# This formula is named qt-octave-app_5.15 instead of qt-octave-app@5.15 because having an "@" in the formula
+# This formula is named qt-octapp_5.15 instead of qt-octapp@5.15 because having an "@" in the formula
 # name causes a ninja build error.
 # Was 5.15.2 as of 2023-12-31. Trying latest 5.15.15 now.
-class QtOctaveApp515 < Formula
+class QtOctapp515 < Formula
   desc "Cross-platform application and UI framework, 5.15.x version, Octave.app-hacked version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"

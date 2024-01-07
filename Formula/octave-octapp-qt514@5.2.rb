@@ -1,4 +1,5 @@
-# GNU Octave 4.4.1, Qt-enabled, with build customized for Octave.app
+# GNU Octave 5.2, Qt-enabled, with build customized for Octave.app, using Qt
+# 5.14 instead of LTS Qt
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -13,11 +14,11 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctaveAppAT441 < Formula
+class OctaveOctappQt514AT52 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "ftp://ftp.gnu.org/gnu/octave/octave-4.4.1.tar.lz"
-  sha256 "1e6e3a72b4fd4b4db73ccb9f3046e4f727201c2e934b77afb04a804d7f7c4d4b"
+  url "ftp://ftp.gnu.org/gnu/octave/octave-5.2.0.tar.lz"
+  sha256 "86ae3ad64380e0727e4e2d696d13e226e15722ece6b22cf94354fd6e0d6e88a0"
 
   keg_only "so it can be installed alongside regular octave"
 
@@ -25,14 +26,15 @@ class OctaveOctaveAppAT441 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt-octave-app_5"
-  @qscintilla2_formula = "qscintilla2-octave-app"
-  @gnuplot_formula = "gnuplot-octave-app"
+  @qt_formula = "qt_5.14"
+  @qscintilla2_formula = "qscintilla2-qt514"
+  @gnuplot_formula = "gnuplot-qt514"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
   depends_on "autoconf" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
+  depends_on "librsvg" => :build
   depends_on "pkg-config" => :build
   depends_on "arpack"
   depends_on "epstool"
@@ -47,12 +49,12 @@ class OctaveOctaveAppAT441 < Formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
-  depends_on "netcdf"
   depends_on "librsb" # for sparsersb Forge package
   depends_on "libsndfile"
   depends_on "libtool"
+  depends_on "netcdf"
+  depends_on "openjdk"
   depends_on "openblas"
-  depends_on "openjdk@11"
   depends_on "pcre"
   depends_on "portaudio"
   depends_on "pstoedit"
@@ -64,26 +66,10 @@ class OctaveOctaveAppAT441 < Formula
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Dependencies for Octave Forge packages
-  depends_on "cfitsio"  # fits package
-  depends_on "gsl"      # gsl package
-  depends_on "mpfr"     # interval package
-  depends_on "proj@5"   # octproj package
-  depends_on "zeromq"   # zeromq package
-
   # Dependencies for the graphical user interface
   if build.with?("qt")
     depends_on @qt_formula
     depends_on @qscintilla2_formula
-
-    if build.stable?
-      # Fix bug #49053: retina scaling of figures
-      # see https://savannah.gnu.org/bugs/?49053
-      patch do
-        url "https://savannah.gnu.org/support/download.php?file_id=44041"
-        sha256 "bf7aaa6ddc7bd7c63da24b48daa76f5bdf8ab3a2f902334da91a8d8140e39ff0"
-      end
-    end
 
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025
@@ -91,15 +77,36 @@ class OctaveOctaveAppAT441 < Formula
       url "https://savannah.gnu.org/support/download.php?file_id=45382"
       sha256 "e179c3a0e53f6f0f4a48b5adafd18c0f9c33de276748b8049c7d1007282f7f6e"
     end
+
+    # Fix bug #55268: crash during build
+    # see https://savannah.gnu.org/bugs/index.php?55268
+    patch do
+      url "https://savannah.gnu.org/bugs/download.php?file_id=45733"
+      sha256 "d7937a083af72d74f073c9dbc59feab178e00ca0ce952f61fa3430b9eafaa2e1"
+    end
+
+    # Fix bug https://github.com/octave-app/octave-app-bundler/issues/10
+    # tar.m and unpack.m use plain "tar" but expect a GNU tar
+    patch do
+      url "https://raw.githubusercontent.com/octave-app/formula-patches/80d1a98d982e4207e66d424c7cc685536607c66c/octave/4.4.0-gtar-instead-of-tar.patch"
+      sha256 "25a14fabf39841a4089667ebc5c326a2d40640b99432ae97ae49ce0a9a496878"
+    end
+
+    # Fix bug #55836: Add 1024x1024 app icon
+    # see https://savannah.gnu.org/bugs/index.php?55836
+    patch do
+      url "https://savannah.gnu.org/bugs/download.php?file_id=46433"
+      sha256 "f00383db6fb0c1d1032017a90840bd13cc7b6e52b47a8124a4fc7abd03d72b3b"
+    end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt-octave-app_5"
-    @qscintilla2_formula = "qscintilla2-octave-app"
-    @gnuplot_formula = "gnuplot-octave-app"
+    @qt_formula = "qt_5.14"
+    @qscintilla2_formula = "qscintilla2-qt514"
+    @gnuplot_formula = "gnuplot-qt514"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
@@ -139,6 +146,9 @@ class OctaveOctaveAppAT441 < Formula
       args << "--without-qt"
     else
       args << "--with-qt=5"
+      # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
+      # source hasn't been updated to auto-detect this yet.
+      ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
       ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
       ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
@@ -153,7 +163,7 @@ class OctaveOctaveAppAT441 < Formula
     end
 
     # Force use of our bundled JDK
-    ENV['JAVA_HOME']="#{Formula["openjdk@11"].opt_prefix}"
+    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
     # fix aclocal version issue
     system "autoreconf", "-f", "-i"
@@ -191,7 +201,7 @@ class OctaveOctaveAppAT441 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app-4.4.1"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-qt514@5.2.0"
   end
 
   test do

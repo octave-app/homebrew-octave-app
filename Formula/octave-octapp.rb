@@ -1,8 +1,12 @@
-# GNU Octave 8.3.0, Qt-enabled, with macOS patches, with build customized for Octave.app
+# GNU Octave, Qt-enabled, with build customized for Octave.app
 #
-# This is a work in progress as of 2023-10-25. It's been a couple years since I made a new
-# Octave formula, and there have been changes in both Octave and Homebrew since then, so
-# this may need some additional work.
+# This version of Octave is kept at the current version. It is mostly only
+# used for grabbing the dependencies of Octave. It is not used for building
+# Octave.app itself; that is done with the versioned octave-octapp@* formulae.\
+# This formula does not have versioned dependencies.
+#
+# This formula is kept separate from Homebrew's main "octave" formula so we
+# can fiddle around with its version independently.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -17,12 +21,12 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctaveAppAT830 < Formula
+class OctaveOctapp < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://ftp.gnu.org/gnu/octave/octave-8.3.0.tar.lz"
-  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-8.3.0.tar.lz"
-  sha256 "4dbd5da711b20ce640d75471895172b60e0bb9f45b75a0daa5ddf3050488d639"
+  url "https://ftp.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
+  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
+  sha256 "d5a7e89928528dce8cab7eead700be8a8319a98ec5334cc2ce83d29ac60264c1"
   license "GPL-3.0-or-later"
 
   keg_only "so it can be installed alongside regular octave"
@@ -33,8 +37,8 @@ class OctaveOctaveAppAT830 < Formula
 
   # These must be kept in sync with the duplicates in `def install`!
   # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
-  @qt_formula = "qt-octave-app_5"
-  @qscintilla2_formula = "qscintilla2-octave-app"
+  @qt_formula = "qt-octapp_5"
+  @qscintilla2_formula = "qscintilla2-octapp"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -91,8 +95,8 @@ class OctaveOctaveAppAT830 < Formula
   def install
     # These must be kept in sync with the duplicates at the top of the formula!
     # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
-    @qt_formula = "qt-octave-app_5"
-    @qscintilla2_formula = "qscintilla2-octave-app"
+    @qt_formula = "qt-octapp_5"
+    @qscintilla2_formula = "qscintilla2-octapp"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
@@ -200,7 +204,7 @@ class OctaveOctaveAppAT830 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app@8.3.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@8.4.0"
   end
 
   test do

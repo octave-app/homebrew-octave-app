@@ -3,7 +3,7 @@
 # get "tar" as a GNU tar on the path by default; Octave isn't compatible
 # with BSD tar (yet; see https://savannah.gnu.org/bugs/index.php?53695).
 # As Octave 7.x, or maybe even 6.3, this is probably no longer needed.
-class GnuTarOctaveApp < Formula
+class GnuTarOctapp < Formula
   desc "GNU version of the tar archiving utility (octave-app variant)"
   homepage "https://www.gnu.org/software/tar/"
   url "https://ftp.gnu.org/gnu/tar/tar-1.35.tar.gz"

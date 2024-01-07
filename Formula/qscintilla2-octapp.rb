@@ -4,9 +4,9 @@
 
 # This is currently broken; it fails with an "empty install" error.
 # Ideas:
-#   * need an -octave-app variant of pyqt-builder?
-# Oh wait: it's the pyqt-octave-app dependency that's failing with "empty install"!
-class Qscintilla2OctaveApp < Formula
+#   * need an -octapp variant of pyqt-builder?
+# Oh wait: it's the pyqt-octapp dependency that's failing with "empty install"!
+class Qscintilla2Octapp < Formula
   desc "Port to Qt of the Scintilla editing component, Octave.app-hacked variant"
   homepage "https://www.riverbankcomputing.com/software/qscintilla/intro"
   url "https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.14.1/QScintilla_src-2.14.1.tar.gz"
@@ -17,9 +17,9 @@ class Qscintilla2OctaveApp < Formula
 
   depends_on "pyqt-builder" => :build
 
-  depends_on "pyqt-octave-app@5"
+  depends_on "pyqt-octapp@5"
   depends_on "python@3.11"
-  depends_on "qt-octave-app_5"
+  depends_on "qt-octapp_5"
   depends_on "sip"
 
   fails_with gcc: "5"
@@ -32,8 +32,8 @@ class Qscintilla2OctaveApp < Formula
     spec = (ENV.compiler == :clang) ? "macx-clang" : "macx-g++"
     args = %W[-config release -spec #{spec}]
 
-    pyqt = Formula["pyqt-octave-app@5"]
-    qt = Formula["qt-octave-app_5"]
+    pyqt = Formula["pyqt-octapp@5"]
+    qt = Formula["qt-octapp_5"]
     site_packages = Language::Python.site_packages(python3)
 
     cd "src" do
@@ -76,7 +76,7 @@ class Qscintilla2OctaveApp < Formula
   end
 
   test do
-    pyqt = Formula["pyqt-octave-app@5"]
+    pyqt = Formula["pyqt-octapp@5"]
     (testpath/"test.py").write <<~EOS
       import PyQt#{pyqt.version.major}.Qsci
       assert("QsciLexer" in dir(PyQt#{pyqt.version.major}.Qsci))

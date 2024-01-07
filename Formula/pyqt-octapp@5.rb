@@ -1,6 +1,6 @@
 # Pyqt, but for Qt 5 (core is on Qt 6; this uses pyqt@5), and hacked for Octave.app.
-# The hacks: uses qt-octave-app instead of core qt@5
-class PyqtOctaveAppAT5 < Formula
+# The hacks: uses qt-octapp instead of core qt@5
+class PyqtOctappAT5 < Formula
   desc "Python bindings for v5 of Qt, Octave.app-hacked variant"
   homepage "https://www.riverbankcomputing.com/software/pyqt/download5"
   url "https://files.pythonhosted.org/packages/4d/5d/b8b6e26956ec113ad3f566e02abd12ac3a56b103fcc7e0735e27ee4a1df3/PyQt5-5.15.10.tar.gz"
@@ -13,7 +13,7 @@ class PyqtOctaveAppAT5 < Formula
   depends_on "python@3.11"  => [:build, :test]
   depends_on "python@3.12"  => [:build, :test]
   depends_on "sip"          => :build
-  depends_on "qt-octave-app_5"
+  depends_on "qt-octapp_5"
 
   fails_with gcc: "5"
 

@@ -1,8 +1,5 @@
-# GNU Octave 5.1.0, Qt-enabled, with build customized for Octave.app
+# GNU Octave 6.1.0, Qt-enabled, with build customized for Octave.app
 #
-# This builds against the specific Qt 5.12 LTS instead of the "current" default
-# Qt because the build fails against Qt 5.13, and also we want to use LTS Qt
-# releases.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -17,11 +14,14 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctaveAppAT510 < Formula
+class OctaveOctappAT610 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "ftp://ftp.gnu.org/gnu/octave/octave-5.1.0.tar.lz"
-  sha256 "0633a2e6149350f4aaa1b107c90a486069110bb07805b285ee70052cfced9c87"
+  url "https://ftp.gnu.org/gnu/octave/octave-6.1.0.tar.lz"
+  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-6.1.0.tar.lz"
+  sha256 "d3c9dcf9cc795a84ff197a20dba9a6ea516547f51f012934630318142fd0a50c"
+  license "GPL-3.0-or-later"
+  revision 1
 
   keg_only "so it can be installed alongside regular octave"
 
@@ -29,9 +29,9 @@ class OctaveOctaveAppAT510 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt-octave-app_5"
-  @qscintilla2_formula = "qscintilla2-octave-app"
-  @gnuplot_formula = "gnuplot-octave-app"
+  @qt_formula = "qt-octapp_5"
+  @qscintilla2_formula = "qscintilla2-octapp"
+  @gnuplot_formula = "gnuplot-octapp"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
@@ -65,65 +65,30 @@ class OctaveOctaveAppAT510 < Formula
   depends_on "qrupdate"
   depends_on "readline"
   depends_on "suite-sparse"
-  depends_on "sundials@2"
+  depends_on "sundials"
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Dependencies for Octave Forge packages
-  depends_on "cfitsio"  # fits package
-  depends_on "gsl"      # gsl package
-  depends_on "mpfr"     # interval package
-  depends_on "proj@5"   # octproj package
-  depends_on "zeromq"   # zeromq package
-
-  # Get Octave to build with JDKs newer than Java 11
-  # See: https://savannah.gnu.org/patch/index.php?9806
-  patch do
-    url "https://raw.githubusercontent.com/Homebrew/formula-patches/master/octave/5.1.0-java-version.patch"
-    sha256 "7ea1e9b410a759fa136d153fb8482ecfc3425a39bfe71c1e71b3ff0f7d9a0b54"
-  end
+  # Dependencies for Octave Forge packages (not Octave itself)
+  depends_on "cfitsio"  # for fits OF package
+  depends_on "gsl"      # for gsl OF package
+  depends_on "mpfr"     # for interval OF package
+  depends_on "proj@5"   # for octproj OF package
+  depends_on "zeromq"   # for zeromq OF package
 
   # Dependencies for the graphical user interface
   if build.with?("qt")
     depends_on @qt_formula
     depends_on @qscintilla2_formula
-
-    # Fix bug #50025: Octave window freezes
-    # see https://savannah.gnu.org/bugs/?50025
-    patch do
-      url "https://savannah.gnu.org/support/download.php?file_id=45382"
-      sha256 "e179c3a0e53f6f0f4a48b5adafd18c0f9c33de276748b8049c7d1007282f7f6e"
-    end
-
-    # Fix bug #55268: crash during build
-    # see https://savannah.gnu.org/bugs/index.php?55268
-    patch do
-      url "https://savannah.gnu.org/bugs/download.php?file_id=45733"
-      sha256 "d7937a083af72d74f073c9dbc59feab178e00ca0ce952f61fa3430b9eafaa2e1"
-    end
-
-    # Fix bug https://github.com/octave-app/octave-app-bundler/issues/10
-    # tar.m and unpack.m use plain "tar" but expect a GNU tar
-    patch do
-      url "https://raw.githubusercontent.com/octave-app/formula-patches/80d1a98d982e4207e66d424c7cc685536607c66c/octave/4.4.0-gtar-instead-of-tar.patch"
-      sha256 "25a14fabf39841a4089667ebc5c326a2d40640b99432ae97ae49ce0a9a496878"
-    end
-
-    # Fix bug #55836: Add 1024x1024 app icon
-    # see https://savannah.gnu.org/bugs/index.php?55836
-    patch do
-      url "https://savannah.gnu.org/bugs/download.php?file_id=46433"
-      sha256 "f00383db6fb0c1d1032017a90840bd13cc7b6e52b47a8124a4fc7abd03d72b3b"
-    end
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt-octave-app_5"
-    @qscintilla2_formula = "qscintilla2-octave-app"
-    @gnuplot_formula = "gnuplot-octave-app"
+    @qt_formula = "qt-octapp_5"
+    @qscintilla2_formula = "qscintilla2-octapp"
+    @gnuplot_formula = "gnuplot-octapp"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
@@ -139,7 +104,7 @@ class OctaveOctaveAppAT510 < Formula
     inreplace "src/mkoctfile.in.cc", /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/, '""'
 
     # Pick up keg-only libraries
-    ENV.append "CXXFLAGS", "-I#{Formula["sundials@2"].opt_include}"
+    ENV.append "CXXFLAGS", "-I#{Formula["sundials"].opt_include}"
     ENV.append "CXXFLAGS", "-I#{Formula[@qscintilla2_formula].opt_include}"
     ENV.append "LDFLAGS", "-L#{Formula[@qscintilla2_formula].opt_lib}"
 
@@ -218,7 +183,7 @@ class OctaveOctaveAppAT510 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app@5.1.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@6.1.0"
   end
 
   test do

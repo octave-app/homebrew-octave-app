@@ -9,7 +9,7 @@
 
 # TODO: bump to 5.12.12 patch release
 
-class QtOctaveApp512 < Formula
+class QtOctapp512 < Formula
   desc "Cross-platform application and UI framework, Octave.app-hacked version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.12/5.12.7/single/qt-everywhere-src-5.12.7.tar.xz"

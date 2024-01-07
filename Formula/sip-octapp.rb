@@ -2,7 +2,7 @@
 # This uses sip 4.x. As of 2023, sip is up to 6.x.
 # TODO: I forgot what hacks/customization Octave.app even does to sip? It's a Python/C tool;
 # it doesn't use Qt. Maybe it was just to retain python@2 support?
-class SipOctaveApp < Formula
+class SipOctapp < Formula
   desc "Tool to create Python bindings for C and C++ libraries"
   homepage "https://www.riverbankcomputing.com/software/sip/intro"
   url "https://dl.bintray.com/homebrew/mirror/sip-4.19.8.tar.gz"

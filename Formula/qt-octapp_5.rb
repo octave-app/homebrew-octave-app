@@ -7,12 +7,12 @@
 # might be the LTS version, the latest version, or something else, depending on what
 # works best for Octave.app.
 #
-# Typically, you can refresh this formula from a versioned qt-octave-app_<X.Y> formula by
+# Typically, you can refresh this formula from a versioned qt-octapp_<X.Y> formula by
 # copy and pasting everything after the "desc" line in the formula.
 
 # Was 5.15.2 as of 2023-12-31. Trying latest 5.15.15 now.
 
-class QtOctaveApp5 < Formula
+class QtOctapp5 < Formula
   desc "Cross-platform application and UI framework, Octave.app-hacked version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"

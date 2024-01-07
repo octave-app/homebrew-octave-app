@@ -1,12 +1,13 @@
-# GNU Octave, Qt-enabled, with build customized for Octave.app
+# GNU Octave 8.3.0, Qt-enabled, with macOS patches, with build customized for Octave.app
 #
-# This version of Octave is kept at the current version. It is mostly only
-# used for grabbing the dependencies of Octave. It is not used for building
-# Octave.app itself; that is done with the versioned octave-octave-app@* formulae.\
-# This formula does not have versioned dependencies.
+# This is a work in progress as of 2023-10-25. It's been a couple years since I made a new
+# Octave formula, and there have been changes in both Octave and Homebrew since then, so
+# this may need some additional work.
 #
-# This formula is kept separate from Homebrew's main "octave" formula so we
-# can fiddle around with its version independently.
+# This "-vanilla-qt" variant exists because I can't get the regular octave-octapp@8.3.0 with
+# our hacked Qt building on macOS 12 on Intel; it's failing with gnuplot build errors. This
+# variant uses the regular qt and qt-dependent formulae. Hopefully it's just a temporary
+# measure for testing that will help us resolve the hacked-qt builds, and can go away eventually.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -21,12 +22,12 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctaveApp < Formula
+class OctaveOctappVanillaQtAT830 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://ftp.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
-  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
-  sha256 "d5a7e89928528dce8cab7eead700be8a8319a98ec5334cc2ce83d29ac60264c1"
+  url "https://ftp.gnu.org/gnu/octave/octave-8.3.0.tar.lz"
+  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-8.3.0.tar.lz"
+  sha256 "4dbd5da711b20ce640d75471895172b60e0bb9f45b75a0daa5ddf3050488d639"
   license "GPL-3.0-or-later"
 
   keg_only "so it can be installed alongside regular octave"
@@ -37,8 +38,9 @@ class OctaveOctaveApp < Formula
 
   # These must be kept in sync with the duplicates in `def install`!
   # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
-  @qt_formula = "qt-octave-app_5"
-  @qscintilla2_formula = "qscintilla2-octave-app"
+  @qt_formula = "qt@5"
+  @qscintilla2_formula = "qscintilla2"
+  @gnuplot_formula = "gnuplot-qt5"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -57,11 +59,10 @@ class OctaveOctaveApp < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
+  depends_on @gnuplot_formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
-  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # for sparsersb Forge package
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"
@@ -80,13 +81,13 @@ class OctaveOctaveApp < Formula
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Dependencies for Octave Forge packages (not Octave itself)
-  depends_on "cfitsio"  # for fits OF package
-  depends_on "gsl"      # for gsl OF package
-  depends_on "mpfr"     # for interval OF package
-  depends_on "proj@5"   # for octproj OF package
-  depends_on "zeromq"   # for zeromq OF package
-
+  # Dependencies for Octave Forge packages
+  depends_on "cfitsio"  # fits package
+  depends_on "gsl"      # gsl package
+  depends_on "mpfr"     # interval package
+  depends_on "proj@5"   # octproj package
+  depends_on "zeromq"   # zeromq package
+  
   # Suppress spurious messages about GCC caused by dependencies using Fortran
   cxxstdlib_check :skip
 
@@ -95,9 +96,10 @@ class OctaveOctaveApp < Formula
   def install
     # These must be kept in sync with the duplicates at the top of the formula!
     # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
-    @qt_formula = "qt-octave-app_5"
-    @qscintilla2_formula = "qscintilla2-octave-app"
-
+    @qt_formula = "qt@5"
+    @qscintilla2_formula = "qscintilla2"
+    @gnuplot_formula = "gnuplot-qt5"
+      
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
@@ -110,7 +112,7 @@ class OctaveOctaveApp < Formula
     # inserted into every oct/mex build. This is unnecessary and can cause
     # cause linking problems.
     inreplace "src/mkoctfile.in.cc", /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/, '""'
-
+    
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials"].opt_include}"
     ENV.append "CXXFLAGS", "-I#{Formula[@qscintilla2_formula].opt_include}"
@@ -118,7 +120,8 @@ class OctaveOctaveApp < Formula
 
     # SUNDIALS 6.4.0 and later needs C++14 for C++ based features.
     # Configure to use gnu++14 instead of c++14 as octave uses GNU extensions.
-    ENV.append "CXX", "-std=gnu++14"
+    # But as of Qt
+    # ENV.append "CXX", "-std=gnu++14"
 
     args = ["--prefix=#{prefix}",
             "--disable-dependency-tracking",
@@ -198,13 +201,13 @@ class OctaveOctaveApp < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula[@qt_formula].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octave-app@8.4.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@8.3.0"
   end
 
   test do
