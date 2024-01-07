@@ -117,7 +117,7 @@ class OctaveOctapp < Formula
     ENV.append "LDFLAGS", "-L#{Formula[@qscintilla2_formula].opt_lib}"
 
     # SUNDIALS 6.4.0 and later needs C++14 for C++ based features.
-    # Configure to use gnu++14 instead of c++14 as octave uses GNU extensions.
+    # Use gnu++14 instead of c++14 as octave uses GNU extensions.
     ENV.append "CXX", "-std=gnu++14"
 
     args = ["--prefix=#{prefix}",

@@ -8,6 +8,8 @@
 # our hacked Qt building on macOS 12 on Intel; it's failing with gnuplot build errors. This
 # variant uses the regular qt and qt-dependent formulae. Hopefully it's just a temporary
 # measure for testing that will help us resolve the hacked-qt builds, and can go away eventually.
+# It also exists so we can test whether the octapp Qt hack to suppress the "file change id" error
+# messages is still needed.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -40,7 +42,6 @@ class OctaveOctappVanillaQtAT830 < Formula
   # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
   @qt_formula = "qt@5"
   @qscintilla2_formula = "qscintilla2"
-  @gnuplot_formula = "gnuplot-qt5"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -59,7 +60,6 @@ class OctaveOctappVanillaQtAT830 < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on @gnuplot_formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
@@ -84,10 +84,12 @@ class OctaveOctappVanillaQtAT830 < Formula
   # Dependencies for Octave Forge packages
   depends_on "cfitsio"  # fits package
   depends_on "gsl"      # gsl package
+  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
+  # depends_on "librsb" # for sparsersb Forge package
   depends_on "mpfr"     # interval package
   depends_on "proj@5"   # octproj package
   depends_on "zeromq"   # zeromq package
-  
+
   # Suppress spurious messages about GCC caused by dependencies using Fortran
   cxxstdlib_check :skip
 
@@ -98,8 +100,7 @@ class OctaveOctappVanillaQtAT830 < Formula
     # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
     @qt_formula = "qt@5"
     @qscintilla2_formula = "qscintilla2"
-    @gnuplot_formula = "gnuplot-qt5"
-      
+
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
@@ -112,16 +113,15 @@ class OctaveOctappVanillaQtAT830 < Formula
     # inserted into every oct/mex build. This is unnecessary and can cause
     # cause linking problems.
     inreplace "src/mkoctfile.in.cc", /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/, '""'
-    
+
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials"].opt_include}"
     ENV.append "CXXFLAGS", "-I#{Formula[@qscintilla2_formula].opt_include}"
     ENV.append "LDFLAGS", "-L#{Formula[@qscintilla2_formula].opt_lib}"
 
     # SUNDIALS 6.4.0 and later needs C++14 for C++ based features.
-    # Configure to use gnu++14 instead of c++14 as octave uses GNU extensions.
-    # But as of Qt
-    # ENV.append "CXX", "-std=gnu++14"
+    # Use gnu++14 instead of c++14 as octave uses GNU extensions.
+    ENV.append "CXX", "-std=gnu++14"
 
     args = ["--prefix=#{prefix}",
             "--disable-dependency-tracking",
@@ -141,7 +141,7 @@ class OctaveOctappVanillaQtAT830 < Formula
       args << "--without-qt"
     else
       args << "--with-qt=5"
-      # Qt 5.12 compatibility
+      # Qt 5.12+ compatibility
       # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
       # source hasn't been updated to auto-detect this yet.
       ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'

@@ -1,4 +1,15 @@
-# GNU Octave 6.4.0, Qt-enabled, with build customized for Octave.app
+# GNU Octave 8.4.0, Qt-enabled, with macOS patches, with build customized for Octave.app
+#
+# This is a work in progress as of 2023-10-25. It's been a couple years since I made a new
+# Octave formula, and there have been changes in both Octave and Homebrew since then, so
+# this may need some additional work.
+#
+# This "-vanilla-qt" variant exists because I can't get the regular octave-octapp@8.4.0 with
+# our hacked Qt building on macOS 12 on Intel; it's failing with gnuplot build errors. This
+# variant uses the regular qt and qt-dependent formulae. Hopefully it's just a temporary
+# measure for testing that will help us resolve the hacked-qt builds, and can go away eventually.
+# It also exists so we can test whether the octapp Qt hack to suppress the "file change id" error
+# messages is still needed.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -13,23 +24,24 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctappAT640 < Formula
+class OctaveOctappVanillaQtAT840 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://ftp.gnu.org/gnu/octave/octave-6.4.0.tar.lz"
-  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-6.4.0.tar.lz"
-  sha256 "40eaa1492ec1baf5084a1694288febdcba568838f4983450f8dac5819934059a"
+  url "https://ftp.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
+  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
+  sha256 "d5a7e89928528dce8cab7eead700be8a8319a98ec5334cc2ce83d29ac60264c1"
   license "GPL-3.0-or-later"
-  revision 1
 
   keg_only "so it can be installed alongside regular octave"
 
-  option "without-qt", "Compile without qt-based graphical user interface"
+  option "without-qt", "Compile without Qt-based graphical user interface"
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt-octapp_5"
-  @qscintilla2_formula = "qscintilla2-octapp"
+  # These must be kept in sync with the duplicates in `def install`!
+  # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
+  @qt_formula = "qt@5"
+  @qscintilla2_formula = "qscintilla2"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -41,19 +53,18 @@ class OctaveOctappAT640 < Formula
   depends_on "epstool"
   depends_on "fftw"
   depends_on "fig2dev"
+  depends_on "fltk"
   depends_on "fontconfig"
   depends_on "freetype"
+  depends_on "gcc" # for gfortran
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
-  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # for sparsersb Forge package
   depends_on "libsndfile"
   depends_on "libtool"
-  depends_on "netcdf"
   depends_on "openblas"
   depends_on "openjdk"
   depends_on "pcre"
@@ -63,6 +74,7 @@ class OctaveOctappAT640 < Formula
   depends_on "qrupdate"
   depends_on @qscintilla2_formula if build.with?("qt")
   depends_on @qt_formula if build.with?("qt")
+  depends_on "rapidjson"
   depends_on "readline"
   depends_on "suite-sparse"
   depends_on "sundials"
@@ -72,6 +84,8 @@ class OctaveOctappAT640 < Formula
   # Dependencies for Octave Forge packages (not Octave itself)
   depends_on "cfitsio"  # for fits OF package
   depends_on "gsl"      # for gsl OF package
+  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
+  # depends_on "librsb" # for sparsersb Forge package
   depends_on "mpfr"     # for interval OF package
   depends_on "proj@5"   # for octproj OF package
   depends_on "zeromq"   # for zeromq OF package
@@ -79,9 +93,13 @@ class OctaveOctappAT640 < Formula
   # Suppress spurious messages about GCC caused by dependencies using Fortran
   cxxstdlib_check :skip
 
+  fails_with gcc: "5"
+
   def install
-    @qt_formula = "qt-octapp_5"
-    @qscintilla2_formula = "qscintilla2-octapp"
+    # These must be kept in sync with the duplicates at the top of the formula!
+    # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
+    @qt_formula = "qt@5"
+    @qscintilla2_formula = "qscintilla2"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
@@ -111,9 +129,9 @@ class OctaveOctappAT640 < Formula
             "--enable-link-all-dependencies",
             "--enable-shared",
             "--disable-static",
-            "--without-fltk",
             "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
             "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
+            "--with-java-homedir=#{Formula["openjdk"].opt_prefix}",
             "--with-x=no",
             "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
             "--with-portaudio",
@@ -123,10 +141,12 @@ class OctaveOctappAT640 < Formula
       args << "--without-qt"
     else
       args << "--with-qt=5"
+      # Qt 5.12+ compatibility
       # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
       # source hasn't been updated to auto-detect this yet.
-      #ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
+      ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
       # These "shouldn't" be necessary, but the build breaks if I don't include them.
+      # https://savannah.gnu.org/bugs/?55883
       ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
       ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
       ENV['QT_LDFLAGS']="-F#{Formula[@qt_formula].opt_lib}"
@@ -150,6 +170,12 @@ class OctaveOctappAT640 < Formula
 
     system "./configure", *args
     system "make", "all"
+
+    # Avoid revision bumps whenever fftw's, gcc's or OpenBLAS' Cellar paths change
+    inreplace "src/mkoctfile.cc" do |s|
+      s.gsub! Formula["fftw"].prefix.realpath, Formula["fftw"].opt_prefix
+      s.gsub! Formula["gcc"].prefix.realpath, Formula["gcc"].opt_prefix
+    end
 
     # Make sure that Octave uses the modern texinfo
     rcfile = buildpath/"scripts/startup/site-rcfile"
@@ -181,7 +207,7 @@ class OctaveOctappAT640 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@6.4.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@8.4.0"
   end
 
   test do
@@ -190,6 +216,22 @@ class OctaveOctappAT640 < Formula
     system bin/"octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
     # Test java bindings: check if javaclasspath is working, return error if not
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
+    # Test basic oct-file compilation
+    (testpath/"oct_demo.cc").write <<~EOS
+      #include <octave/oct.h>
+      DEFUN_DLD (oct_demo, args, /*nargout*/, "doc str")
+      { return ovl (42); }
+    EOS
+    system bin/"octave", "--eval", <<~EOS
+      mkoctfile ('-v', '-std=c++11', '-L#{lib}/octave/#{version}', 'oct_demo.cc');
+      assert(oct_demo, 42)
+    EOS
+    # Test FLIBS environment variable
+    system bin/"octave", "--eval", <<~EOS
+      args = strsplit (mkoctfile ('-p', 'FLIBS'));
+      args = args(~cellfun('isempty', args));
+      mkoctfile ('-v', '-std=c++11', '-L#{lib}/octave/#{version}', args{:}, 'oct_demo.cc');
+      assert(oct_demo, 42)
+    EOS
   end
 end
-
