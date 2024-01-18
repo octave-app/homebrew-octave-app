@@ -27,7 +27,7 @@ class QtOctapp5 < Formula
 
   depends_on "node" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.11" => :buildbuild # NOTE: Python 3.12+ would need additional backports due to imp usage
+  depends_on "python@3.11" => :build # NOTE: Python 3.12+ would need additional backports due to imp usage
   depends_on xcode: :build
   depends_on "freetype"
   depends_on "glib"

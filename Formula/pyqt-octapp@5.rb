@@ -9,7 +9,6 @@ class PyqtOctappAT5 < Formula
 
   depends_on "pyqt-builder" => :build
   depends_on "python-setuptools" => :build
-  depends_on "python@3.10"  => [:build, :test]
   depends_on "python@3.11"  => [:build, :test]
   depends_on "python@3.12"  => [:build, :test]
   depends_on "sip"          => :build

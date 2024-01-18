@@ -18,7 +18,7 @@ class QtOctapp515 < Formula
 
   depends_on "node" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.10" => :build
+  depends_on "python@3.11" => :build
   depends_on xcode: :build
   depends_on "freetype"
   depends_on "glib"

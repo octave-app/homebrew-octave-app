@@ -39,7 +39,7 @@ class Qt60 < Formula
   depends_on "libproxy"
   depends_on "libtiff"
   depends_on "pcre2"
-  depends_on "python@3.9"
+  depends_on "python@3.11"
   depends_on "sqlite"
   depends_on "webp"
   depends_on "zstd"
