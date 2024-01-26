@@ -53,7 +53,6 @@ class OctaveOctappAT620 < Formula
   depends_on "hdf5"
   depends_on "libsndfile"
   depends_on "libtool"
-  depends_on "netcdf"
   depends_on "openblas"
   depends_on "openjdk"
   depends_on "pcre"
@@ -70,13 +69,14 @@ class OctaveOctappAT620 < Formula
   depends_on MacTeXRequirement if build.with?("docs")
 
   # Dependencies for Octave Forge packages
-  depends_on "cfitsio"  # fits package
-  depends_on "gsl"      # gsl package
+  depends_on "cfitsio"  # fits OF package
+  depends_on "gsl"      # gsl OF package
   # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # for sparsersb Forge package
+  # depends_on "librsb" # sparsersb OF package
   depends_on "mpfr"     # interval package
-  depends_on "proj@5"   # octproj package
-  depends_on "zeromq"   # zeromq package
+  depends_on "netcdf"   # ??? OF packages
+  depends_on "proj@5"   # octproj OF package
+  depends_on "zeromq"   # zeromq OF package
 
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip

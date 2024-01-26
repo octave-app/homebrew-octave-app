@@ -81,14 +81,15 @@ class OctaveOctappVanillaqtAT830 < Formula
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Dependencies for Octave Forge packages
-  depends_on "cfitsio"  # fits package
-  depends_on "gsl"      # gsl package
+  # Dependencies for Octave Forge packages (not Octave itself)
+  depends_on "cfitsio"  # for fits OF package
+  depends_on "gsl"      # for gsl OF package
   # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # for sparsersb Forge package
-  depends_on "mpfr"     # interval package
-  depends_on "proj@5"   # octproj package
-  depends_on "zeromq"   # zeromq package
+  # depends_on "librsb" # for sparsersb OF package
+  depends_on "mpfr"     # for interval package
+  depends_on "netcdf"   # for ??? OF packages
+  depends_on "proj@5"   # for octproj OF package
+  depends_on "zeromq"   # for zeromq OF package
 
   # Suppress spurious messages about GCC caused by dependencies using Fortran
   cxxstdlib_check :skip
