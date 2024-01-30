@@ -2,10 +2,6 @@
 # The Octave.app hacks are just having it depend on octapp-hacked versions of other
 # formulae, like qt and pyqt.
 
-# This is currently broken; it fails with an "empty install" error.
-# Ideas:
-#   * need an -octapp variant of pyqt-builder?
-# Oh wait: it's the pyqt-octapp dependency that's failing with "empty install"!
 class Qscintilla2Octapp < Formula
   desc "Port to Qt of the Scintilla editing component, Octave.app-hacked variant"
   homepage "https://www.riverbankcomputing.com/software/qscintilla/intro"
