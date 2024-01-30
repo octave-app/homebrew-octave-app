@@ -9,7 +9,8 @@
 # variant uses the regular qt and qt-dependent formulae. Hopefully it's just a temporary
 # measure for testing that will help us resolve the hacked-qt builds, and can go away eventually.
 # It also exists so we can test whether the octapp Qt hack to suppress the "file change id" error
-# messages is still needed.
+# messages is still needed. This may be obsolete now that octapp 8.x has dropped its gnuplot
+# dependency.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -88,7 +89,7 @@ class OctaveOctappVanillaqtAT840 < Formula
   # depends_on "librsb" # for sparsersb OF package
   depends_on "mpfr"     # for interval package
   depends_on "netcdf"   # for ??? OF packages
-  depends_on "proj@5"   # for octproj OF package
+  depends_on "proj"     # for octproj OF package
   depends_on "zeromq"   # for zeromq OF package
 
   # Suppress spurious messages about GCC caused by dependencies using Fortran

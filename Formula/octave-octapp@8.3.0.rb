@@ -81,7 +81,7 @@ class OctaveOctappAT830 < Formula
   # depends_on "librsb" # for sparsersb OF package
   depends_on "mpfr"     # for interval package
   depends_on "netcdf"   # for ??? OF packages
-  depends_on "proj@5"   # for octproj OF package
+  depends_on "proj"     # for octproj OF package
   depends_on "zeromq"   # for zeromq OF package
 
   # Suppress spurious messages about GCC caused by dependencies using Fortran

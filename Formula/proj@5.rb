@@ -1,5 +1,11 @@
-# Proj version 5.x, needed because octproj Forge package cannot build
-# against Proj 6.x
+# Proj version 5.x, needed because octproj Forge package could build against
+# Proj 6 or later as of 2021-ish, and the core Homebrew formula was on 6 or 7 at that
+# point. Proj 5 is from 2018.
+#
+# As of 2024-01, Proj is up to 9.x; the core Homebrew proj formula is Proj 9, and there's
+# a proj@7 versioned formula, but no proj@5. But it also looks like octproj now works with
+# the current proj versions, so this proj@5 formula is not used for Octave.app versions as
+# of 2024-01, starting with Octave.app 7.x and 8.x.
 class ProjAT5 < Formula
   desc "Cartographic Projections Library"
   homepage "https://proj4.org/"
