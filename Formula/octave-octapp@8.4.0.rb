@@ -1,8 +1,4 @@
 # GNU Octave 8.4.0, Qt-enabled, with macOS patches, with build customized for Octave.app
-#
-# This is a work in progress as of 2023-10-25. It's been a couple years since I made a new
-# Octave formula, and there have been changes in both Octave and Homebrew since then, so
-# this may need some additional work.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -201,6 +197,7 @@ class OctaveOctappAT840 < Formula
   end
 
   def post_install
+    # Link this keg-only formula into the main Homebrew bin with a prefixed name
     system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@8.4.0"
   end
 

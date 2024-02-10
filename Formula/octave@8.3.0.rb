@@ -1,8 +1,4 @@
 # GNU Octave 8.3.0, Qt-enabled, with macOS patches, but not Octave.app customizations
-#
-# This is a work in progress as of 2023-10-25. It's been a couple years since I made a new
-# Octave formula, and there have been changes in both Octave and Homebrew since then, so
-# this may need some additional work.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -35,7 +31,6 @@ class OctaveAT830 < Formula
   # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
   @qt_formula = "qt@5"
   @qscintilla2_formula = "qscintilla2"
-  @gnuplot_formula = "gnuplot"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -54,7 +49,6 @@ class OctaveAT830 < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on @gnuplot_formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
@@ -86,8 +80,7 @@ class OctaveAT830 < Formula
     # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
     @qt_formula = "qt@5"
     @qscintilla2_formula = "qscintilla2"
-    @gnuplot_formula = "gnuplot"
-  
+
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
@@ -100,7 +93,7 @@ class OctaveAT830 < Formula
     # inserted into every oct/mex build. This is unnecessary and can cause
     # cause linking problems.
     inreplace "src/mkoctfile.in.cc", /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/, '""'
-    
+
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials"].opt_include}"
     ENV.append "CXXFLAGS", "-I#{Formula[@qscintilla2_formula].opt_include}"
@@ -146,6 +139,9 @@ class OctaveAT830 < Formula
       ENV.prepend_path "PATH", "/Library/TeX/texbin/"
     end
 
+    # Force use of our bundled JDK
+    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
+
     # Fix aclocal version issue
     system "autoreconf", "-f", "-i"
     # TODO: Maybe this would work instead? It's what the core octave formula uses.
@@ -179,7 +175,7 @@ class OctaveAT830 < Formula
 
     system "make", "install"
 
-    # Create empty qt help to avoid error dialog in GUI if no documentation is found
+    # Create empty Qt help to avoid error dialog in GUI if no documentation is found
     if build.without?("docs") && build.with?("qt") && !build.stable?
       File.open("doc/octave_interpreter.qhcp", "w") do |f|
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
@@ -191,6 +187,7 @@ class OctaveAT830 < Formula
   end
 
   def post_install
+    # Link this keg-only formula into the main Homebrew bin with a prefixed name
     system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@8.3.0"
   end
 

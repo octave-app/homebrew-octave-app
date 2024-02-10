@@ -218,6 +218,7 @@ class OctaveOctappAT510 < Formula
   end
 
   def post_install
+    # Link this keg-only formula into the main Homebrew bin with a prefixed name
     system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@5.1.0"
   end
 
@@ -229,5 +230,3 @@ class OctaveOctappAT510 < Formula
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
   end
 end
-
-
