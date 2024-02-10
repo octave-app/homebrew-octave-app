@@ -1,4 +1,4 @@
-# GNU Octave 8.3.0, Qt-enabled, with macOS patches, with build customized for Octave.app
+# GNU Octave 8.4.0, Qt-enabled, with macOS patches, but not Octave.app customizations
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -13,24 +13,24 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctappAT830 < Formula
-  desc "GNU Octave, customized for Octave.app, v. 8.3.0"
+class OctaveAT840 < Formula
+  desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://ftp.gnu.org/gnu/octave/octave-8.3.0.tar.lz"
-  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-8.3.0.tar.lz"
-  sha256 "4dbd5da711b20ce640d75471895172b60e0bb9f45b75a0daa5ddf3050488d639"
+  url "https://ftp.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
+  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
+  sha256 "d5a7e89928528dce8cab7eead700be8a8319a98ec5334cc2ce83d29ac60264c1"
   license "GPL-3.0-or-later"
 
   keg_only "so it can be installed alongside regular octave"
 
-  option "without-qt", "Compile without Qt-based graphical user interface"
+  option "without-qt", "Compile without qt-based graphical user interface"
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
   # These must be kept in sync with the duplicates in `def install`!
   # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
-  @qt_formula = "qt-octapp_5"
-  @qscintilla2_formula = "qscintilla2-octapp"
+  @qt_formula = "qt@5"
+  @qscintilla2_formula = "qscintilla2"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -41,7 +41,7 @@ class OctaveOctappAT830 < Formula
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
-  depends_on "fig2dev-octapp"
+  depends_on "fig2dev"
   depends_on "fltk"
   depends_on "fontconfig"
   depends_on "freetype"
@@ -70,16 +70,6 @@ class OctaveOctappAT830 < Formula
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Dependencies for Octave Forge packages (not Octave itself)
-  # We exclude proj bc it's too big; 750 MB for the brewed proj 9.x
-  depends_on "cfitsio"  # for fits OF package
-  depends_on "gsl"      # for gsl OF package
-  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # for sparsersb OF package
-  depends_on "mpfr"     # for interval package
-  depends_on "netcdf"   # for ??? OF packages
-  depends_on "zeromq"   # for zeromq OF package
-
   # Suppress spurious messages about GCC caused by dependencies using Fortran
   cxxstdlib_check :skip
 
@@ -88,15 +78,15 @@ class OctaveOctappAT830 < Formula
   def install
     # These must be kept in sync with the duplicates at the top of the formula!
     # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
-    @qt_formula = "qt-octapp_5"
-    @qscintilla2_formula = "qscintilla2-octapp"
+    @qt_formula = "qt@5"
+    @qscintilla2_formula = "qscintilla2"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
 
-    # Do not execute a test that may trigger a dialog to install Java
+    # Do not execute a test that may trigger a dialog to install java
     inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
 
     # Default configuration passes all linker flags to mkoctfile, to be
@@ -191,14 +181,14 @@ class OctaveOctappAT830 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula[@qt_formula].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
 
   def post_install
     # Link this keg-only formula into the main Homebrew bin with a prefixed name
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@8.3.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@8.4.0"
   end
 
   test do
