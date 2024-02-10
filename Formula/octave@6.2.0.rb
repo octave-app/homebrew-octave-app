@@ -18,7 +18,7 @@ class OctaveAT620 < Formula
   homepage "https://www.gnu.org/software/octave/index.html"
   url "https://ftp.gnu.org/gnu/octave/octave-6.2.0.tar.lz"
   mirror "https://ftpmirror.gnu.org/gnu/octave/octave-6.2.0.tar.lz"
-  sha256 "27326ef4af61f5524325bdabf27be47da6b5988698a95fd81b2a30b598f4b2b2"
+  sha256 "e42cf9224b692e8f1220084160501e6ff4d5167f428d1f38ffa82e54d34e047a"
   license "GPL-3.0-or-later"
   revision 1
 
@@ -95,7 +95,7 @@ class OctaveAT620 < Formula
     @qt_formula = "qt"
     @qscintilla2_formula = "qscintilla2"
     @gnuplot_formula = "gnuplot"
-  
+
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
@@ -197,5 +197,3 @@ class OctaveAT620 < Formula
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
   end
 end
-
-
