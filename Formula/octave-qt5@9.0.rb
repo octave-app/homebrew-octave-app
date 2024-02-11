@@ -1,11 +1,10 @@
-# GNU Octave 9.0 (currently prerelease), Qt-enabled, with macOS patches, but not Octave.app customizations
+# GNU Octave 9.0 (currently prerelease), with Qt 5 not 6, with macOS patches, but not Octave.app customizations
 #
 # (I think in Octave's versioning scheme, the 9.0.x series is the prerelease stuff that
 # leads up to the 9.1.0 real release.)
 #
-# This main formula builds against Qt 6, and is currently broken because of that. (A sip
-# install error in the qscintilla2-qt6 build.) See octave-qt5@9.0 for an alternative that
-# builds against the old Qt 5, and is working.
+# This is an altrnate formula that uses Qt 5, because I haven't gotten builds against Qt 6
+# working yet.
 class MacTeXRequirement < Requirement
   fatal true
 
@@ -19,7 +18,7 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveAT90 < Formula
+class OctaveQt5AT90 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "https://alpha.gnu.org/gnu/octave/octave-9.0.90.tar.lz"
@@ -34,8 +33,10 @@ class OctaveAT90 < Formula
   option "with-test", "Do compile-time make checks"
 
   # These must be kept in sync with the duplicates in `def install`!
-  @qt_formula = "qt"
-  @qscintilla2_formula = "qscintilla2-qt6"
+  # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
+  # Leave these on qt5, bc this variant formula is for that.
+  @qt_formula = "qt@5"
+  @qscintilla2_formula = "qscintilla2-qt5"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -82,9 +83,8 @@ class OctaveAT90 < Formula
 
   def install
     # These must be kept in sync with the duplicates at the top of the formula!
-    # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
-    @qt_formula = "qt"
-    @qscintilla2_formula = "qscintilla2-qt6"
+    @qt_formula = "qt@5"
+    @qscintilla2_formula = "qscintilla2-qt5"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
@@ -125,7 +125,7 @@ class OctaveAT90 < Formula
     if build.without? "qt"
       args << "--without-qt"
     else
-      args << "--with-qt"
+      args << "--with-qt=5"
       # WIP: working on switching to Qt 6 as of 2024-02-10
       # Qt 5.12 compatibility
       # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
@@ -194,7 +194,7 @@ class OctaveAT90 < Formula
 
   def post_install
     # Link this keg-only formula into the main Homebrew bin with a prefixed name
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@9.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-qt5@9.0"
   end
 
   test do
