@@ -40,12 +40,13 @@ class Qscintilla2Qt6 < Formula
 
     if OS.mac?
       # TODO: when using qt 6, modify the spec
+      # TODO: figure out how the spec should be modified per above comment, now that we're using qt6
       spec = (ENV.compiler == :clang) ? "macx-clang" : "macx-g++"
       args = %W[-config release -spec #{spec}]
     end
 
-    pyqt = Formula["pyqt@5"]
-    qt = Formula["qt@5"]
+    pyqt = Formula["pyqt"]
+    qt = Formula["qt"]
     site_packages = Language::Python.site_packages(python3)
 
     cd "src" do
@@ -54,13 +55,14 @@ class Qscintilla2Qt6 < Formula
           "QMAKE_POST_LINK += install_name_tool -id #{lib}/$(TARGET1) $(TARGET)"
         s.gsub! "$$[QT_INSTALL_LIBS]", lib
         s.gsub! "$$[QT_INSTALL_HEADERS]", include
-        # TODO: use qt6 directory layout when octave can migrate to qt6
-        s.gsub! "$$[QT_INSTALL_TRANSLATIONS]", prefix/"trans"
-        s.gsub! "$$[QT_INSTALL_DATA]", prefix/"data"
-        s.gsub! "$$[QT_HOST_DATA]", prefix/"data"
-        # s.gsub! "$$[QT_INSTALL_TRANSLATIONS]", share/"qt/translations"
-        # s.gsub! "$$[QT_INSTALL_DATA]", share/"qt"
-        # s.gsub! "$$[QT_HOST_DATA]", share/"qt"
+        # TODO: use qt6 directory layout when octave can migrate to qt6 (in progress)
+        s.gsub! "$$[QT_INSTALL_TRANSLATIONS]", share/"qt/translations"
+        s.gsub! "$$[QT_INSTALL_DATA]", share/"qt"
+        s.gsub! "$$[QT_HOST_DATA]", share/"qt"
+        # These are the old qt5 variants:
+        # s.gsub! "$$[QT_INSTALL_TRANSLATIONS]", prefix/"trans"
+        # s.gsub! "$$[QT_INSTALL_DATA]", prefix/"data"
+        # s.gsub! "$$[QT_HOST_DATA]", prefix/"data"
       end
 
       inreplace "features/qscintilla2.prf" do |s|
@@ -80,23 +82,27 @@ class Qscintilla2Qt6 < Formula
         sip-include-dirs = ["#{pyqt.opt_prefix/site_packages}/PyQt#{pyqt.version.major}/bindings"]
       EOS
 
-      # TODO: qt6 options
+      # TODO: qt6 options (in progress)
       # --qsci-features-dir #{share}/qt/mkspecs/features
       # --api-dir #{share}/qt/qsci/api/python
+      # Old qt5 options:
+      # --qsci-features-dir #{prefix}/data/mkspecs/features
+      # --api-dir #{prefix}/data/qsci/api/python
+
       args = %W[
         --target-dir #{prefix/site_packages}
 
-        --qsci-features-dir #{prefix}/data/mkspecs/features
+        --qsci-features-dir #{share}/qt/mkspecs/features
         --qsci-include-dir #{include}
         --qsci-library-dir #{lib}
-        --api-dir #{prefix}/data/qsci/api/python
+        --api-dir #{share}/qt/qsci/api/python
       ]
       system "sip-install", *args
     end
   end
 
   test do
-    pyqt = Formula["pyqt@5"]
+    pyqt = Formula["pyqt"]
     (testpath/"test.py").write <<~EOS
       import PyQt#{pyqt.version.major}.Qsci
       assert("QsciLexer" in dir(PyQt#{pyqt.version.major}.Qsci))

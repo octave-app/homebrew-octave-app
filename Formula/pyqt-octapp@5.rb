@@ -1,5 +1,8 @@
 # Pyqt, but for Qt 5 (core is on Qt 6; this uses pyqt@5), and hacked for Octave.app.
-# The hacks: uses qt-octapp instead of core qt@5
+# There is no corresponding pyqt-octapp for Qt 6; with Qt 6 we can use the default pyqt
+# because we're using the vanilla Qt 6.
+#
+# The hacks: uses qt-octapp_5 instead of core qt@5
 class PyqtOctappAT5 < Formula
   desc "Python bindings for v5 of Qt, Octave.app-hacked variant"
   homepage "https://www.riverbankcomputing.com/software/pyqt/download5"
