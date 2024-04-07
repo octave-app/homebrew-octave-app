@@ -1,9 +1,9 @@
-# GNU Octave 9.0 (prerelease), with Qt 5 not 6, with build customized for Octave.app
+# GNU Octave 9.1, with Qt 5 not 6
 #
-# This is using Qt 5 for now, bc I can't get qscintilla2 building with Qt 6. Want to switch to Qt 6 before
-# we do an Octave.app release of this.
-#
-# This formula will track the prerelease builds and release candidates.
+# This main formula builds against Qt 6, and is currently broken because of that. (A sip
+# install error in the qscintilla2-qt6 build.) See octave-qt5@9.0 for an alternative that
+# builds against the old Qt 5, and is working.
+
 class MacTeXRequirement < Requirement
   fatal true
 
@@ -17,12 +17,12 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctappAT90 < Formula
-  desc "GNU Octave, customized for Octave.app, v. 9.0 (prerelease)"
+class OctaveAT91 < Formula
+  desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://alpha.gnu.org/gnu/octave/octave-9.0.90.tar.lz"
-  # mirror "https://ftpmirror.gnu.org/gnu/octave/octave-9.0.90.tar.lz"
-  sha256 "c73b6d0ae0c505aac2dd924404653dcfd5ed439ce34c89f5b3b01980b5a90ac2"
+  url "https://ftp.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
+  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
+  sha256 "f1769f61bd10c8ade6aee352b1bbb016e5fd8fc8394896a64dc26ef675ba3cea"
   license "GPL-3.0-or-later"
 
   keg_only "so it can be installed alongside regular octave"
@@ -32,9 +32,8 @@ class OctaveOctappAT90 < Formula
   option "with-test", "Do compile-time make checks"
 
   # These must be kept in sync with the duplicates in `def install`!
-  # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
-  @qt_formula = "qt-octapp_5"
-  @qscintilla2_formula = "qscintilla2-octapp"
+  @qt_formula = "qt"
+  @qscintilla2_formula = "qscintilla2-qt6"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -74,17 +73,6 @@ class OctaveOctappAT90 < Formula
   depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Dependencies for Octave Forge packages (not Octave itself)
-  # We exclude proj bc it's too big; 750 MB for the brewed proj 9.x
-  # depends_on "proj"     # for octproj OF package
-  depends_on "cfitsio"  # for fits OF package
-  depends_on "gsl"      # for gsl OF package
-  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # for sparsersb OF package
-  depends_on "mpfr"     # for interval package
-  depends_on "netcdf"   # for ??? OF packages
-  depends_on "zeromq"   # for zeromq OF package
-
   # Suppress spurious messages about GCC caused by dependencies using Fortran
   cxxstdlib_check :skip
 
@@ -92,8 +80,9 @@ class OctaveOctappAT90 < Formula
 
   def install
     # These must be kept in sync with the duplicates at the top of the formula!
-    @qt_formula = "qt-octapp_5"
-    @qscintilla2_formula = "qscintilla2-octapp"
+    # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
+    @qt_formula = "qt"
+    @qscintilla2_formula = "qscintilla2-qt6"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
@@ -101,7 +90,6 @@ class OctaveOctappAT90 < Formula
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
 
     # Do not execute a test that may trigger a dialog to install java
-    # TODO: is this still needed?
     inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
 
     # Default configuration passes all linker flags to mkoctfile, to be
@@ -135,13 +123,15 @@ class OctaveOctappAT90 < Formula
     if build.without? "qt"
       args << "--without-qt"
     else
-      args << "--with-qt=5"
+      args << "--with-qt"
       # WIP: working on switching to Qt 6 as of 2024-02-10
       # Qt 5.12 compatibility
       # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
       # source hasn't been updated to auto-detect this yet.
-      ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
-      # These "shouldn't" be necessary, but the build breaks if I don't include them.
+      # ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
+      # These "shouldn't" be necessary, but if I don't include them, the build would against
+      # Qt 5 would break. Don't know if they're still needed against Qt 6; either way, the build
+      # seems to succeed but it fails to detect Qt 6 during the configure stage.
       # https://savannah.gnu.org/bugs/?55883
       ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
       ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
@@ -204,7 +194,7 @@ class OctaveOctappAT90 < Formula
 
   def post_install
     # Link this keg-only formula into the main Homebrew bin with a prefixed name
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@9.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@9.0"
   end
 
   test do
