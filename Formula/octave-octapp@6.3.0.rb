@@ -29,7 +29,7 @@ class OctaveOctappAT630 < Formula
   option "with-test", "Do compile-time make checks"
 
   @qt_formula = "qt-octapp_5"
-  @qscintilla2_formula = "qscintilla2-octapp"
+  @qscintilla2_formula = "qscintilla2-octapp-qt5"
   @gnuplot_formula = "gnuplot-octapp"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
@@ -83,7 +83,7 @@ class OctaveOctappAT630 < Formula
 
   def install
     @qt_formula = "qt-octapp_5"
-    @qscintilla2_formula = "qscintilla2-octapp"
+    @qscintilla2_formula = "qscintilla2-octapp-qt5"
     @gnuplot_formula = "gnuplot-octapp"
 
     # Hack: munge HG-ID to reflect that we're adding patches

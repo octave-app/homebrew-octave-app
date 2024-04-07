@@ -30,7 +30,7 @@ class OctaveOctappAT840 < Formula
   # These must be kept in sync with the duplicates in `def install`!
   # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
   @qt_formula = "qt-octapp_5"
-  @qscintilla2_formula = "qscintilla2-octapp"
+  @qscintilla2_formula = "qscintilla2-octapp-qt5"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -89,7 +89,7 @@ class OctaveOctappAT840 < Formula
     # These must be kept in sync with the duplicates at the top of the formula!
     # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
     @qt_formula = "qt-octapp_5"
-    @qscintilla2_formula = "qscintilla2-octapp"
+    @qscintilla2_formula = "qscintilla2-octapp-qt5"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;

@@ -29,7 +29,7 @@ class OctaveOctappAT640 < Formula
   option "with-test", "Do compile-time make checks"
 
   @qt_formula = "qt-octapp_5"
-  @qscintilla2_formula = "qscintilla2-octapp"
+  @qscintilla2_formula = "qscintilla2-octapp-qt5"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -81,7 +81,7 @@ class OctaveOctappAT640 < Formula
 
   def install
     @qt_formula = "qt-octapp_5"
-    @qscintilla2_formula = "qscintilla2-octapp"
+    @qscintilla2_formula = "qscintilla2-octapp-qt5"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;

@@ -1,12 +1,7 @@
-# GNU Octave, Qt-enabled, with build customized for Octave.app
+# GNU Octave 9.1, with Qt 5 not 6, with build customized for Octave.app
 #
-# This version of Octave is kept at the current version. It is mostly only
-# used for grabbing the dependencies of Octave. It is not used for building
-# Octave.app itself; that is done with the versioned octave-octapp@* formulae.\
-# This formula does not have versioned dependencies.
-#
-# This formula is kept separate from Homebrew's main "octave" formula so we
-# can fiddle around with its version independently.
+# This is using Qt 5 for now, bc I can't get qscintilla2 building with Qt 6. Want to switch to Qt 6 before
+# we do an Octave.app release of this.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -21,17 +16,17 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctapp < Formula
-  desc "GNU Octave, customized for Octave.app, most recent version"
+class OctaveOctappQt5AT91 < Formula
+  desc "GNU Octave, customized for Octave.app, v. 9.1"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://ftp.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
-  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
-  sha256 "d5a7e89928528dce8cab7eead700be8a8319a98ec5334cc2ce83d29ac60264c1"
+  url "https://ftp.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
+  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
+  sha256 "f1769f61bd10c8ade6aee352b1bbb016e5fd8fc8394896a64dc26ef675ba3cea"
   license "GPL-3.0-or-later"
 
   keg_only "so it can be installed alongside regular octave"
 
-  option "without-qt", "Compile without Qt-based graphical user interface"
+  option "without-qt", "Compile without qt-based graphical user interface"
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
@@ -49,7 +44,7 @@ class OctaveOctapp < Formula
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
-  depends_on "fig2dev-octapp"
+  depends_on "fig2dev"
   depends_on "fltk"
   depends_on "fontconfig"
   depends_on "freetype"
@@ -80,6 +75,7 @@ class OctaveOctapp < Formula
 
   # Dependencies for Octave Forge packages (not Octave itself)
   # We exclude proj bc it's too big; 750 MB for the brewed proj 9.x
+  # depends_on "proj"     # for octproj OF package
   depends_on "cfitsio"  # for fits OF package
   depends_on "gsl"      # for gsl OF package
   # WIP: DEBUG: Temporarily disabled bc its download and build are broken
@@ -95,7 +91,6 @@ class OctaveOctapp < Formula
 
   def install
     # These must be kept in sync with the duplicates at the top of the formula!
-    # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
     @qt_formula = "qt-octapp_5"
     @qscintilla2_formula = "qscintilla2-octapp-qt5"
 
@@ -104,7 +99,8 @@ class OctaveOctapp < Formula
     File.delete("HG-ID");
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
 
-    # Do not execute a test that may trigger a dialog to install Java
+    # Do not execute a test that may trigger a dialog to install java
+    # TODO: is this still needed?
     inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
 
     # Default configuration passes all linker flags to mkoctfile, to be
@@ -139,6 +135,7 @@ class OctaveOctapp < Formula
       args << "--without-qt"
     else
       args << "--with-qt=5"
+      # WIP: working on switching to Qt 6 as of 2024-02-10
       # Qt 5.12 compatibility
       # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
       # source hasn't been updated to auto-detect this yet.
@@ -205,7 +202,8 @@ class OctaveOctapp < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@8.4.0"
+    # Link this keg-only formula into the main Homebrew bin with a prefixed name
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@9.0"
   end
 
   test do
