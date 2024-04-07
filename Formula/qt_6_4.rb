@@ -24,16 +24,6 @@ class Qt64 < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
-  bottle do
-    rebuild 2
-    sha256 cellar: :any,                 arm64_ventura:  "317951f1b836fece38f97fb936147beab7f80b625876ea52466d109b81c9e45d"
-    sha256 cellar: :any,                 arm64_monterey: "ebcc6f3ac45d6f04cda36ff264ffbd6db23c204d35cec51a9cb2d28a77e1f3e1"
-    sha256 cellar: :any,                 arm64_big_sur:  "d4cda62ec74850293c2eaaf6dcef6fbfb00f0414e59cd427cfc8fc103428e3a7"
-    sha256 cellar: :any,                 ventura:        "5f26fa0a76419d504ebc4ef9ede6a00f249f0c0fbb4ab12c5ffb91ea2134a2ae"
-    sha256 cellar: :any,                 monterey:       "c0b5aa8d5e08a834a1b034fb57921a97efb36501809b266ac65a128c1baa13b1"
-    sha256 cellar: :any,                 big_sur:        "b8952ac78246fc8f435fdbb5662f2b25c83d9810d3c7e297a98b2e52df9600df"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b19257e9549b41f382e75eaed8cbacf482a092487f93312a145f4926e742ad6e"
-  end
   keg_only :versioned_formula
 
   depends_on "cmake"      => [:build, :test]

@@ -14,12 +14,6 @@ class Qt60 < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
-  bottle do
-    sha256 cellar: :any, arm64_big_sur: "fb36682730c3261967347efd1e1219970ddcf9e39998183b2aeaa76acad98cce"
-    sha256 cellar: :any, big_sur:       "99950b7eb8c3fd4a91f5622f1199b77d99d9d2aa9deeb2e2f11a1ed568f1194b"
-    sha256 cellar: :any, catalina:      "30f9131632cfa2088eb24315a5f34090e004413261e11b7290e37d78d7f9e42e"
-    sha256 cellar: :any, mojave:        "9498b72fda65897df32aa8ecd754b45d0f02551280170beb6b76e7001d4fff01"
-  end
   keg_only :versioned_formula
 
   depends_on "cmake" => [:build, :test]

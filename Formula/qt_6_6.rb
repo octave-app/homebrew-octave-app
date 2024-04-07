@@ -4,6 +4,10 @@ class Qt66 < Formula
 
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"
+  url "https://download.qt.io/official_releases/qt/6.6/6.6.2/single/qt-everywhere-src-6.6.2.tar.xz"
+  mirror "https://qt.mirror.constant.com/archive/qt/6.6/6.6.2/single/qt-everywhere-src-6.6.2.tar.xz"
+  mirror "https://mirrors.ukfast.co.uk/sites/qt.io/archive/qt/6.6/6.6.2/single/qt-everywhere-src-6.6.2.tar.xz"
+  sha256 "3c1e42b3073ade1f7adbf06863c01e2c59521b7cc2349df2f74ecd7ebfcb922d"
   license all_of: [
     "BSD-3-Clause",
     "GFDL-1.3-no-invariants-only",
@@ -42,7 +46,6 @@ class Qt66 < Formula
   depends_on "node" => :build
   depends_on "pkg-config" => :build
   depends_on "python@3.11" => :build # Python 3.12 needs newer Chromium without imp usage (maybe 118 or 120)
-  depends_on "six" => :build
   depends_on "vulkan-headers" => [:build, :test]
   depends_on "vulkan-loader" => [:build, :test]
   depends_on xcode: :build
@@ -116,19 +119,6 @@ class Qt66 < Formula
     depends_on "xcb-util-keysyms"
     depends_on "xcb-util-renderutil"
     depends_on "xcb-util-wm"
-
-    # Backport Chromium changes for libxml 2.12 compatibility
-    # https://chromium.googlesource.com/chromium/src/+/871f8ae9b65ce2679b0bc0be36902d65edf0c1e4
-    patch do
-      url "https://chromium-review.googlesource.com/changes/chromium%2Fsrc~4985186/revisions/4/patch?zip&path=third_party%2Fblink%2Frenderer%2Fcore%2Fxml%2Fxslt_processor.h"
-      directory "qtwebengine/src/3rdparty/chromium"
-      sha256 "61d0352bb43ab796e1702f003f119a0838e5357517ee90f71bcc5cd0ba184e36"
-    end
-    patch do
-      url "https://chromium-review.googlesource.com/changes/chromium%2Fsrc~4985186/revisions/4/patch?zip&path=third_party%2Fblink%2Frenderer%2Fcore%2Fxml%2Fxslt_processor_libxslt.cc"
-      directory "qtwebengine/src/3rdparty/chromium"
-      sha256 "dc8cf92c07cad7da51510d2233968af4b0f408ff6857153ffa1d7387bb77f1b7"
-    end
   end
 
   fails_with gcc: "5"
@@ -138,16 +128,14 @@ class Qt66 < Formula
     sha256 "b2e5b40261e20f354d198eae92afc10d750afb487ed5e50f9c4eaf07c184146f"
   end
 
+  resource "six" do
+    url "https://files.pythonhosted.org/packages/71/39/171f1c67cd00715f190ba0b100d606d440a28c93c7714febeca8b79af85e/six-1.16.0.tar.gz"
+    sha256 "1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"
+  end
+
   resource "webencodings" do
     url "https://files.pythonhosted.org/packages/0b/02/ae6ceac1baeda530866a85075641cec12989bd8d31af6d5ab4a3e8c92f47/webencodings-0.5.1.tar.gz"
     sha256 "b36a1c245f2d304965eb4e0a82848379241dc04b865afcc4aab16748587e1923"
-  end
-
-  # Use Gentoo's patch for ICU 74 support until Chromium updates their bundled copy
-  patch do
-    url "https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-qt/qtwebengine/files/qtwebengine-6.5.3-icu74.patch?id=ba397fa71f9bc9a074d9c65b63759e0145bb9fa0"
-    directory "qtwebengine"
-    sha256 "ceee91eb3161b385f54c0070f0e4800202b0674c63c40c8556cb69ac522e6999"
   end
 
   def install
