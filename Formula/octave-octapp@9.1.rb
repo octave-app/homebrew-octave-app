@@ -1,7 +1,4 @@
-# GNU Octave 9.1, with Qt 5 not 6, with build customized for Octave.app
-#
-# This is using Qt 5 for now, bc I can't get qscintilla2 building with Qt 6. Want to switch to Qt 6 before
-# we do an Octave.app release of this.
+# GNU Octave 9.1 (with Qt 6), with build customized for Octave.app
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -32,7 +29,7 @@ class OctaveOctappAT91 < Formula
 
   # These must be kept in sync with the duplicates in `def install`!
   # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
-  @qt_formula = "qt-octapp_5"
+  @qt_formula = "qt"
   @qscintilla2_formula = "qscintilla2-octapp"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
@@ -91,7 +88,7 @@ class OctaveOctappAT91 < Formula
 
   def install
     # These must be kept in sync with the duplicates at the top of the formula!
-    @qt_formula = "qt-octapp_5"
+    @qt_formula = "qt"
     @qscintilla2_formula = "qscintilla2-octapp"
 
     # Hack: munge HG-ID to reflect that we're adding patches
