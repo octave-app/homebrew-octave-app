@@ -10,15 +10,16 @@
 # Typically, you can refresh this formula from a versioned qt-octapp_<X.Y> formula by
 # copy and pasting everything after the "desc" line in the formula.
 
-# Was 5.15.2 as of 2023-12-31. Trying latest 5.15.15 now.
+# Was 5.15.2 as of 2023-12-31. Core qt@5 was 5.15.13 as of 2024-03, and I matched that
+# on 2024-04-08. Trying latest 5.15.15 now as WIP.
 
 class QtOctapp5 < Formula
   desc "Cross-platform application and UI framework, Octave.app-hacked version"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
-  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
-  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
-  sha256 "93f2c0889ee2e9cdf30c170d353c3f829de5f29ba21c119167dee5995e48ccce"
+  url "https://download.qt.io/official_releases/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
+  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
+  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
+  sha256 "9550ec8fc758d3d8d9090e261329700ddcd712e2dda97e5fcfeabfac22bea2ca"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
 
   head "https://code.qt.io/qt/qt5.git", :branch => "5.15", :shallow => false
@@ -120,6 +121,7 @@ class QtOctapp5 < Formula
   end
 
   # Fix build with Xcode 14.3.
+  # https://bugreports.qt.io/browse/QTBUG-112906
   patch do
     url "https://invent.kde.org/qt/qt/qtlocation-mapboxgl/-/commit/5a07e1967dcc925d9def47accadae991436b9686.diff"
     sha256 "4f433bb009087d3fe51e3eec3eee6e33a51fde5c37712935b9ab96a7d7571e7d"
@@ -150,14 +152,6 @@ class QtOctapp5 < Formula
   patch :p0 do
     url "https://raw.githubusercontent.com/macports/macports-ports/56a9af76a6bcecc3d12c3a65f2465c25e05f2559/aqua/qt5/files/patch-qtbase-memory_resource.diff"
     sha256 "87967d685b08f06e91972a6d8c5e2e1ff672be9a2ba1d7d7084eba1413f641d5"
-    directory "qtbase"
-  end
-
-  # CVE-2023-24607
-  # Remove with Qt 5.15.13
-  patch do
-    url "https://download.qt.io/official_releases/qt/5.15/CVE-2023-24607-qtbase-5.15.diff"
-    sha256 "047c0aec35ec7242cab61e514f1ecca61509c7f72597b4702c9d32a4c65581c5"
     directory "qtbase"
   end
 
@@ -243,13 +237,11 @@ class QtOctapp5 < Formula
     (buildpath/"qtwebengine/src/3rdparty/chromium/third_party/catapult").rmtree
     (buildpath/"qtwebengine/src/3rdparty/chromium/third_party/catapult").install resource("catapult")
 
-    # Still need this?
-    # resource("catapult").stage(buildpath/"qtwebengine/src/3rdparty/chromium/third_party/catapult")
-
     # FIXME: GN requires clang in clangBasePath/bin
     inreplace "qtwebengine/src/3rdparty/chromium/build/toolchain/mac/BUILD.gn",
-       'rebase_path("$clang_base_path/bin/", root_build_dir)', '""'
+              'rebase_path("$clang_base_path/bin/", root_build_dir)', '""'
 
+    # Octapp-specific: uses qt-* libs.
     # TODO: Switch qt-* to system-* for lib deps, like core formula does? I'm not sure
     # what "system" means here - does it mean the actual macOS system, or does it pick
     # up the brewed libs instead of some bundled with Qt itself?
@@ -297,10 +289,6 @@ class QtOctapp5 < Formula
     # Fix find_package call using QtWebEngine version to find other Qt5 modules.
     inreplace Dir[lib/"cmake/Qt5WebEngine*/*Config.cmake"],
               " #{resource("qtwebengine").version} ", " #{version} "
-
-    # TODO: still needed for 5.15.12? Think this is now handled by other stanza below.
-    # Some config scripts will only find Qt in a "Frameworks" folder
-    # frameworks.install_symlink Dir["#{lib}/*.framework"]
 
     # Install a qtversion.xml to ease integration with QtCreator
     # As far as we can tell, there is no ability to make the Qt buildsystem
@@ -370,10 +358,10 @@ class QtOctapp5 < Formula
     (testpath/"hello.pro").write <<~EOS
       QT       += core
       QT       -= gui
-      TARGET   = hello
+      TARGET    = hello
       CONFIG   += console
       CONFIG   -= app_bundle
-      TEMPLATE = app
+      TEMPLATE  = app
       SOURCES  += main.cpp
     EOS
 

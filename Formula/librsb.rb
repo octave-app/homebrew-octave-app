@@ -1,3 +1,4 @@
+# librsb, provided by octapp because there's no core librsb formula
 class Librsb < Formula
   desc "Recursive Sparse Blocks shared memory parallel sparce matrix library"
   homepage "http://librsb.sourceforge.net/"
