@@ -56,17 +56,17 @@ class Qt515 < Formula
       -prefix #{prefix}
       -release
       -opensource -confirm-license
-      -system-zlib
-      -qt-libpng
-      -qt-libjpeg
-      -qt-freetype
-      -qt-pcre
       -nomake examples
       -nomake tests
       -no-rpath
       -pkg-config
       -dbus-runtime
       -proprietary-codecs
+      -system-freetype
+      -system-libjpeg
+      -system-libpng
+      -system-pcre
+      -system-zlib
     ]
 
     system "./configure", *args

@@ -2,7 +2,7 @@
 
 ## TODO
 
-* [ ] Switch octapp qt 5 formulae to use system libs like the core formulae do, instead of qt-bundled libs
+(currently nothing)
 
 ## Misc Notes
 

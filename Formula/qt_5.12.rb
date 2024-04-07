@@ -34,15 +34,15 @@ class Qt512 < Formula
       -prefix #{prefix}
       -release
       -opensource -confirm-license
-      -system-zlib
-      -qt-libpng
-      -qt-libjpeg
-      -qt-freetype
-      -qt-pcre
       -nomake tests
       -no-rpath
       -pkg-config
       -dbus-runtime
+      -system-freetype
+      -system-libjpeg
+      -system-libpng
+      -system-pcre
+      -system-zlib
     ]
 
     args << "-nomake" << "examples" if build.without? "examples"

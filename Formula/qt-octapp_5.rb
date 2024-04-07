@@ -281,10 +281,6 @@ class QtOctapp5 < Formula
     inreplace "qtwebengine/src/3rdparty/chromium/build/toolchain/mac/BUILD.gn",
               'rebase_path("$clang_base_path/bin/", root_build_dir)', '""'
 
-    # Octapp-specific: uses qt-* libs.
-    # TODO: Switch qt-* to system-* for lib deps, like core formula does? I'm not sure
-    # what "system" means here - does it mean the actual macOS system, or does it pick
-    # up the brewed libs instead of some bundled with Qt itself?
     args = %W[
       -verbose
       -prefix #{prefix}
@@ -295,10 +291,10 @@ class QtOctapp5 < Formula
       -pkg-config
       -dbus-runtime
       -proprietary-codecs
-      -qt-freetype
-      -qt-libjpeg
-      -qt-libpng
-      -qt-pcre
+      -system-freetype
+      -system-libjpeg
+      -system-libpng
+      -system-pcre
       -system-zlib
     ]
 
