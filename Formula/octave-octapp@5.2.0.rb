@@ -213,7 +213,7 @@ class OctaveOctappAT520 < Formula
 
   def post_install
     # Link this keg-only formula into the main Homebrew bin with a prefixed name
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@5.2.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-5.2.0"
   end
 
   test do

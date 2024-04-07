@@ -202,7 +202,7 @@ class OctaveOctappQt514AT52 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-qt514@5.2.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-qt514-5.2"
   end
 
   test do
@@ -213,5 +213,3 @@ class OctaveOctappQt514AT52 < Formula
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
   end
 end
-
-

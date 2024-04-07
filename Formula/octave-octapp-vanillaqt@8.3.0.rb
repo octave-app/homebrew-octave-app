@@ -208,7 +208,7 @@ class OctaveOctappVanillaqtAT830 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-vanillaqt@8.3.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-vanillaqt-8.3.0"
   end
 
   test do
