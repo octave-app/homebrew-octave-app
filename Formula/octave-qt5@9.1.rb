@@ -1,4 +1,8 @@
-# GNU Octave 8.4.0, Qt-enabled, with macOS patches, but not Octave.app customizations
+# GNU Octave 9.1, with Qt 5 not 6
+#
+# This main formula builds against Qt 6, and is currently broken because of that. (A sip
+# install error in the qscintilla2-qt6 build.) See octave-qt5@9.0 for an alternative that
+# builds against the old Qt 5, and is working.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -13,12 +17,12 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveAT840 < Formula
+class OctaveAT91 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://ftp.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
-  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-8.4.0.tar.lz"
-  sha256 "d5a7e89928528dce8cab7eead700be8a8319a98ec5334cc2ce83d29ac60264c1"
+  url "https://ftp.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
+  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
+  sha256 "f1769f61bd10c8ade6aee352b1bbb016e5fd8fc8394896a64dc26ef675ba3cea"
   license "GPL-3.0-or-later"
 
   keg_only "so it can be installed alongside regular octave"
@@ -29,6 +33,7 @@ class OctaveAT840 < Formula
 
   # These must be kept in sync with the duplicates in `def install`!
   # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
+  # Leave these on qt5, bc this variant formula is for that.
   @qt_formula = "qt@5"
   @qscintilla2_formula = "qscintilla2-qt5"
 
@@ -121,11 +126,14 @@ class OctaveAT840 < Formula
       args << "--without-qt"
     else
       args << "--with-qt=5"
+      # WIP: working on switching to Qt 6 as of 2024-02-10
       # Qt 5.12 compatibility
       # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
       # source hasn't been updated to auto-detect this yet.
-      ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
-      # These "shouldn't" be necessary, but the build breaks if I don't include them.
+      # ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
+      # These "shouldn't" be necessary, but if I don't include them, the build would against
+      # Qt 5 would break. Don't know if they're still needed against Qt 6; either way, the build
+      # seems to succeed but it fails to detect Qt 6 during the configure stage.
       # https://savannah.gnu.org/bugs/?55883
       ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
       ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
@@ -188,7 +196,7 @@ class OctaveAT840 < Formula
 
   def post_install
     # Link this keg-only formula into the main Homebrew bin with a prefixed name
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@8.4.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@9.0"
   end
 
   test do

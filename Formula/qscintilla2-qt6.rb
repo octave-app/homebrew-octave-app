@@ -1,9 +1,11 @@
 # QScintilla 2, built against Qt 6 instead of 5.
+#
 # The core Homebrew qscintilla2 formula is still building against Qt 5, because
 # Octave 8.x was stuck on Qt 5. This -qt6 version of qscintilla is for building Octave
 # 9 against At 6. Once core Homebrew upgrades their Octave and switches qscintilla2
 # to Qt 6, this formula can go away, and we'll have to supply a qscintilla2-qt5 variant
 # to keep building against Qt 5 for Octave 8.x and earlier.
+
 class Qscintilla2Qt6 < Formula
   desc "Port to Qt of the Scintilla editing component, built with Qt 6"
   homepage "https://www.riverbankcomputing.com/software/qscintilla/intro"

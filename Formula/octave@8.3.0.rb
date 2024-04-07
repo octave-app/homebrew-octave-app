@@ -30,7 +30,7 @@ class OctaveAT830 < Formula
   # These must be kept in sync with the duplicates in `def install`!
   # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
   @qt_formula = "qt@5"
-  @qscintilla2_formula = "qscintilla2"
+  @qscintilla2_formula = "qscintilla2-qt5"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -79,7 +79,7 @@ class OctaveAT830 < Formula
     # These must be kept in sync with the duplicates at the top of the formula!
     # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
     @qt_formula = "qt@5"
-    @qscintilla2_formula = "qscintilla2"
+    @qscintilla2_formula = "qscintilla2-qt5"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
@@ -181,7 +181,7 @@ class OctaveAT830 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula[@qt_formula].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end

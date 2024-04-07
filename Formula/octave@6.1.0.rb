@@ -28,8 +28,8 @@ class OctaveAT610 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt"
-  @qscintilla2_formula = "qscintilla2"
+  @qt_formula = "qt@5"
+  @qscintilla2_formula = "qscintilla2-qt5"
   @gnuplot_formula = "gnuplot"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
@@ -47,7 +47,7 @@ class OctaveAT610 < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on "gnuplot"
+  depends_on @gnuplot_formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
@@ -92,10 +92,10 @@ class OctaveAT610 < Formula
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt"
-    @qscintilla2_formula = "qscintilla2"
+    @qt_formula = "qt@5"
+    @qscintilla2_formula = "qscintilla2-qt5"
     @gnuplot_formula = "gnuplot"
-  
+
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
@@ -180,7 +180,7 @@ class OctaveAT610 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula[@qt_formula].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
@@ -197,5 +197,3 @@ class OctaveAT610 < Formula
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
   end
 end
-
-

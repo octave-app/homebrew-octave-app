@@ -1,4 +1,4 @@
-# GNU Octave 9.1, with Qt 5 not 6
+# GNU Octave 9.1 (with Qt 6)
 #
 # This main formula builds against Qt 6, and is currently broken because of that. (A sip
 # install error in the qscintilla2-qt6 build.) See octave-qt5@9.0 for an alternative that
@@ -80,7 +80,6 @@ class OctaveAT91 < Formula
 
   def install
     # These must be kept in sync with the duplicates at the top of the formula!
-    # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
     @qt_formula = "qt"
     @qscintilla2_formula = "qscintilla2-qt6"
 
@@ -187,7 +186,7 @@ class OctaveAT91 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula[@qt_formula].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end

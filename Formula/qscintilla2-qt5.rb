@@ -1,11 +1,10 @@
-# QScintilla 2, built against Qt 6 instead of 5.
-# The core Homebrew qscintilla2 formula is still building against Qt 5, because
-# Octave 8.x was stuck on Qt 5. They'll switch it to Qt 6 once Octave uses Qt 6, which
-# should happen with Octave 9.1. This qscintilla2-qt5 variant will keep building against
-# Qt 5 so we can still use it with Octave <=8.x and Qt 5, but is otherwise the
-# same as the core qscintilla2 formula. As of 2024-02-10, it is not actually needed
-# yet because core qscintilla2 is still on Qt 5, but is supplied in advance, in anticipation
-# of that changeover happening, so we can handle that proactively.
+# QScintilla 2, built against Qt 5 instead of 6.
+#
+# As of 2023-12, the core qscintilla2 formula is building against Qt 5, but it will
+# eventually switch to Qt 6. This qscintilla2 is fixed to build against qt@5, so
+# it can still be used with qt5 Octave.app builds even after the core qscintilla2
+# upgrades.
+
 class Qscintilla2Qt5 < Formula
   desc "Port to Qt of the Scintilla editing component"
   homepage "https://www.riverbankcomputing.com/software/qscintilla/intro"
