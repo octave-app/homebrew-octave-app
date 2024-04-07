@@ -2,6 +2,7 @@
 #
 # This formula is named qt_5.14 instead of qt@5.14 because having an "@" in the formula
 # name causes a ninja build error.
+
 class Qt514 < Formula
   desc "Cross-platform application and UI framework, 5.14 version"
   homepage "https://www.qt.io/"

@@ -12,15 +12,19 @@
 #
 # To compare this against the core qt@5 formula, do like:
 #   diff Formula/qt-octapp_5.rb ~/repos/homebrew-core/Formula/q/qt@5.rb
+#
+# Core qt@5 is on 5.15.13, but I can't get that to build; it fails with a type error in
+# some Qt code using boost. So, staying on 5.15.12 until I can get that figured out.
+#   -apj 2024-04-08
 
 class QtOctapp5 < Formula
   desc "Cross-platform application and UI framework, Octave.app-hacked version"
   homepage "https://www.qt.io/"
   # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
-  url "https://download.qt.io/official_releases/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
-  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
-  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
-  sha256 "9550ec8fc758d3d8d9090e261329700ddcd712e2dda97e5fcfeabfac22bea2ca"
+  url "https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
+  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
+  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
+  sha256 "93f2c0889ee2e9cdf30c170d353c3f829de5f29ba21c119167dee5995e48ccce"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
 
   head "https://code.qt.io/qt/qt5.git", :branch => "5.15", :shallow => false
@@ -192,6 +196,14 @@ class QtOctapp5 < Formula
   patch :p0 do
     url "https://raw.githubusercontent.com/macports/macports-ports/56a9af76a6bcecc3d12c3a65f2465c25e05f2559/aqua/qt5/files/patch-qtbase-memory_resource.diff"
     sha256 "87967d685b08f06e91972a6d8c5e2e1ff672be9a2ba1d7d7084eba1413f641d5"
+    directory "qtbase"
+  end
+
+  # CVE-2023-24607
+  # Remove with Qt 5.15.13
+  patch do
+    url "https://download.qt.io/official_releases/qt/5.15/CVE-2023-24607-qtbase-5.15.diff"
+    sha256 "047c0aec35ec7242cab61e514f1ecca61509c7f72597b4702c9d32a4c65581c5"
     directory "qtbase"
   end
 

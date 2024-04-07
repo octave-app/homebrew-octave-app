@@ -1,4 +1,5 @@
-# Qt, fixed to 6.0 series
+# Qt, fixed to 6.0.x series
+
 class Qt60 < Formula
   desc "Cross-platform application and UI framework"
   homepage "https://www.qt.io/"

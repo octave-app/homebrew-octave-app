@@ -6,6 +6,7 @@
 # system.
 # https://github.com/octave-app/octave-app/issues/143
 # https://bugreports.qt.io/browse/QTBUG-79711
+
 class Qt512 < Formula
   desc "Cross-platform application and UI framework, 5.12 LTS version"
   homepage "https://www.qt.io/"

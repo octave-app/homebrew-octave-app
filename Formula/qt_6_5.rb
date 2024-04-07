@@ -1,4 +1,5 @@
-# Qt, fixed to 6.5 series
+# Qt, fixed to 6.5.x series
+
 class Qt65 < Formula
   include Language::Python::Virtualenv
 

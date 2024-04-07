@@ -1,19 +1,20 @@
-# Qt 5.15 LTS, hacked for Octave.app
+# Qt 5.15.13, hacked for Octave.app, WIP for 5.15.13 upgrade
 #
-# This formula is named qt-octapp_5.15 instead of qt-octapp@5.15 because having an
+# I can't get 5.15.13 to build yet, so qt-octapp_5 and _5.15 are stuck on 5.15.12. This
+# separate formula is for working on getting 5.15.13 building. Once it's working, the
+# other formulae can be upgraded and this formula can be deleted. -apj 2024-04-08
+#
+# This formula is named qt-octapp_5.15.13 instead of qt-octapp@5.15.13 because having an
 # "@" in the formula name causes a ninja build error.
 
-# Stuck on 5.15.12 as of 2023-12-31. Core qt@5 was 5.15.13 as of 2024-03, but I'm getting
-# a build error with it, and I don't know why.
-
-class QtOctapp515 < Formula
-  desc "Cross-platform application and UI framework, 5.15.x version, Octave.app-hacked version"
+class QtOctapp51513 < Formula
+  desc "Cross-platform application and UI framework, 5.15.13 version, Octave.app-hacked version"
   homepage "https://www.qt.io/"
   # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
-  url "https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
-  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
-  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
-  sha256 "93f2c0889ee2e9cdf30c170d353c3f829de5f29ba21c119167dee5995e48ccce"
+  url "https://download.qt.io/official_releases/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
+  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
+  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
+  sha256 "9550ec8fc758d3d8d9090e261329700ddcd712e2dda97e5fcfeabfac22bea2ca"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
 
   head "https://code.qt.io/qt/qt5.git", :branch => "5.15", :shallow => false
