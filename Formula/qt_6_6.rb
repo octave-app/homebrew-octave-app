@@ -35,6 +35,8 @@ class Qt66 < Formula
     regex(/^v?(\d+(?:\.\d+)+)$/i)
   end
 
+  keg_only :versioned_formula
+
   depends_on "cmake" => [:build, :test]
   depends_on "ninja" => :build
   depends_on "node" => :build

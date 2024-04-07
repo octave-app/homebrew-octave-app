@@ -15,7 +15,7 @@ class Qt512 < Formula
   sha256 "873783a0302129d98a8f63de9afe4520fb5f8d5316be8ad7b760c59875cd8a8d"
   head "https://code.qt.io/qt/qt5.git", :branch => "5.12", :shallow => false
 
-  keg_only "Qt 5 has CMake issues when linked"
+  keg_only :versioned_formula
 
   option "with-docs", "Build documentation"
   option "with-examples", "Build examples"

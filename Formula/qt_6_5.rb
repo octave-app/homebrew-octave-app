@@ -34,6 +34,7 @@ class Qt65 < Formula
     sha256 cellar: :any,                 monterey:       "4760b821f55df35fd82a3d8c8390fe7373e38cd12d2c9bfc87cb95bc9866ed86"
     sha256 cellar: :any_skip_relocation, x86_64_linux:   "27b1cb4ac98c3dd33cc14c61067a55e7585c4c67e16fbc94fc143aae69365465"
   end
+  keg_only :versioned_formula
 
   depends_on "cmake"      => [:build, :test]
   depends_on "ninja"      => :build

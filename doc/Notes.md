@@ -2,8 +2,7 @@
 
 ## TODO
 
-* [ ] Get qt-octapp_5 more aligned with core formula by pulling in the Linux stuff again.
-  * we don't use or support the Linux stuff; it'll just make for shorter and more readable diffs when comparing against the core formula.
+* [ ] Switch octapp qt 5 formulae to use system libs like the core formulae do, instead of qt-bundled libs
 
 ## Misc Notes
 

@@ -12,7 +12,7 @@ class Qt514 < Formula
 
   head "https://code.qt.io/qt/qt5.git", :branch => "dev", :shallow => false
 
-  keg_only "versioned formula"
+  keg_only :versioned_formula
 
   depends_on "pkg-config" => :build
   depends_on :xcode => :build

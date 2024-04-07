@@ -20,6 +20,7 @@ class Qt60 < Formula
     sha256 cellar: :any, catalina:      "30f9131632cfa2088eb24315a5f34090e004413261e11b7290e37d78d7f9e42e"
     sha256 cellar: :any, mojave:        "9498b72fda65897df32aa8ecd754b45d0f02551280170beb6b76e7001d4fff01"
   end
+  keg_only :versioned_formula
 
   depends_on "cmake" => [:build, :test]
   depends_on "ninja" => :build

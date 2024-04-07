@@ -34,6 +34,7 @@ class Qt64 < Formula
     sha256 cellar: :any,                 big_sur:        "b8952ac78246fc8f435fdbb5662f2b25c83d9810d3c7e297a98b2e52df9600df"
     sha256 cellar: :any_skip_relocation, x86_64_linux:   "b19257e9549b41f382e75eaed8cbacf482a092487f93312a145f4926e742ad6e"
   end
+  keg_only :versioned_formula
 
   depends_on "cmake"      => [:build, :test]
   depends_on "ninja"      => :build

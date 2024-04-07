@@ -1,4 +1,4 @@
-# Qt, hacked for Octave.app
+# Qt 5.x, hacked for Octave.app
 #
 # Our hack just suppresses an "FSEvents assertion failure" warning message. Nothing
 # else; a shame we have to pay for the whole Qt build for it.
@@ -7,15 +7,16 @@
 # might be the LTS version, the latest version, or something else, depending on what
 # works best for Octave.app.
 #
-# Typically, you can refresh this formula from a versioned qt-octapp_<X.Y> formula by
-# copy and pasting everything after the "desc" line in the formula.
-
-# Was 5.15.2 as of 2023-12-31. Core qt@5 was 5.15.13 as of 2024-03, and I matched that
-# on 2024-04-08. Trying latest 5.15.15 now as WIP.
+# Typically, you can refresh this formula from a versioned qt-octapp_<X.Y> formula like
+# qt-octapp_5.15 by copy and pasting everything after the "desc" line in the formula.
+#
+# To compare this against the core qt@5 formula, do like:
+#   diff Formula/qt-octapp_5.rb ~/repos/homebrew-core/Formula/q/qt@5.rb
 
 class QtOctapp5 < Formula
   desc "Cross-platform application and UI framework, Octave.app-hacked version"
   homepage "https://www.qt.io/"
+  # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
   url "https://download.qt.io/official_releases/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
   mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
   mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
@@ -24,7 +25,12 @@ class QtOctapp5 < Formula
 
   head "https://code.qt.io/qt/qt5.git", :branch => "5.15", :shallow => false
 
-  keg_only "versioned formula"
+  livecheck do
+    url "https://download.qt.io/official_releases/qt/5.15/"
+    regex(%r{href=["']?v?(\d+(?:\.\d+)+)/?["' >]}i)
+  end
+
+  keg_only :versioned_formula
 
   depends_on "node" => :build
   depends_on "pkg-config" => :build
@@ -44,6 +50,40 @@ class QtOctapp5 < Formula
   uses_from_macos "krb5"
   uses_from_macos "libxslt"
   uses_from_macos "sqlite"
+
+  on_linux do
+    depends_on "alsa-lib"
+    depends_on "at-spi2-core"
+    depends_on "fontconfig"
+    depends_on "harfbuzz"
+    depends_on "icu4c"
+    depends_on "libdrm"
+    depends_on "libevent"
+    depends_on "libice"
+    depends_on "libproxy"
+    depends_on "libsm"
+    depends_on "libvpx"
+    depends_on "libxcomposite"
+    depends_on "libxkbcommon"
+    depends_on "libxkbfile"
+    depends_on "libxrandr"
+    depends_on "libxtst"
+    depends_on "mesa"
+    depends_on "minizip"
+    depends_on "nss"
+    depends_on "opus"
+    depends_on "pulseaudio"
+    depends_on "sdl2"
+    depends_on "snappy"
+    depends_on "systemd"
+    depends_on "wayland"
+    depends_on "xcb-util"
+    depends_on "xcb-util-image"
+    depends_on "xcb-util-keysyms"
+    depends_on "xcb-util-renderutil"
+    depends_on "xcb-util-wm"
+    depends_on "zstd"
+  end
 
   fails_with gcc: "5"
 
@@ -117,7 +157,7 @@ class QtOctapp5 < Formula
   # Update catapult to a revision that supports Python 3.
   resource "catapult" do
     url "https://chromium.googlesource.com/catapult.git",
-    revision: "5eedfe23148a234211ba477f76fc2ea2e8529189"
+        revision: "5eedfe23148a234211ba477f76fc2ea2e8529189"
   end
 
   # Fix build with Xcode 14.3.
@@ -192,7 +232,7 @@ class QtOctapp5 < Formula
   end
 
   # CVE-2023-34410
-  # Orginal (malformed with CRLF): https://download.qt.io/official_releases/qt/5.15/CVE-2023-34410-qtbase-5.15.diff
+  # Original (malformed with CRLF): https://download.qt.io/official_releases/qt/5.15/CVE-2023-34410-qtbase-5.15.diff
   # KDE patch excludes Windows-specific fixes
   # Remove with Qt 5.15.15
   patch do
@@ -261,6 +301,7 @@ class QtOctapp5 < Formula
       -qt-pcre
       -system-zlib
     ]
+
     if OS.mac?
       args << "-no-rpath"
       args << "-no-assimp" if Hardware::CPU.arm?
@@ -273,6 +314,34 @@ class QtOctapp5 < Formula
         qttools/src/linguist/linguist/mainwindow.cpp
       ]
       inreplace assistant_files, '"Assistant.app/Contents/MacOS/Assistant"', '"Assistant"'
+    else
+      args << "-R#{lib}"
+      # https://bugreports.qt.io/browse/QTBUG-71564
+      args << "-no-avx2"
+      args << "-no-avx512"
+      args << "-no-sql-mysql"
+
+      # Use additional system libraries on Linux.
+      # Currently we have to use vendored ffmpeg because the chromium copy adds a symbol not
+      # provided by the brewed version.
+      # See here for an explanation of why upstream ffmpeg does not want to add this:
+      # https://www.mail-archive.com/ffmpeg-devel@ffmpeg.org/msg124998.html
+      # On macOS chromium will always use bundled copies and the webengine_*
+      # arguments are ignored.
+      args += %w[
+        -system-harfbuzz
+        -webengine-alsa
+        -webengine-icu
+        -webengine-kerberos
+        -webengine-opus
+        -webengine-pulseaudio
+        -webengine-webp
+      ]
+
+      # Homebrew-specific workaround to ignore spurious linker warnings on Linux.
+      inreplace "qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn",
+                "fatal_linker_warnings = true",
+                "fatal_linker_warnings = false"
     end
 
     ENV.prepend_path "PATH", Formula["python@3.11"].libexec/"bin"
@@ -282,9 +351,9 @@ class QtOctapp5 < Formula
     system "make", "install"
 
     # Remove reference to shims directory
-    inreplace "qtbase/mkspecs/qmodule.pri",
+    inreplace prefix/"mkspecs/qmodule.pri",
               /^PKG_CONFIG_EXECUTABLE = .*$/,
-              "PKG_CONFIG_EXECUTABLE = #{Formula["pkg-config"].opt_bin/"pkg-config"}"
+              "PKG_CONFIG_EXECUTABLE = #{Formula["pkg-config"].opt_bin}/pkg-config"
 
     # Fix find_package call using QtWebEngine version to find other Qt5 modules.
     inreplace Dir[lib/"cmake/Qt5WebEngine*/*Config.cmake"],
@@ -322,6 +391,8 @@ class QtOctapp5 < Formula
       </data>
       </qtcreator>
     XML
+
+    return unless OS.mac?
 
     # The pkg-config files installed suggest that headers can be found in the
     # `include` directory. Make this so by creating symlinks from `include` to
