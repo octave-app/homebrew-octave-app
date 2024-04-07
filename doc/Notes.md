@@ -2,8 +2,6 @@
 
 ## TODO
 
-* [ ] Can our custom openjdk and Java formulae (and casks) be dropped?
-  * we've already switched to using the core openjdk formula; probably just a matter of deleting the custom formulae.
 * [ ] Get qt-octapp_5 more aligned with core formula by pulling in the Linux stuff again.
   * we don't use or support the Linux stuff; it'll just make for shorter and more readable diffs when comparing against the core formula.
 
