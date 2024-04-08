@@ -229,6 +229,8 @@ class QtOctapp51512 < Formula
         Preferences > Qt Versions > Link with Qt...
       pressing "Choose..." and selecting as the Qt installation path:
         #{opt_prefix}
+
+      This Qt build contains special patches for Octave.app.
     EOS
   end
 
