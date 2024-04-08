@@ -324,6 +324,8 @@ class Qt515 < Formula
     end
 
     ENV.prepend_path "PATH", Formula["python@3.11"].libexec/"bin"
+    ENV.append "CFLAGS", "-Wno-enum-constexpr-conversion"
+    ENV.append "CXXFLAGS", "-Wno-enum-constexpr-conversion"
     system "./configure", *args
     system "make"
     ENV.deparallelize
