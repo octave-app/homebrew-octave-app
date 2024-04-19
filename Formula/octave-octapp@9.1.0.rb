@@ -1,4 +1,4 @@
-# GNU Octave 9.1 (with Qt 6), with build customized for Octave.app
+# GNU Octave 9.1.0 (with Qt 6), with build customized for Octave.app
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -13,8 +13,8 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctappAT91 < Formula
-  desc "GNU Octave, customized for Octave.app, v. 9.1"
+class OctaveOctappAT910 < Formula
+  desc "GNU Octave, customized for Octave.app, v. 9.1.0"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "https://ftp.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
   mirror "https://ftpmirror.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
@@ -200,7 +200,7 @@ class OctaveOctappAT91 < Formula
 
   def post_install
     # Link this keg-only formula into the main Homebrew bin with a prefixed name
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-9.1"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-9.1.0"
   end
 
   test do
