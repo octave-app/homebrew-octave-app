@@ -1,12 +1,4 @@
-# GNU Octave 9.1.0 (with Qt 6), with build customized for Octave.app
-#
-# This uses Qt 6, instead of the Qt 5 which has been used on all Octave.app releases up
-# until now. It is not working yet, but I expect, or at least hope, that Qt 6 will
-# start working soon and we can switch to it, so I'm making the default variant for 9.x
-# use Qt 6, and putting the Qt 5 builds in a separate "-qt" suffixed formula.
-#
-# As such, so far, this is NOT the formula to use for building Octave.app 9.1 releases,
-# and is just for testing Qt 6.
+# GNU Octave 9.1.0, with Qt 5, with build customized for Octave.app
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -21,8 +13,8 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctappAT910 < Formula
-  desc "GNU Octave, customized for Octave.app, v. 9.1.0"
+class OctaveOctappQt5AT910 < Formula
+  desc "GNU Octave, customized for Octave.app, v. 9.1.0, with Qt 5"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "https://ftp.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
   mirror "https://ftpmirror.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
@@ -36,9 +28,9 @@ class OctaveOctappAT910 < Formula
   option "with-test", "Do compile-time make checks"
 
   # These must be kept in sync with the duplicates in `def install`!
-  # This uses Qt 6, which the core Homebrew qt is on as of 2024-03ish.
-  @qt_formula = "qt"
-  @qscintilla2_formula = "qscintilla2-octapp"
+  # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
+  @qt_formula = "qt-octapp_5"
+  @qscintilla2_formula = "qscintilla2-octapp-qt5"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -96,8 +88,8 @@ class OctaveOctappAT910 < Formula
 
   def install
     # These must be kept in sync with the duplicates at the top of the formula!
-    @qt_formula = "qt"
-    @qscintilla2_formula = "qscintilla2-octapp"
+    @qt_formula = "qt-octapp_5"
+    @qscintilla2_formula = "qscintilla2-octapp-qt5"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
@@ -208,7 +200,7 @@ class OctaveOctappAT910 < Formula
 
   def post_install
     # Link this keg-only formula into the main Homebrew bin with a prefixed name
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-9.1.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-qt5@9.1.0"
   end
 
   test do

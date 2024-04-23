@@ -17,7 +17,7 @@ class MacTeXRequirement < Requirement
 end
 
 class OctaveOctappQt5AT91 < Formula
-  desc "GNU Octave, customized for Octave.app, v. 9.1"
+  desc "GNU Octave, customized for Octave.app, v. 9.1, with Qt 5"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "https://ftp.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
   mirror "https://ftpmirror.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
