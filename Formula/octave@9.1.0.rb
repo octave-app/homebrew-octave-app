@@ -1,4 +1,4 @@
-# GNU Octave 9.1 (with Qt 6)
+# GNU Octave 9.1.0 (with Qt 6)
 #
 # This main formula builds against Qt 6, and is currently broken because of that. (A sip
 # install error in the qscintilla2-qt6 build.) See octave-qt5@9.0 for an alternative that
@@ -17,7 +17,7 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveAT91 < Formula
+class OctaveAT910 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
   url "https://ftp.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
