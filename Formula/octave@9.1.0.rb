@@ -95,10 +95,6 @@ class OctaveAT910 < Formula
 
     ENV.prepend_path "PKG_CONFIG_PATH", Formula[@qt_formula].opt_libexec/"lib/pkgconfig" if OS.mac?
 
-    # SUNDIALS 6.4.0 and later needs C++14 for C++ based features.
-    # Use gnu++14 instead of c++14 as octave uses GNU extensions.
-    ENV.append "CXX", "-std=gnu++14"
-
     args = [
       "--disable-silent-rules",
       "--enable-shared",
