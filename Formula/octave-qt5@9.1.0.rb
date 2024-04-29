@@ -27,7 +27,6 @@ class OctaveAT910 < Formula
 
   keg_only "so it can be installed alongside regular octave"
 
-  option "without-qt", "Compile without qt-based graphical user interface"
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
@@ -120,26 +119,23 @@ class OctaveAT910 < Formula
             "--with-x=no",
             "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
             "--with-portaudio",
-            "--with-sndfile"]
+            "--with-sndfile",
+            "--with-qt=5"
+          ]
 
-    if build.without? "qt"
-      args << "--without-qt"
-    else
-      args << "--with-qt=5"
-      # WIP: working on switching to Qt 6 as of 2024-02-10
-      # Qt 5.12 compatibility
-      # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
-      # source hasn't been updated to auto-detect this yet.
-      # ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
-      # These "shouldn't" be necessary, but if I don't include them, the build would against
-      # Qt 5 would break. Don't know if they're still needed against Qt 6; either way, the build
-      # seems to succeed but it fails to detect Qt 6 during the configure stage.
-      # https://savannah.gnu.org/bugs/?55883
-      ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula[@qt_formula].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula[@qt_formula].opt_lib}"
-    end
+    # WIP: working on switching to Qt 6 as of 2024-02-10
+    # Qt 5.12 compatibility
+    # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
+    # source hasn't been updated to auto-detect this yet.
+    # ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
+    # These "shouldn't" be necessary, but if I don't include them, the build would against
+    # Qt 5 would break. Don't know if they're still needed against Qt 6; either way, the build
+    # seems to succeed but it fails to detect Qt 6 during the configure stage.
+    # https://savannah.gnu.org/bugs/?55883
+    ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
+    ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
+    ENV['QT_LDFLAGS']="-F#{Formula[@qt_formula].opt_lib}"
+    ENV.append 'LDFLAGS', "-F#{Formula[@qt_formula].opt_lib}"
 
     if build.without? "docs"
       args << "--disable-docs"
@@ -184,7 +180,7 @@ class OctaveAT910 < Formula
     system "make", "install"
 
     # Create empty Qt help to avoid error dialog in GUI if no documentation is found
-    if build.without?("docs") && build.with?("qt") && !build.stable?
+    if build.without?("docs") && !build.stable?
       File.open("doc/octave_interpreter.qhcp", "w") do |f|
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
