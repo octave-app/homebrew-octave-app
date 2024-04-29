@@ -187,8 +187,9 @@ class OctaveAT830 < Formula
   end
 
   def post_install
-    # Link this keg-only formula into the main Homebrew bin with a prefixed name
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-8.3.0"
+    # Link this keg-only formula into the main Homebrew bin with a suffixed name
+    # Use "@" instead of "-" bc core Homebrew octave uses "-" in its symlink names
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@8.3.0"
   end
 
   test do

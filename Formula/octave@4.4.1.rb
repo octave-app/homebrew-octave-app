@@ -82,7 +82,7 @@ class OctaveAT441 < Formula
     @qt_formula = "qt_5.12"
     @qscintilla2_formula = "qscintilla2-qt512"
     @gnuplot_formula = "gnuplot-qt512"
-  
+
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
@@ -173,7 +173,9 @@ class OctaveAT441 < Formula
   end
 
   def post_install
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-4.4.1"
+    # Link this keg-only formula into the main Homebrew bin with a suffixed name
+    # Use "@" instead of "-" bc core Homebrew octave uses "-" in its symlink names
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@4.4.1"
   end
 
   test do
@@ -184,5 +186,3 @@ class OctaveAT441 < Formula
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
   end
 end
-
-
