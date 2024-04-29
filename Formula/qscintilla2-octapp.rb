@@ -25,10 +25,10 @@ class Qscintilla2Octapp < Formula
   keg_only "conflicts with regular qscintilla2"
 
   depends_on "pyqt-builder" => :build
+  depends_on "sip" => :build
   depends_on "pyqt"
   depends_on "python@3.12"
   depends_on "qt"
-  depends_on "sip"
 
   fails_with gcc: "5"
 
@@ -37,8 +37,12 @@ class Qscintilla2Octapp < Formula
   end
 
   def install
-    spec = (ENV.compiler == :clang) ? "macx-clang" : "macx-g++"
-    args = %W[-config release -spec #{spec}]
+    args = []
+
+    if OS.mac?
+      spec = (ENV.compiler == :clang) ? "macx-clang" : "macx-g++"
+      args = %W[-config release -spec #{spec}]
+    end
 
     pyqt = Formula["pyqt"]
     qt = Formula["qt"]
@@ -47,12 +51,12 @@ class Qscintilla2Octapp < Formula
     cd "src" do
       inreplace "qscintilla.pro" do |s|
         s.gsub! "QMAKE_POST_LINK += install_name_tool -id @rpath/$(TARGET1) $(TARGET)",
-          "QMAKE_POST_LINK += install_name_tool -id #{lib}/$(TARGET1) $(TARGET)"
+                "QMAKE_POST_LINK += install_name_tool -id #{lib}/$(TARGET1) $(TARGET)"
         s.gsub! "$$[QT_INSTALL_LIBS]", lib
         s.gsub! "$$[QT_INSTALL_HEADERS]", include
-        s.gsub! "$$[QT_INSTALL_TRANSLATIONS]", prefix/"trans"
-        s.gsub! "$$[QT_INSTALL_DATA]", prefix/"data"
-        s.gsub! "$$[QT_HOST_DATA]", prefix/"data"
+        s.gsub! "$$[QT_INSTALL_TRANSLATIONS]", share/"qt/translations"
+        s.gsub! "$$[QT_INSTALL_DATA]", share/"qt"
+        s.gsub! "$$[QT_HOST_DATA]", share/"qt"
       end
 
       inreplace "features/qscintilla2.prf" do |s|
@@ -75,10 +79,10 @@ class Qscintilla2Octapp < Formula
       args = %W[
         --target-dir #{prefix/site_packages}
 
-        --qsci-features-dir #{prefix}/data/mkspecs/features
+        --qsci-features-dir #{share}/qt/mkspecs/features
         --qsci-include-dir #{include}
         --qsci-library-dir #{lib}
-        --api-dir #{prefix}/data/qsci/api/python
+        --api-dir #{share}/qt/qsci/api/python
       ]
       system "sip-install", *args
     end
