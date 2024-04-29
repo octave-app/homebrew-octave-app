@@ -28,7 +28,6 @@ class OctaveAT910 < Formula
   keg_only "so it can be installed alongside regular octave"
 
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
-  option "with-test", "Do compile-time make checks"
 
   # These must be kept in sync with the duplicates in `def install`!
   # Stuck on qt@5 - https://octave.discourse.group/t/transition-octave-to-qt6/3139/15
@@ -164,18 +163,6 @@ class OctaveAT910 < Formula
     # Make sure that Octave uses the modern texinfo
     rcfile = buildpath/"scripts/startup/site-rcfile"
     rcfile.append_lines "makeinfo_program(\"#{Formula["texinfo"].opt_bin}/makeinfo\");"
-
-    if build.with? "test"
-      system "make check 2>&1 | tee \"test/make-check.log\""
-      # Check if all tests have passed (FAIL 0)
-      results = File.readlines "test/make-check.log"
-      matches = results.join("\n").match(/^\s*(FAIL)\s*0/i)
-      if matches.nil?
-        opoo "Some tests failed. Details are given in #{opt_prefix}/make-check.log."
-      end
-      # Install test results
-      prefix.install "test/make-check.log"
-    end
 
     system "make", "install"
 
