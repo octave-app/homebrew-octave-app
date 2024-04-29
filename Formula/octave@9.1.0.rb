@@ -20,9 +20,9 @@ end
 class OctaveAT910 < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://ftp.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
-  mirror "https://ftpmirror.gnu.org/gnu/octave/octave-9.1.0.tar.lz"
-  sha256 "f1769f61bd10c8ade6aee352b1bbb016e5fd8fc8394896a64dc26ef675ba3cea"
+  url "https://ftp.gnu.org/gnu/octave/octave-9.1.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/octave/octave-9.1.0.tar.xz"
+  sha256 "ed654b024aea56c44b26f131d31febc58b7cf6a82fad9f0b0bf6e3e9aa1a134b"
   license "GPL-3.0-or-later"
 
   keg_only "so it can be installed alongside regular octave"
@@ -31,7 +31,7 @@ class OctaveAT910 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  # These must be kept in sync with the duplicates in `def install`!
+  # Octapp: These must be kept in sync with the duplicates in `def install`!
   @qt_formula = "qt"
   @qscintilla2_formula = "qscintilla2"
 
@@ -39,6 +39,7 @@ class OctaveAT910 < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
+  depends_on "openjdk" => :build
   depends_on "librsvg" => :build
   depends_on "pkg-config" => :build
   depends_on "arpack"
@@ -58,8 +59,7 @@ class OctaveAT910 < Formula
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"
-  depends_on "openjdk"
-  depends_on "pcre"
+  depends_on "pcre2"
   depends_on "portaudio"
   depends_on "pstoedit"
   depends_on "qhull"
@@ -70,54 +70,49 @@ class OctaveAT910 < Formula
   depends_on "readline"
   depends_on "suite-sparse"
   depends_on "sundials"
-  depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
+  depends_on "texinfo"
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Suppress spurious messages about GCC caused by dependencies using Fortran
+  # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
   fails_with gcc: "5"
 
   def install
-    # These must be kept in sync with the duplicates at the top of the formula!
+    # Octapp: These must be kept in sync with the duplicates at the top of the formula!
     @qt_formula = "qt"
     @qscintilla2_formula = "qscintilla2"
 
-    # Hack: munge HG-ID to reflect that we're adding patches
+    # Octapp hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
 
-    # Do not execute a test that may trigger a dialog to install java
-    inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
-
     # Default configuration passes all linker flags to mkoctfile, to be
     # inserted into every oct/mex build. This is unnecessary and can cause
     # cause linking problems.
-    inreplace "src/mkoctfile.in.cc", /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/, '""'
+    inreplace "src/mkoctfile.in.cc",
+              /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/,
+              '""'
 
-    # Pick up keg-only libraries
-    ENV.append "CXXFLAGS", "-I#{Formula["sundials"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula[@qscintilla2_formula].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula[@qscintilla2_formula].opt_lib}"
+    ENV.prepend_path "PKG_CONFIG_PATH", Formula[@qt_formula].opt_libexec/"lib/pkgconfig" if OS.mac?
 
     # SUNDIALS 6.4.0 and later needs C++14 for C++ based features.
     # Use gnu++14 instead of c++14 as octave uses GNU extensions.
     ENV.append "CXX", "-std=gnu++14"
 
-    args = ["--prefix=#{prefix}",
-            "--disable-dependency-tracking",
-            "--disable-silent-rules",
-            "--enable-link-all-dependencies",
-            "--enable-shared",
-            "--disable-static",
-            "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
-            "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
-            "--with-java-homedir=#{Formula["openjdk"].opt_prefix}",
-            "--with-x=no",
-            "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
-            "--with-portaudio",
-            "--with-sndfile"]
+    args = [
+      "--disable-silent-rules",
+      "--enable-shared",
+      "--disable-static",
+      "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
+      "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
+      "--with-java-homedir=#{Formula["openjdk"].opt_prefix}",
+      "--with-x=no",
+      "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
+      "--with-portaudio",
+      "--with-sndfile",
+    ]
 
     if build.without? "qt"
       args << "--without-qt"
@@ -153,7 +148,7 @@ class OctaveAT910 < Formula
     # Need to regenerate aclocal.m4 so that it will work with brewed automake
     # system "aclocal"
 
-    system "./configure", *args
+    system "./configure", *args, *std_configure_args
     system "make", "all"
 
     # Avoid revision bumps whenever fftw's, gcc's or OpenBLAS' Cellar paths change
@@ -162,7 +157,7 @@ class OctaveAT910 < Formula
       s.gsub! Formula["gcc"].prefix.realpath, Formula["gcc"].opt_prefix
     end
 
-    # Make sure that Octave uses the modern texinfo
+    # Make sure that Octave uses the modern texinfo at run time
     rcfile = buildpath/"scripts/startup/site-rcfile"
     rcfile.append_lines "makeinfo_program(\"#{Formula["texinfo"].opt_bin}/makeinfo\");"
 
@@ -198,12 +193,13 @@ class OctaveAT910 < Formula
   end
 
   test do
+    ENV["LC_ALL"] = "en_US.UTF-8"
     system bin/"octave", "--eval", "(22/7 - pi)/pi"
     # This is supposed to crash octave if there is a problem with BLAS
     system bin/"octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
     # Test java bindings: check if javaclasspath is working, return error if not
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
-    # Test basic oct-file compilation
+    # Test basic compilation
     (testpath/"oct_demo.cc").write <<~EOS
       #include <octave/oct.h>
       DEFUN_DLD (oct_demo, args, /*nargout*/, "doc str")
