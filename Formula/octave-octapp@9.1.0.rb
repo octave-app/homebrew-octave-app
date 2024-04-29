@@ -129,18 +129,6 @@ class OctaveOctappAT910 < Formula
       "--with-qt",
     ]
 
-    # WIP: working on switching to Qt 6 as of 2024-02-10
-    # Qt 5.12 compatibility
-    # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
-    # source hasn't been updated to auto-detect this yet.
-    ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
-    # These "shouldn't" be necessary, but the build breaks if I don't include them.
-    # https://savannah.gnu.org/bugs/?55883
-    ENV['QT_CPPFLAGS']="-I#{Formula[@qt_formula].opt_include}"
-    ENV.append 'CPPFLAGS', "-I#{Formula[@qt_formula].opt_include}"
-    ENV['QT_LDFLAGS']="-F#{Formula[@qt_formula].opt_lib}"
-    ENV.append 'LDFLAGS', "-F#{Formula[@qt_formula].opt_lib}"
-
     if build.without? "docs"
       args << "--disable-docs"
     else
