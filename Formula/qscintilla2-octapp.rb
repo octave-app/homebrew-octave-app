@@ -25,7 +25,6 @@ class Qscintilla2Octapp < Formula
   keg_only "conflicts with regular qscintilla2"
 
   depends_on "pyqt-builder" => :build
-  depends_on "sip" => :build
   depends_on "pyqt"
   depends_on "python@3.12"
   depends_on "qt"
@@ -37,11 +36,10 @@ class Qscintilla2Octapp < Formula
   end
 
   def install
-    args = []
-
+    args = %w[-config release]
     if OS.mac?
       spec = (ENV.compiler == :clang) ? "macx-clang" : "macx-g++"
-      args = %W[-config release -spec #{spec}]
+      args += %W[-spec #{spec}]
     end
 
     pyqt = Formula["pyqt"]
@@ -84,7 +82,7 @@ class Qscintilla2Octapp < Formula
         --qsci-library-dir #{lib}
         --api-dir #{share}/qt/qsci/api/python
       ]
-      system "sip-install", *args
+      system Formula["pyqt-builder"].opt_libexec/"bin/sip-install", *args
     end
   end
 
