@@ -34,7 +34,7 @@ class OctaveOctappAT910 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
 
   # Octapp: These must be kept in sync with the duplicates in `def install`!
-  # This uses Qt 6, which the core Homebrew qt is on as of 2024-03ish.
+  # This uses Qt 6, which the core Homebrew qt is on as of 2024-03-ish.
   @qt_formula = "qt"
   @qscintilla2_formula = "qscintilla2-octapp"
 
@@ -42,7 +42,8 @@ class OctaveOctappAT910 < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
-  depends_on "librsvg" => :build
+  depends_on "librsvg" => :build # octapp addition: needed for app icon generation
+  depends_on "libtool" => :build # for the patches
   depends_on "pkg-config" => :build
   depends_on "arpack"
   depends_on "epstool"
@@ -55,13 +56,13 @@ class OctaveOctappAT910 < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on "gnu-tar"
+  depends_on "gnu-tar" # octapp addition
   depends_on "graphicsmagick"
   depends_on "hdf5"
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"
-  depends_on "openjdk"
+  depends_on "openjdk" # octapp change: make runtime dep instead of build-only
   depends_on "pcre2"
   depends_on "portaudio"
   depends_on "pstoedit"
@@ -75,6 +76,15 @@ class OctaveOctappAT910 < Formula
   depends_on "sundials"
   depends_on "texinfo"
   depends_on MacTeXRequirement if build.with?("docs")
+
+  uses_from_macos "curl"
+
+  on_linux do
+    depends_on "autoconf"
+    depends_on "automake"
+    depends_on "mesa"
+    depends_on "mesa-glu"
+  end
 
   # Octapp: Dependencies for Octave Forge packages (not Octave itself)
   # We exclude proj bc it's too big; 750 MB for the brewed proj 9.x
@@ -91,6 +101,20 @@ class OctaveOctappAT910 < Formula
   cxxstdlib_check :skip
 
   fails_with gcc: "5"
+
+  # Fix build for Qt 6.7.0
+  # https://hg.savannah.gnu.org/hgweb/octave/rev/f428a432ed4f
+  patch do
+    url "https://hg.savannah.gnu.org/hgweb/octave/raw-rev/f428a432ed4f"
+    sha256 "a9dd08ffecff5b310039b14847e8012e150de9b71337adc0955b0e668eea1d37"
+  end
+
+  # Fix opengl-partial-update bug causing crashes on figure() and plot() with Qt 6.7.0
+  # https://hg.savannah.gnu.org/hgweb/octave/rev/317fa0e5c8de
+  patch do
+    url "https://hg.savannah.gnu.org/hgweb/octave/raw-rev/317fa0e5c8de"
+    sha256 "909dc65614d0ef2520c35c5f8d4f78c451b189b2673e837f4f21c18a776273f0"
+  end
 
   def install
     # Octapp: These must be kept in sync with the duplicates at the top of the formula!
@@ -131,12 +155,28 @@ class OctaveOctappAT910 < Formula
       ENV.prepend_path "PATH", "/Library/TeX/texbin/"
     end
 
+    if OS.linux?
+      # Explicitly specify aclocal and automake without versions
+      args << "ACLOCAL=aclocal"
+      args << "AUTOMAKE=automake"
+
+      # Mesa OpenGL location must be supplied by LDFLAGS on Linux
+      args << "LDFLAGS=-L#{Formula["mesa"].opt_lib} -L#{Formula["mesa-glu"].opt_lib}"
+
+      # Docs building is broken on Linux
+      args << "--disable-docs"
+
+      # Need to regenerate aclocal.m4 so that it will work with brewed automake
+      system "aclocal"
+    end
+
     # Force use of our bundled JDK
     ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
     # Fix aclocal version issue
     system "autoreconf", "-f", "-i"
-    # TODO: Maybe this would work instead? It's what the core octave formula uses.
+    # TODO: Maybe this would work instead? It's what the core octave formula uses (on the
+    # Linux side only).
     # Need to regenerate aclocal.m4 so that it will work with brewed automake
     # system "aclocal"
 
@@ -159,7 +199,7 @@ class OctaveOctappAT910 < Formula
   def post_install
     # Link this keg-only formula into the main Homebrew bin with a suffixed name
     # Use "@" instead of "-" bc core Homebrew octave uses "-" in its symlink names
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp-9.1.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@9.1.0"
   end
 
   test do
@@ -186,5 +226,7 @@ class OctaveOctappAT910 < Formula
       mkoctfile ('-v', '-std=c++11', '-L#{lib}/octave/#{version}', args{:}, 'oct_demo.cc');
       assert(oct_demo, 42)
     EOS
+    ENV["QT_QPA_PLATFORM"] = "minimal"
+    system bin/"octave", "--gui"
   end
 end
