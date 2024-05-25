@@ -124,7 +124,6 @@ class OctaveOctappQt5AT910 < Formula
             "--with-qt=5",
           ]
 
-    # WIP: working on switching to Qt 6 as of 2024-02-10
     # Qt 5.12 compatibility
     # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
     # source hasn't been updated to auto-detect this yet.
