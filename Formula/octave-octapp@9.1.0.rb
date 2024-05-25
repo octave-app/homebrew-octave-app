@@ -36,7 +36,7 @@ class OctaveOctappAT910 < Formula
   # Octapp: These must be kept in sync with the duplicates in `def install`!
   # This uses Qt 6, which the core Homebrew qt is on as of 2024-03-ish.
   @qt_formula = "qt"
-  @qscintilla2_formula = "qscintilla2-octapp"
+  @qscintilla2_formula = "qscintilla2"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -119,7 +119,7 @@ class OctaveOctappAT910 < Formula
   def install
     # Octapp: These must be kept in sync with the duplicates at the top of the formula!
     @qt_formula = "qt"
-    @qscintilla2_formula = "qscintilla2-octapp"
+    @qscintilla2_formula = "qscintilla2"
 
     # Octapp hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;

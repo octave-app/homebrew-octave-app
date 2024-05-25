@@ -1,8 +1,10 @@
 # GNU Octave 9.1.0 (with Qt 6)
 #
-# This main formula builds against Qt 6, and is currently broken because of that. (A sip
-# install error in the qscintilla2-qt6 build.) See octave-qt5@9.0 for an alternative that
-# builds against the old Qt 5, and is working.
+# This main formula builds against Qt 6, and is currently broken because of that. (Fails
+# at launch if you have a Qt 6 installed in a system Homebrew, or something like that.
+# See: https://github.com/octave-app/octave-app/issues/274)
+# See octave-qt5@9.1.0 for an alternative that builds against the old Qt 5, and is
+# (apparently) working.
 
 class MacTeXRequirement < Requirement
   fatal true

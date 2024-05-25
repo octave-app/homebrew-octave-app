@@ -2,7 +2,9 @@
 #
 # This formula is a vanilla (not octapp-hacked) Octave 9.1 build that uses Qt 5 instead
 # of Qt 6, but is otherwise tries to closely match the core Homebrew formula as of 9.1.0.
-# It also adds MacTeX for building the docs.
+# As of 2024-05, building octapp against Qt 6 is broken in some cases, maybe a linkage
+# error when there's also a Qt 6 in a system Homebrew. This also adds MacTeX for building
+# the docs.
 
 class MacTeXRequirement < Requirement
   fatal true
