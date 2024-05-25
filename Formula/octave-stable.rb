@@ -28,7 +28,6 @@ class OctaveStable < Formula
 
   keg_only "so it can be installed alongside released octave"
 
-  option "without-java", "Compile without Java support"
   option "without-qt", "Compile without qt-based graphical user interface"
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
@@ -131,10 +130,6 @@ class OctaveStable < Formula
       "--with-sndfile"
     ]
 
-    if build.without? "java"
-      args << "--disable-java"
-    end
-
     if build.without? "qt"
       args << "--without-qt"
     else
@@ -199,6 +194,6 @@ class OctaveStable < Formula
     # This is supposed to crash octave if there is a problem with BLAS
     system bin/"octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
     # Test java bindings: check if javaclasspath is working, return error if not
-    system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
+    system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;"
   end
 end
