@@ -64,7 +64,7 @@ class OctaveDefault < Formula
   depends_on "pstoedit"
   depends_on "qhull"
   depends_on "qrupdate"
-  depends_on "qscintilla2" if build.with?("qt")
+  depends_on "qscintilla2-qt5" if build.with?("qt")
   depends_on "qt@5" if build.with?("qt")
   depends_on "readline"
   depends_on "suite-sparse"
@@ -90,8 +90,8 @@ class OctaveDefault < Formula
 
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2"].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2"].opt_lib}"
+    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2-qt5"].opt_include}"
+    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2-qt5"].opt_lib}"
 
     args = [
       "--prefix=#{prefix}",

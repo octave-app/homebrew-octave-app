@@ -75,7 +75,7 @@ class OctaveStable < Formula
   # Dependencies for the graphical user interface
   if build.with?("qt")
     depends_on "qt@5"
-    depends_on "qscintilla2"
+    depends_on "qscintilla2-qt5"
 
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025

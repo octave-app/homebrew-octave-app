@@ -71,7 +71,7 @@ class OctaveOctappVanillaqtAT510 < Formula
   # Dependencies for the graphical user interface
   if build.with?("qt")
     depends_on "qt@5"
-    depends_on "qscintilla2"
+    depends_on "qscintilla2-qt5"
 
     # Fix bug #50025: Octave window freezes
     # see https://savannah.gnu.org/bugs/?50025
@@ -116,8 +116,8 @@ class OctaveOctappVanillaqtAT510 < Formula
 
     # Pick up keg-only libraries
     ENV.append "CXXFLAGS", "-I#{Formula["sundials@2"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2"].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2"].opt_lib}"
+    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2-qt5"].opt_include}"
+    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2-qt5"].opt_lib}"
 
     args = [
       "--prefix=#{prefix}",
@@ -188,7 +188,7 @@ class OctaveOctappVanillaqtAT510 < Formula
         f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
         f.write("<QHelpCollectionProject version=\"1.0\" />")
       end
-      system "#{Formula[@qt_formula].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
+      system "#{Formula["qt@5"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
       (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
     end
   end
