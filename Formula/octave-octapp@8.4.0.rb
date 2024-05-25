@@ -40,7 +40,7 @@ class OctaveOctappAT840 < Formula
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
-  depends_on "fig2dev-octapp"
+  depends_on "fig2dev-octapp" # octapp change: to avoid pulling in svn and thus llvm
   depends_on "fltk"
   depends_on "fontconfig"
   depends_on "freetype"

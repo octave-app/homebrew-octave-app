@@ -1,7 +1,6 @@
-# This customization of netpbm.rb just changes it to download from a GitHub
-# mirror instead of the main svn repo, to avoid a dependency on subversion,
-# which pulls in ruby and llvm, inflates the install size, and (I think) takes
-# a long time to build.
+# This customization of netpbm just changes it to download from a GitHub mirror instead
+# of the main svn repo, to avoid a dependency on subversion, which pulls in ruby and llvm,
+# inflates the install size, and (I think) takes a long time to build.
 # See: https://github.com/octave-app/octave-app-bundler/issues/76
 # See: https://github.com/octave-app/octave-app/issues/248
 class NetpbmOctapp < Formula
