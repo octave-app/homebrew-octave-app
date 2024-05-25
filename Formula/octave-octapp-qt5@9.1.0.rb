@@ -59,8 +59,8 @@ class OctaveOctappQt5AT910 < Formula
   depends_on "pstoedit"
   depends_on "qhull"
   depends_on "qrupdate"
-  depends_on @qscintilla2_formula if build.with?("qt")
-  depends_on @qt_formula if build.with?("qt")
+  depends_on @qscintilla2_formula
+  depends_on @qt_formula
   depends_on "rapidjson"
   depends_on "readline"
   depends_on "suite-sparse"
