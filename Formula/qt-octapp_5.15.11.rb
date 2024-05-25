@@ -10,7 +10,7 @@
 # I checked and there were no sig changes to it until the 5.15.12 bump.
 
 class QtOctapp51511 < Formula
-  desc "Cross-platform application and UI framework, 5.15.12 version, Octave.app-hacked version"
+  desc "Cross-platform application and UI framework, 5.15.11 version, Octave.app-hacked version"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.15/5.15.11/single/qt-everywhere-opensource-src-5.15.11.tar.xz"
   mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.11/single/qt-everywhere-opensource-src-5.15.11.tar.xz"
