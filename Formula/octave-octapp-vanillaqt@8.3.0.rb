@@ -216,7 +216,7 @@ class OctaveOctappVanillaqtAT830 < Formula
     # This is supposed to crash octave if there is a problem with BLAS
     system bin/"octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
     # Test java bindings: check if javaclasspath is working, return error if not
-    system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;" if build.with? "java"
+    system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;"
     # Test basic oct-file compilation
     (testpath/"oct_demo.cc").write <<~EOS
       #include <octave/oct.h>
