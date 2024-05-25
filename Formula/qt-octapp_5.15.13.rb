@@ -129,7 +129,7 @@ class QtOctapp51513 < Formula
     # * tools/metrics/structured/model.py was refactored in Chromium 90
     #   Ref: https://chromium.googlesource.com/chromium/src/+/1219c5a8e1e6d11adb3e098f1a983b8cd8f5932f
     patch do
-      url "https://sources.debian.org/data/main/q/qtwebengine-opensource-src/5.15.15%2Bdfsg-2/debian/patches/python3.11.patch"
+      url "https://sources.debian.org/data/main/q/qtwebengine-opensource-src/5.15.15%2Bdfsg2-1/debian/patches/python3.11.patch"
       sha256 "652a612144ef4d87b6b2a4098f56ba6db1201e1a241259d0a227123cb0e566a2"
     end
 

@@ -7,7 +7,10 @@
 # 5.15.13 and later to build (and even 5.15.12 in its revised formula), so keeping
 # this 5.15.12 formula around as a reference. This copy was grabbed from commit
 # 246663953, before the later Octave 8.x changes in 2024 Q1 (on branch lets-go-8-4-oh),
-# and I think was building okay at that point.
+# and I think was building okay at that point. So this is an older state of the formula
+# than what'sin qt-octapp_5, even though that one is on 5.15.12 as well. Once that one
+# gets all fixed up and is building reliably, its changes should probably be backported
+# here.
 
 class QtOctapp51512 < Formula
   desc "Cross-platform application and UI framework, 5.15.12 version, Octave.app-hacked version"
