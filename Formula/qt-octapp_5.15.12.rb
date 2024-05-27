@@ -200,6 +200,15 @@ class QtOctapp51512 < Formula
                 "fatal_linker_warnings = false"
     end
 
+    # Work around Clang failure in bundled Boost and V8:
+    # error: integer value -1 is outside the valid range of values [0, 3] for this enumeration type
+    if DevelopmentTools.clang_build_version >= 1500
+      args << "QMAKE_CXXFLAGS+=-Wno-enum-constexpr-conversion"
+      inreplace "qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn",
+                /^\s*"-Wno-thread-safety-attributes",$/,
+                "\\0 \"-Wno-enum-constexpr-conversion\","
+    end
+
     ENV.prepend_path "PATH", Formula["python@3.10"].libexec/"bin"
     system "./configure", *args
     system "make"
