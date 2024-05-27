@@ -21,13 +21,16 @@ class QtOctapp51512 < Formula
   sha256 "93f2c0889ee2e9cdf30c170d353c3f829de5f29ba21c119167dee5995e48ccce"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
 
-  head "https://code.qt.io/qt/qt5.git", :branch => "dev", :shallow => false
+  livecheck do
+    url "https://download.qt.io/official_releases/qt/5.15/"
+    regex(%r{href=["']?v?(\d+(?:\.\d+)+)/?["' >]}i)
+  end
 
   keg_only :versioned_formula
 
   depends_on "node" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.11" => :build
+  depends_on "python@3.11" => :build # NOTE: Python 3.12+ would need additional backports due to imp usage
   depends_on xcode: :build
   depends_on "freetype"
   depends_on "glib"
@@ -100,23 +103,26 @@ class QtOctapp51512 < Formula
   # Update catapult to a revision that supports Python 3.
   resource "catapult" do
     url "https://chromium.googlesource.com/catapult.git",
-    revision: "5eedfe23148a234211ba477f76fc2ea2e8529189"
+        revision: "5eedfe23148a234211ba477f76fc2ea2e8529189"
   end
 
   # Fix build with Xcode 14.3.
+  # https://bugreports.qt.io/browse/QTBUG-112906
   patch do
     url "https://invent.kde.org/qt/qt/qtlocation-mapboxgl/-/commit/5a07e1967dcc925d9def47accadae991436b9686.diff"
     sha256 "4f433bb009087d3fe51e3eec3eee6e33a51fde5c37712935b9ab96a7d7571e7d"
     directory "qtlocation/src/3rdparty/mapbox-gl-native"
   end
 
-  # build patch for qmake with xcode 15
+  # Fix qmake with Xcode 15.
+  # https://bugreports.qt.io/browse/QTBUG-117225
   patch do
     url "https://raw.githubusercontent.com/Homebrew/formula-patches/086e8cf/qt5/qt5-qmake-xcode15.patch"
     sha256 "802f29c2ccb846afa219f14876d9a1d67477ff90200befc2d0c5759c5081c613"
   end
 
-  # build patch for qtmultimedia with xcode 15
+  # Fix qtmultimedia build with Xcode 15
+  # https://bugreports.qt.io/browse/QTBUG-113782
   # https://github.com/hmaarrfk/qt-main-feedstock/blob/0758b98854a3a3b9c99cded856176e96c9b8c0c5/recipe/patches/0014-remove-usage-of-unary-operator.patch
   patch do
     url "https://raw.githubusercontent.com/Homebrew/formula-patches/3f509180/qt5/qt5-qtmultimedia-xcode15.patch"
@@ -124,19 +130,17 @@ class QtOctapp51512 < Formula
   end
 
   def install
-    rm_r "qtwebengine"
+    (buildpath/"qtwebengine").rmtree
+    (buildpath/"qtwebengine").install resource("qtwebengine")
 
-    resource("qtwebengine").stage(buildpath/"qtwebengine")
-
-    rm_r "qtwebengine/src/3rdparty/chromium/third_party/catapult"
-
-    resource("catapult").stage(buildpath/"qtwebengine/src/3rdparty/chromium/third_party/catapult")
+    (buildpath/"qtwebengine/src/3rdparty/chromium/third_party/catapult").rmtree
+    (buildpath/"qtwebengine/src/3rdparty/chromium/third_party/catapult").install resource("catapult")
 
     # FIXME: GN requires clang in clangBasePath/bin
     inreplace "qtwebengine/src/3rdparty/chromium/build/toolchain/mac/BUILD.gn",
-       'rebase_path("$clang_base_path/bin/", root_build_dir)', '""'
+              'rebase_path("$clang_base_path/bin/", root_build_dir)', '""'
 
-    #TODO: Switch qt-* to system-* for lib deps, like core formula does?
+    #TODO: (octapp) Switch qt-* to system-* for lib deps, like core formula does?
     args = %W[
       -verbose
       -prefix #{prefix}
@@ -144,8 +148,6 @@ class QtOctapp51512 < Formula
       -opensource -confirm-license
       -nomake examples
       -nomake tests
-      -no-rpath
-      -no-assimp
       -pkg-config
       -dbus-runtime
       -proprietary-codecs
@@ -156,27 +158,61 @@ class QtOctapp51512 < Formula
       -qt-pcre
     ]
 
+    if OS.mac?
+      args << "-no-rpath"
+      args << "-no-assimp" if Hardware::CPU.arm?
+
+      # Modify Assistant path as we manually move `*.app` bundles from `bin` to `libexec`.
+      # This fixes invocation of Assistant via the Help menu of apps like Designer and
+      # Linguist as they originally relied on Assistant.app being in `bin`.
+      assistant_files = %w[
+        qttools/src/designer/src/designer/assistantclient.cpp
+        qttools/src/linguist/linguist/mainwindow.cpp
+      ]
+      inreplace assistant_files, '"Assistant.app/Contents/MacOS/Assistant"', '"Assistant"'
+    else
+      args << "-R#{lib}"
+      # https://bugreports.qt.io/browse/QTBUG-71564
+      args << "-no-avx2"
+      args << "-no-avx512"
+      args << "-no-sql-mysql"
+
+      # Use additional system libraries on Linux.
+      # Currently we have to use vendored ffmpeg because the chromium copy adds a symbol not
+      # provided by the brewed version.
+      # See here for an explanation of why upstream ffmpeg does not want to add this:
+      # https://www.mail-archive.com/ffmpeg-devel@ffmpeg.org/msg124998.html
+      # On macOS chromium will always use bundled copies and the webengine_*
+      # arguments are ignored.
+      args += %w[
+        -system-harfbuzz
+        -webengine-alsa
+        -webengine-icu
+        -webengine-kerberos
+        -webengine-opus
+        -webengine-pulseaudio
+        -webengine-webp
+      ]
+
+      # Homebrew-specific workaround to ignore spurious linker warnings on Linux.
+      inreplace "qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn",
+                "fatal_linker_warnings = true",
+                "fatal_linker_warnings = false"
+    end
+
     ENV.prepend_path "PATH", Formula["python@3.10"].libexec/"bin"
     system "./configure", *args
-
-    # Remove reference to shims directory
-    inreplace "qtbase/mkspecs/qmodule.pri",
-              /^PKG_CONFIG_EXECUTABLE = .*$/,
-              "PKG_CONFIG_EXECUTABLE = #{Formula["pkg-config"].opt_bin/"pkg-config"}"
-
     system "make"
     ENV.deparallelize
     system "make", "install"
 
+    # Remove reference to shims directory
+    inreplace prefix/"mkspecs/qmodule.pri",
+              /^PKG_CONFIG_EXECUTABLE = .*$/,
+              "PKG_CONFIG_EXECUTABLE = #{Formula["pkg-config"].opt_bin}/pkg-config"
+
     # Some config scripts will only find Qt in a "Frameworks" folder
     frameworks.install_symlink Dir["#{lib}/*.framework"]
-
-    # The pkg-config files installed suggest that headers can be found in the
-    # `include` directory. Make this so by creating symlinks from `include` to
-    # the Frameworks' Headers folders.
-    Pathname.glob("#{lib}/*.framework/Headers") do |path|
-      include.install_symlink path => path.parent.basename(".framework")
-    end
 
     # Install a qtversion.xml to ease integration with QtCreator
     # As far as we can tell, there is no ability to make the Qt buildsystem
@@ -211,12 +247,23 @@ class QtOctapp51512 < Formula
       </qtcreator>
     XML
 
+    return unless OS.mac?
+
+    # The pkg-config files installed suggest that headers can be found in the
+    # `include` directory. Make this so by creating symlinks from `include` to
+    # the Frameworks' Headers folders.
+    lib.glob("*.framework") do |f|
+      # Some config scripts will only find Qt in a "Frameworks" folder
+      frameworks.install_symlink f
+      include.install_symlink f/"Headers" => f.stem
+    end
+
     # Move `*.app` bundles into `libexec` to expose them to `brew linkapps` and
     # because we don't like having them in `bin`.
-    # (Note: This move breaks invocation of Assistant via the Help menu
-    # of both Designer and Linguist as that relies on Assistant being in `bin`.)
-    libexec.mkpath
-    Pathname.glob("#{bin}/*.app") { |app| mv app, libexec }
+    bin.glob("*.app") do |app|
+      libexec.install app
+      bin.write_exec_script libexec/app.basename/"Contents/MacOS"/app.stem
+    end
 
     # Fix find_package call using QtWebEngine version to find other Qt5 modules.
     inreplace Dir[lib/"cmake/Qt5WebEngine*/*Config.cmake"],
