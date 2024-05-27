@@ -17,8 +17,6 @@ class QtOctapp51513 < Formula
   sha256 "9550ec8fc758d3d8d9090e261329700ddcd712e2dda97e5fcfeabfac22bea2ca"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
 
-  head "https://code.qt.io/qt/qt5.git", :branch => "5.15", :shallow => false
-
   livecheck do
     url "https://download.qt.io/official_releases/qt/5.15/"
     regex(%r{href=["']?v?(\d+(?:\.\d+)+)/?["' >]}i)
@@ -334,6 +332,15 @@ class QtOctapp51513 < Formula
                 "fatal_linker_warnings = false"
     end
 
+    # Work around Clang failure in bundled Boost and V8:
+    # error: integer value -1 is outside the valid range of values [0, 3] for this enumeration type
+    if DevelopmentTools.clang_build_version >= 1500
+      args << "QMAKE_CXXFLAGS+=-Wno-enum-constexpr-conversion"
+      inreplace "qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn",
+                /^\s*"-Wno-thread-safety-attributes",$/,
+                "\\0 \"-Wno-enum-constexpr-conversion\","
+    end
+
     ENV.prepend_path "PATH", Formula["python@3.11"].libexec/"bin"
     system "./configure", *args
     system "make"
@@ -401,6 +408,7 @@ class QtOctapp51513 < Formula
     end
   end
 
+  # octapp addition: note special octapp patches
   def caveats
     <<~EOS
       We agreed to the Qt open source license for you.
