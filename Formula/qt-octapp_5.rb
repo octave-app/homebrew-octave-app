@@ -7,11 +7,11 @@
 # might be the LTS version, the latest version, or something else, depending on what
 # works best for Octave.app.
 #
-# Typically, you can refresh this formula from a versioned qt-octapp_<X.Y> formula like
-# qt-octapp_5.15 by copy and pasting everything after the "desc" line in the formula.
+# Typically, you can refresh this formula from a versioned qt-octapp_<X.Y.Z> formula like
+# qt-octapp_5.15.x by copy and pasting everything after the "desc" line in the formula.
 #
 # To compare this against the core qt@5 formula, do like:
-#   diff Formula/qt-octapp_5.rb ~/repos/homebrew-core/Formula/q/qt@5.rb
+#   diff ~/repos/homebrew-core/Formula/q/qt@5.rb Formula/qt-octapp_5.rb
 
 class QtOctapp5 < Formula
   desc "Cross-platform application and UI framework, 5.x version, Octave.app-hacked"
