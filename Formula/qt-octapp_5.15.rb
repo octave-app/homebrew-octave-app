@@ -3,20 +3,15 @@
 # This formula is named qt-octapp_5.15 instead of qt-octapp@5.15 because having an
 # "@" in the formula name causes a ninja build error.
 
-# Stuck on 5.15.12 as of 2023-12-31. Core qt@5 was 5.15.13 as of 2024-03, but I'm getting
-# a build error with it, and I don't know why.
-
 class QtOctapp515 < Formula
   desc "Cross-platform application and UI framework, 5.15.x version, Octave.app-hacked"
   homepage "https://www.qt.io/"
   # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
-  url "https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
-  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
-  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
-  sha256 "93f2c0889ee2e9cdf30c170d353c3f829de5f29ba21c119167dee5995e48ccce"
+  url "https://download.qt.io/official_releases/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
+  mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
+  mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.13/single/qt-everywhere-opensource-src-5.15.13.tar.xz"
+  sha256 "9550ec8fc758d3d8d9090e261329700ddcd712e2dda97e5fcfeabfac22bea2ca"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
-
-  head "https://code.qt.io/qt/qt5.git", :branch => "5.15", :shallow => false
 
   livecheck do
     url "https://download.qt.io/official_releases/qt/5.15/"
@@ -333,6 +328,15 @@ class QtOctapp515 < Formula
                 "fatal_linker_warnings = false"
     end
 
+    # Work around Clang failure in bundled Boost and V8:
+    # error: integer value -1 is outside the valid range of values [0, 3] for this enumeration type
+    if DevelopmentTools.clang_build_version >= 1500
+      args << "QMAKE_CXXFLAGS+=-Wno-enum-constexpr-conversion"
+      inreplace "qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn",
+                /^\s*"-Wno-thread-safety-attributes",$/,
+                "\\0 \"-Wno-enum-constexpr-conversion\","
+    end
+
     ENV.prepend_path "PATH", Formula["python@3.11"].libexec/"bin"
     system "./configure", *args
     system "make"
@@ -400,6 +404,7 @@ class QtOctapp515 < Formula
     end
   end
 
+  # octapp addition: note special octapp patches
   def caveats
     <<~EOS
       We agreed to the Qt open source license for you.
