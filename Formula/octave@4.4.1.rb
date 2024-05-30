@@ -33,7 +33,6 @@ class OctaveAT441 < Formula
 
   @qt_formula = "qt_5.12"
   @qscintilla2_formula = "qscintilla2-qt512"
-  @gnuplot_formula = "gnuplot-qt512"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
@@ -50,7 +49,6 @@ class OctaveAT441 < Formula
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on @gnuplot_formula
   depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
@@ -81,7 +79,6 @@ class OctaveAT441 < Formula
   def install
     @qt_formula = "qt_5.12"
     @qscintilla2_formula = "qscintilla2-qt512"
-    @gnuplot_formula = "gnuplot-qt512"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
