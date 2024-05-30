@@ -1,4 +1,4 @@
-# Qt 5.x, hacked for Octave.app
+# Qt 5.x LTS, hacked for Octave.app
 #
 # Our hack just suppresses an "FSEvents assertion failure" warning message. Nothing
 # else; a shame we have to pay for the whole Qt build for it.
@@ -18,7 +18,7 @@
 #   -apj 2024-04-08
 
 class QtOctapp5 < Formula
-  desc "Cross-platform application and UI framework, Octave.app-hacked version"
+  desc "Cross-platform application and UI framework, 5.x version, Octave.app-hacked"
   homepage "https://www.qt.io/"
   # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
   url "https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"

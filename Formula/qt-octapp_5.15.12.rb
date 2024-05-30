@@ -13,7 +13,7 @@
 # here.
 
 class QtOctapp51512 < Formula
-  desc "Cross-platform application and UI framework, 5.15.12 version, Octave.app-hacked version"
+  desc "Cross-platform application and UI framework, 5.15.12 version, Octave.app-hacked"
   homepage "https://www.qt.io/"
   url "https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
   mirror "https://mirrors.dotsrc.org/qtproject/archive/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"

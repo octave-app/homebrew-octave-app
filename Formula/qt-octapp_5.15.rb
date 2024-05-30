@@ -7,7 +7,7 @@
 # a build error with it, and I don't know why.
 
 class QtOctapp515 < Formula
-  desc "Cross-platform application and UI framework, 5.15.x version, Octave.app-hacked version"
+  desc "Cross-platform application and UI framework, 5.15.x version, Octave.app-hacked"
   homepage "https://www.qt.io/"
   # NOTE: Use *.diff for GitLab/KDE patches to avoid their checksums changing.
   url "https://download.qt.io/official_releases/qt/5.15/5.15.12/single/qt-everywhere-opensource-src-5.15.12.tar.xz"
