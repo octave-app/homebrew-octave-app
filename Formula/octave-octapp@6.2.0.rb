@@ -36,7 +36,6 @@ class OctaveOctappAT620 < Formula
   depends_on "automake" => :build
   depends_on "autoconf" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
-  depends_on "librsvg" => :build
   depends_on "pkg-config" => :build
   depends_on "arpack"
   depends_on "epstool"

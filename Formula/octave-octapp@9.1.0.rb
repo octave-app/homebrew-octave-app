@@ -42,7 +42,6 @@ class OctaveOctappAT910 < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
-  depends_on "librsvg" => :build # octapp addition: needed for app icon generation
   depends_on "libtool" => :build # for the patches
   depends_on "pkg-config" => :build
   depends_on "arpack"
