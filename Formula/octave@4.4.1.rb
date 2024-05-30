@@ -1,10 +1,7 @@
 # GNU Octave 4.4.1, Qt-enabled, with macOS patches, but not Octave.app customizations
 #
-# This formula is here for historical interest. You probably want to use
-# octave-octapp@4.4.1 instead.
-#
-# TODO: Decide whether this should build against the versioned qt_5.12 or the
-# regular floating qt.
+# This formula is here for historical interest only, and is not really supported. You
+# probably want to use octave-octapp@4.4.1 instead.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -31,8 +28,8 @@ class OctaveAT441 < Formula
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
 
-  @qt_formula = "qt_5.12"
-  @qscintilla2_formula = "qscintilla2-qt512"
+  @qt_formula = "qt@5"
+  @qscintilla2_formula = "qscintilla2-qt5"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "automake" => :build
@@ -77,8 +74,8 @@ class OctaveAT441 < Formula
   cxxstdlib_check :skip
 
   def install
-    @qt_formula = "qt_5.12"
-    @qscintilla2_formula = "qscintilla2-qt512"
+    @qt_formula = "qt@5"
+    @qscintilla2_formula = "qscintilla2-qt5"
 
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
