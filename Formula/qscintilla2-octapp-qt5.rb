@@ -9,19 +9,28 @@ class Qscintilla2OctappQt5 < Formula
   sha256 "dfe13c6acc9d85dfcba76ccc8061e71a223957a6c02f3c343b30a9d43a4cdd4d"
   license "GPL-3.0-only"
 
+  # The downloads page also lists pre-release versions, which use the same file
+  # name format as stable versions. The only difference is that files for
+  # stable versions are kept in corresponding version subdirectories and
+  # pre-release files are in the parent QScintilla directory. The regex below
+  # omits pre-release versions by only matching tarballs in a version directory.
+  livecheck do
+    url "https://www.riverbankcomputing.com/software/qscintilla/download"
+    regex(%r{href=.*?QScintilla/v?\d+(?:\.\d+)+/QScintilla(?:[._-](?:gpl|src))?[._-]v?(\d+(?:\.\d+)+)\.t}i)
+  end
+
   keg_only "conflicts with regular qscintilla2"
 
   depends_on "pyqt-builder" => :build
 
   depends_on "pyqt-octapp@5"
-  depends_on "python@3.11"
+  depends_on "python@3.12"
   depends_on "qt-octapp_5"
-  depends_on "sip"
 
   fails_with gcc: "5"
 
   def python3
-    "python3.11"
+    "python3.12"
   end
 
   def install
@@ -62,12 +71,13 @@ class Qscintilla2OctappQt5 < Formula
 
       args = %W[
         --target-dir #{prefix/site_packages}
+
         --qsci-features-dir #{prefix}/data/mkspecs/features
         --qsci-include-dir #{include}
         --qsci-library-dir #{lib}
         --api-dir #{prefix}/data/qsci/api/python
       ]
-      system "sip-install", *args
+      system Formula["pyqt-builder"].opt_libexec/"bin/sip-install", *args
     end
   end
 

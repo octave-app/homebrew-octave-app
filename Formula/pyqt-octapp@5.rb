@@ -2,7 +2,9 @@
 # There is no corresponding pyqt-octapp for Qt 6; with Qt 6 we can use the default pyqt
 # because we're using the vanilla Qt 6.
 #
-# The hacks: uses qt-octapp_5 instead of core qt@5
+# The hacks:
+#   * use qt-octapp_5 instead of core qt@5, in its dependencies.
+#   * install for python3.11 in addition to python3.12 (bc our qt5 stuff needs python3.11)
 class PyqtOctappAT5 < Formula
   desc "Python bindings for v5 of Qt, Octave.app-hacked variant"
   homepage "https://www.riverbankcomputing.com/software/pyqt/download5"
@@ -11,9 +13,10 @@ class PyqtOctappAT5 < Formula
   license "GPL-3.0-only"
 
   depends_on "pyqt-builder" => :build
-  depends_on "python-setuptools" => :build
   depends_on "python@3.11"  => [:build, :test]
   depends_on "python@3.12"  => [:build, :test]
+  # octapp: core pyqt@5 has no sip dep, but calls sip-install in its install? Maybe the pyqt5-sip resource
+  # handles that now?
   depends_on "sip"          => :build
   depends_on "qt-octapp_5"
 
@@ -56,15 +59,13 @@ class PyqtOctappAT5 < Formula
   end
 
   def pythons
-    deps.map(&:to_formula)
-        .select { |f| f.name.match?(/^python@\d\.\d+$/) }
-        .map { |f| f.opt_libexec/"bin/python" }
+    ["python3.11", "python3.12"]
   end
 
   def install
-    pythons.each do |python|
+    pythons.each do |python3|
       sip_install = Formula["pyqt-builder"].opt_libexec/"bin/sip-install"
-      site_packages = prefix/Language::Python.site_packages(python)
+      site_packages = prefix/Language::Python.site_packages(python3)
       args = [
         "--target-dir", site_packages,
         "--scripts-dir", bin,
@@ -75,7 +76,7 @@ class PyqtOctappAT5 < Formula
       system sip_install, *args
 
       resource("pyqt5-sip").stage do
-        system python, "-m", "pip", "install", *std_pip_args(build_isolation: true), "."
+        system python3, "-m", "pip", "install", *std_pip_args(build_isolation: true), "."
       end
 
       resources.each do |r|
@@ -89,11 +90,7 @@ class PyqtOctappAT5 < Formula
           system sip_install, "--target-dir", site_packages
         end
       end
-
-      # Replace hardcoded reference to Python version used with sip/pyqt-builder with generic python3.
-      bin.children.each { |script| inreplace script, Formula["python@3.12"].opt_bin/"python3.12", "python3" }
     end
-
   end
 
   test do
