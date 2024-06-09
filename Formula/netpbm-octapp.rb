@@ -10,7 +10,7 @@ class NetpbmOctapp < Formula
   # for stable versions and matching revisions.
   # url "https://svn.code.sf.net/p/netpbm/code/stable", revision: "4908"
   url "https://github.com/leahneukirchen/netpbm-mirror.git",
-      revision: "960c29f05f55754b00c1ca2100cf8308e7693b34"
+      revision: "960c29f05f55754b00c1ca2100cf8308e7693b34", branch: "stable"
   version "11.02.09"
   license "GPL-3.0-or-later"
   version_scheme 1
