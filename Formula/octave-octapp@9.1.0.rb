@@ -90,8 +90,9 @@ class OctaveOctappAT910 < Formula
   # depends_on "proj"     # for octproj OF package
   depends_on "cfitsio"  # for fits OF package
   depends_on "gsl"      # for gsl OF package
+  depends_on "ipopt"    # for mexIPOPT, used by rdzman
   # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # for sparsersb OF package
+  # depends_on "librsb"   # for sparsersb OF package
   depends_on "mpfr"     # for interval package
   depends_on "netcdf"   # for ??? OF packages
   depends_on "zeromq"   # for zeromq OF package
