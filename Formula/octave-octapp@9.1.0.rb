@@ -145,7 +145,7 @@ class OctaveOctappAT910 < Formula
       "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
       "--with-portaudio",
       "--with-sndfile",
-      "--with-qt",
+      "--with-qt=6",
     ]
 
     if build.without? "docs"
