@@ -67,6 +67,7 @@ class OctaveOctappAT640 < Formula
 
   # Dependencies for Octave Forge packages
   depends_on "cfitsio"  # fits OF package
+  depends_on "gnu-units"   # for miscellaneous OF package
   depends_on "gsl"      # gsl OF package
   # WIP: DEBUG: Temporarily disabled bc its download and build are broken
   # depends_on "librsb" # sparsersb OF package

@@ -72,6 +72,7 @@ class OctaveOctappAT830 < Formula
   # Dependencies for Octave Forge packages (not Octave itself)
   # We exclude proj bc it's too big; 750 MB for the brewed proj 9.x
   depends_on "cfitsio"  # for fits OF package
+  depends_on "gnu-units"   # for miscellaneous OF package
   depends_on "gsl"      # for gsl OF package
   # WIP: DEBUG: Temporarily disabled bc its download and build are broken
   # depends_on "librsb" # for sparsersb OF package
