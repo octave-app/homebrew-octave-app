@@ -66,15 +66,15 @@ class OctaveOctappAT640 < Formula
   depends_on MacTeXRequirement if build.with?("docs")
 
   # Dependencies for Octave Forge packages
-  depends_on "cfitsio"  # fits OF package
+  depends_on "cfitsio"     # for fits OF package
   depends_on "gnu-units"   # for miscellaneous OF package
-  depends_on "gsl"      # gsl OF package
+  depends_on "gsl"         # for gsl OF package
   # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # sparsersb OF package
-  depends_on "mpfr"     # interval package
-  depends_on "netcdf"   # ??? OF packages
-  depends_on "proj@5"   # octproj OF package
-  depends_on "zeromq"   # zeromq OF package
+  # depends_on "librsb"      # for sparsersb OF package
+  depends_on "mpfr"        # for interval package
+  depends_on "netcdf"      # for ??? OF packages
+  depends_on "proj@5"      # for octproj OF package
+  depends_on "zeromq"      # for zeromq OF package
 
   # Suppress spurious messages about GCC caused by dependencies using Fortran
   cxxstdlib_check :skip

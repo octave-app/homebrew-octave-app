@@ -69,15 +69,15 @@ class OctaveOctappQt5AT910 < Formula
 
   # Dependencies for Octave Forge packages (not Octave itself)
   # We exclude proj bc it's too big; 750 MB for the brewed proj 9.x
-  # depends_on "proj"     # for octproj OF package
-  depends_on "cfitsio"  # for fits OF package
+  # depends_on "proj"      # for octproj OF package
+  depends_on "cfitsio"     # for fits OF package
   depends_on "gnu-units"   # for miscellaneous OF package
-  depends_on "gsl"      # for gsl OF package
+  depends_on "gsl"         # for gsl OF package
   # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb" # for sparsersb OF package
-  depends_on "mpfr"     # for interval package
-  depends_on "netcdf"   # for ??? OF packages
-  depends_on "zeromq"   # for zeromq OF package
+  # depends_on "librsb"      # for sparsersb OF package
+  depends_on "mpfr"        # for interval package
+  depends_on "netcdf"      # for ??? OF packages
+  depends_on "zeromq"      # for zeromq OF package
 
   # Suppress spurious messages about GCC caused by dependencies using Fortran
   cxxstdlib_check :skip
