@@ -10,3 +10,4 @@ Started numbering versions here, as part of the Octave.app 8.x and 9.x release p
 ### Changed
 
 * Added formulae for Octave 9.1 and 9.2.
+* Add `octave-devel` formula.
