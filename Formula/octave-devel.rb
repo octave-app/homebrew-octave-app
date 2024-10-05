@@ -6,12 +6,27 @@
 # This should be a head-only formula, but I don't remember how to do that, or if Homebrew
 # even supports that any more.
 
+class MacTeXRequirement < Requirement
+  fatal true
+
+  satisfy(:build_env => false) {
+    Pathname.new("/Library/TeX/texbin/latex").executable?
+  }
+
+  def message; <<~EOS
+    MacTeX must be installed in order to build --with-docs.
+  EOS
+  end
+end
+
 class OctaveDevel < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://octave.org/index.html"
   license "GPL-3.0-or-later"
 
   keg_only "so it can be installed alongside regular octave"
+
+  option "without-docs", "Skip documentation (documentation requires MacTeX)"
 
   # New tarballs appear on https://ftp.gnu.org/gnu/octave/ before a release is
   # announced, so we check the octave.org download page instead.
@@ -34,7 +49,6 @@ class OctaveDevel < Formula
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
   depends_on "openjdk" => :build
   depends_on "pkg-config" => :build
-  depends_on "texlive" => :build
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
@@ -63,6 +77,7 @@ class OctaveDevel < Formula
   depends_on "suite-sparse"
   depends_on "sundials"
   depends_on "texinfo"
+  depends_on MacTeXRequirement if build.with?("docs")
 
   uses_from_macos "curl"
 
@@ -105,6 +120,14 @@ class OctaveDevel < Formula
       "--with-portaudio",
       "--with-sndfile",
     ]
+
+    # Octapp variant: pull in MacTeX. May not need with 9.2, or any not-very-patched
+    # build from a release tarball? See #293.
+    if build.without? "docs"
+      args << "--disable-docs"
+    else
+      ENV.prepend_path "PATH", "/Library/TeX/texbin/"
+    end
 
     if OS.linux?
       # Explicitly specify aclocal and automake without versions

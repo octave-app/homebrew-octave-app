@@ -105,7 +105,8 @@ class OctaveAT920 < Formula
       "--with-sndfile",
     ]
 
-    # Octapp variant: pull in MacTeX. Maybe not needed with 9.2.x?
+    # Octapp variant: pull in MacTeX. May not need with 9.2, or any not-very-patched
+    # build from a release tarball? See #293.
     if build.without? "docs"
       args << "--disable-docs"
     else

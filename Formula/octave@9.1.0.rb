@@ -141,6 +141,8 @@ class OctaveAT910 < Formula
       "--with-qt",
     ]
 
+    # Octapp variant: pull in MacTeX. May not need with 9.2, or any not-very-patched
+    # build from a release tarball? See #293.
     if build.without? "docs"
       args << "--disable-docs"
     else
