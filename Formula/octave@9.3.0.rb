@@ -1,4 +1,4 @@
-# GNU Octave 9.2.0 (with Qt 6), with build customized for Octave.app
+# GNU Octave 9.3.0
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -13,30 +13,33 @@ class MacTeXRequirement < Requirement
   end
 end
 
-class OctaveOctappAT920 < Formula
-  desc "GNU Octave, customized for Octave.app, v. 9.2.0"
-  homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://ftp.gnu.org/gnu/octave/octave-9.2.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/octave/octave-9.2.0.tar.xz"
-  sha256 "21417afb579105b035cac0bea09201522e384893ae90a781b8727efa32765807"
+class OctaveAT930 < Formula
+  desc "High-level interpreted language for numerical computing"
+  homepage "https://octave.org/index.html"
+  url "https://ftp.gnu.org/gnu/octave/octave-9.3.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/octave/octave-9.3.0.tar.xz"
+  sha256 "712468513db7e13b76f28c4b82cdba7d6f3f634c836ddb27a7a8fe9d708145f3"
   license "GPL-3.0-or-later"
+
+  # New tarballs appear on https://ftp.gnu.org/gnu/octave/ before a release is
+  # announced, so we check the octave.org download page instead.
+  livecheck do
+    url "https://octave.org/download"
+    regex(%r{Octave\s+v?(\d+(?:\.\d+)+)(?:\s*</[^>]+?>)?\s+is\s+the\s+latest\s+stable\s+release}im)
+  end
 
   keg_only "so it can be installed alongside regular octave"
 
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
 
-  # Octapp: These must be kept in sync with the duplicates in `def install`!
-  # This uses Qt 6, which the core Homebrew qt is on as of 2024-03-ish.
-  @qt_formula = "qt"
-  @qscintilla2_formula = "qscintilla2"
-
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
-  depends_on "pkg-config" => :build
+  depends_on "openjdk" => :build
+  depends_on "pkgconf" => :build
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
-  depends_on "fig2dev-octapp" # octapp change: to avoid pulling in svn and thus llvm
+  depends_on "fig2dev"
   depends_on "fltk"
   depends_on "fontconfig"
   depends_on "freetype"
@@ -50,14 +53,13 @@ class OctaveOctappAT920 < Formula
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"
-  depends_on "openjdk" # octapp change: make runtime dep instead of build-only
   depends_on "pcre2"
   depends_on "portaudio"
   depends_on "pstoedit"
   depends_on "qhull"
   depends_on "qrupdate"
-  depends_on @qscintilla2_formula
-  depends_on @qt_formula
+  depends_on "qscintilla2"
+  depends_on "qt"
   depends_on "rapidjson"
   depends_on "readline"
   depends_on "suite-sparse"
@@ -65,7 +67,13 @@ class OctaveOctappAT920 < Formula
   depends_on "texinfo"
   depends_on MacTeXRequirement if build.with?("docs")
 
+  uses_from_macos "bzip2"
   uses_from_macos "curl"
+  uses_from_macos "zlib"
+
+  on_macos do
+    depends_on "little-cms2"
+  end
 
   on_linux do
     depends_on "autoconf"
@@ -74,33 +82,10 @@ class OctaveOctappAT920 < Formula
     depends_on "mesa-glu"
   end
 
-  # Octapp: Dependencies for Octave Forge packages (not Octave itself)
-  # We exclude proj bc it's too big; 750 MB for the brewed proj 9.x
-  # depends_on "proj"        # for octproj OF package
-  depends_on "cfitsio"     # for fits OF package
-  depends_on "gnu-units"   # for miscellaneous OF package
-  depends_on "gsl"         # for gsl OF package
-  # WIP: DEBUG: Temporarily disabled bc its download and build are broken
-  # depends_on "librsb"      # for sparsersb OF package
-  depends_on "mpfr"        # for interval package
-  depends_on "netcdf"      # for ??? OF packages
-  depends_on "zeromq"      # for zeromq OF package
-
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
-  fails_with gcc: "5"
-
   def install
-    # Octapp: These must be kept in sync with the duplicates at the top of the formula!
-    @qt_formula = "qt"
-    @qscintilla2_formula = "qscintilla2"
-
-    # Octapp hack: munge HG-ID to reflect that we're adding patches
-    hg_id = `cat HG-ID`.chomp;
-    File.delete("HG-ID");
-    Pathname.new("HG-ID").write "#{hg_id} + patches\n"
-
     # Default configuration passes all linker flags to mkoctfile, to be
     # inserted into every oct/mex build. This is unnecessary and can cause
     # cause linking problems.
@@ -108,8 +93,9 @@ class OctaveOctappAT920 < Formula
               /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/,
               '""'
 
-    ENV.prepend_path "PKG_CONFIG_PATH", Formula[@qt_formula].opt_libexec/"lib/pkgconfig" if OS.mac?
+    ENV.prepend_path "PKG_CONFIG_PATH", Formula["qt"].opt_libexec/"lib/pkgconfig" if OS.mac?
 
+    system "./bootstrap" if build.head?
     args = [
       "--disable-silent-rules",
       "--enable-shared",
@@ -121,9 +107,10 @@ class OctaveOctappAT920 < Formula
       "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
       "--with-portaudio",
       "--with-sndfile",
-      "--with-qt=6",
     ]
 
+    # Octapp variant: pull in MacTeX. May not need with 9.2+, or any not-very-patched
+    # build from a release tarball? See #293.
     if build.without? "docs"
       args << "--disable-docs"
     else
@@ -145,7 +132,7 @@ class OctaveOctappAT920 < Formula
       system "aclocal"
     end
 
-    # Force use of our bundled JDK
+    # Octapp: Force use of our bundled JDK
     ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
     system "./configure", *args, *std_configure_args
@@ -165,9 +152,9 @@ class OctaveOctappAT920 < Formula
   end
 
   def post_install
-    # Link this keg-only formula into the main Homebrew bin with a suffixed name
+    # Link this custom keg-only formula into the main Homebrew bin with a suffixed name
     # Use "@" instead of "-" bc core Homebrew octave uses "-" in its symlink names
-    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-octapp@9.2.0"
+    system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave@9.3.0"
   end
 
   test do
@@ -178,22 +165,22 @@ class OctaveOctappAT920 < Formula
     # Test java bindings: check if javaclasspath is working, return error if not
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;"
     # Test basic compilation
-    (testpath/"oct_demo.cc").write <<~EOS
+    (testpath/"oct_demo.cc").write <<~CPP
       #include <octave/oct.h>
       DEFUN_DLD (oct_demo, args, /*nargout*/, "doc str")
       { return ovl (42); }
-    EOS
-    system bin/"octave", "--eval", <<~EOS
+    CPP
+    system bin/"octave", "--eval", <<~MATLAB
       mkoctfile ('-v', '-std=c++11', '-L#{lib}/octave/#{version}', 'oct_demo.cc');
       assert(oct_demo, 42)
-    EOS
+    MATLAB
     # Test FLIBS environment variable
-    system bin/"octave", "--eval", <<~EOS
+    system bin/"octave", "--eval", <<~MATLAB
       args = strsplit (mkoctfile ('-p', 'FLIBS'));
       args = args(~cellfun('isempty', args));
       mkoctfile ('-v', '-std=c++11', '-L#{lib}/octave/#{version}', args{:}, 'oct_demo.cc');
       assert(oct_demo, 42)
-    EOS
+    MATLAB
     ENV["QT_QPA_PLATFORM"] = "minimal"
     system bin/"octave", "--gui"
   end
