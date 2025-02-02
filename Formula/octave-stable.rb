@@ -1,11 +1,16 @@
-# This is the "stable" version of Octave, used to build the latest
-# "stable" development version from the Octave repo. This is different
-# from the release versions of Octave: "stable" doesn't mean a stable
-# release; it means the "stable" branch for the next upcoming release.
+# GNU Octave, stable (almost-released development, head) version
 #
-# This formula includes only patches that seriously affect the stability
-# and usability of Octave. It's intended for developers testing Octave,
-# not end users.
+# This is the "stable" version of Octave, used to build the latest "stable" development
+# version from the Octave repo. This is different from the release versions of Octave:
+# "stable" doesn't mean a stable release; it means the "stable" development branch for
+# the next upcoming release.
+#
+# This is a separate formula provided to make it easy to do side-by-side installations of
+# the development Octave along with regular stable Octave.
+#
+# This formula includes only patches that seriously affect the stability and usability of
+# Octave, and make this usable as a side-by-side install with the regular octave formula.
+# It's intended for developers testing Octave, not end users.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -23,148 +28,142 @@ end
 class OctaveStable < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://hg.savannah.gnu.org/hgweb/octave", :branch => "stable", :using => :hg
-  version "stable"
+  license "GPL-3.0-or-later"
 
   keg_only "so it can be installed alongside released octave"
 
-  option "without-qt", "Compile without qt-based graphical user interface"
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
-  option "with-test", "Do compile-time make checks"
+
+  # New tarballs appear on https://ftp.gnu.org/gnu/octave/ before a release is
+  # announced, so we check the octave.org download page instead.
+  livecheck do
+    url "https://octave.org/download"
+    regex(%r{Octave\s+v?(\d+(?:\.\d+)+)(?:\s*</[^>]+?>)?\s+is\s+the\s+latest\s+stable\s+release}im)
+  end
+
+  head do
+    url "https://hg.savannah.gnu.org/hgweb/octave", branch: "stable", using: :hg
+
+    depends_on "autoconf" => :build
+    depends_on "automake" => :build
+    depends_on "bison" => :build
+    depends_on "icoutils" => :build
+    depends_on "librsvg" => :build
+  end
 
   # Complete list of dependencies at https://wiki.octave.org/Building
-  depends_on "automake" => :build
-  depends_on "autoconf" => :build
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
-  depends_on "pkg-config" => :build
-  # Head-specific build dependencies
-  depends_on "mercurial" => :build
-  #depends_on "bison@3.2" => :build
-  depends_on "bison" => :build
-  depends_on "doxygen" => :build
-  depends_on "icoutils" => :build
-  depends_on "librsvg" => :build
+  depends_on "openjdk" => :build
+  depends_on "pkgconf" => :build
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
   depends_on "fig2dev"
+  depends_on "fltk"
   depends_on "fontconfig"
   depends_on "freetype"
+  depends_on "gcc" # for gfortran
   depends_on "ghostscript"
   depends_on "gl2ps"
   depends_on "glpk"
-  depends_on "gnuplot"
-  depends_on "gnu-tar"
   depends_on "graphicsmagick"
   depends_on "hdf5"
   depends_on "libsndfile"
   depends_on "libtool"
+  depends_on "mercurial"  # Octapp hack: just for the HG-ID generation
   depends_on "openblas"
-  depends_on "openjdk"
-  depends_on "pcre"
+  depends_on "pcre2"
   depends_on "portaudio"
   depends_on "pstoedit"
   depends_on "qhull"
   depends_on "qrupdate"
+  depends_on "qscintilla2"
+  depends_on "qt"
+  depends_on "rapidjson"
   depends_on "readline"
   depends_on "suite-sparse"
   depends_on "sundials"
-  depends_on "texinfo" # http://lists.gnu.org/archive/html/octave-maintainers/2018-01/msg00016.html
+  depends_on "texinfo"
   depends_on MacTeXRequirement if build.with?("docs")
 
-  # Dependencies for the graphical user interface
-  if build.with?("qt")
-    depends_on "qt@5"
-    depends_on "qscintilla2-qt5"
+  uses_from_macos "bzip2"
+  uses_from_macos "curl"
+  uses_from_macos "zlib"
 
-    # Fix bug #50025: Octave window freezes
-    # see https://savannah.gnu.org/bugs/?50025
-    # As of 2020-06-19, this patch fails to apply
-    #patch do
-    #  url "https://savannah.gnu.org/support/download.php?file_id=45382"
-    #  sha256 "e179c3a0e53f6f0f4a48b5adafd18c0f9c33de276748b8049c7d1007282f7f6e"
-    #end
+  on_macos do
+    depends_on "little-cms2"
+  end
 
-    # Fix bug #55268: crash during build
-    # see https://savannah.gnu.org/bugs/index.php?55268
-    patch do
-      url "https://savannah.gnu.org/bugs/download.php?file_id=45733"
-      sha256 "d7937a083af72d74f073c9dbc59feab178e00ca0ce952f61fa3430b9eafaa2e1"
-    end
+  on_linux do
+    depends_on "mesa"
+    depends_on "mesa-glu"
   end
 
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
   def install
-    # Hack: synthesize an HG-ID
+    # Octapp hack: synthesize an HG-ID
     hg_id = cached_download.cd { `hg identify --id` }.chomp
     Pathname.new("HG-ID").write "#{hg_id} + patches\n"
-
-    # do not execute a test that may trigger a dialog to install java
-    inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
 
     # Default configuration passes all linker flags to mkoctfile, to be
     # inserted into every oct/mex build. This is unnecessary and can cause
     # cause linking problems.
-    inreplace "src/mkoctfile.in.cc", /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/, '""'
+    inreplace "src/mkoctfile.in.cc",
+              /%OCTAVE_CONF_OCT(AVE)?_LINK_(DEPS|OPTS)%/,
+              '""'
 
-    # Pick up non-linked libraries
-    ENV.append "CXXFLAGS", "-I#{Formula["sundials"].opt_include}"
-    ENV.append "CXXFLAGS", "-I#{Formula["qscintilla2"].opt_include}"
-    ENV.append "LDFLAGS", "-L#{Formula["qscintilla2"].opt_lib}"
+    ENV.prepend_path "PKG_CONFIG_PATH", Formula["qt"].opt_libexec/"lib/pkgconfig" if OS.mac?
 
+    # Octapp hack: unconditionally bootstrap because building from repo
+    system "./bootstrap"
     args = [
-      "--prefix=#{prefix}",
-      "--disable-dependency-tracking",
       "--disable-silent-rules",
-      "--enable-link-all-dependencies",
       "--enable-shared",
       "--disable-static",
-      "--without-fltk",
       "--with-hdf5-includedir=#{Formula["hdf5"].opt_include}",
       "--with-hdf5-libdir=#{Formula["hdf5"].opt_lib}",
+      "--with-java-homedir=#{Formula["openjdk"].opt_prefix}",
       "--with-x=no",
       "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
       "--with-portaudio",
       "--with-sndfile"
     ]
 
-    if build.without? "qt"
-      args << "--without-qt"
-    else
-      args << "--with-qt=5"
-      # Qt 5.12 merged qcollectiongenerator into qhelpgenerator, and Octave's
-      # source hasn't been updated to auto-detect this yet.
-      ENV['QCOLLECTIONGENERATOR']='qhelpgenerator'
-      # These "shouldn't" be necessary, but the build breaks if I don't include them.
-      ENV['QT_CPPFLAGS']="-I#{Formula["qt@5"].opt_include}"
-      ENV.append 'CPPFLAGS', "-I#{Formula["qt@5"].opt_include}"
-      ENV['QT_LDFLAGS']="-F#{Formula["qt@5"].opt_lib}"
-      ENV.append 'LDFLAGS', "-F#{Formula["qt@5"].opt_lib}"
-    end
-
+    # Octapp variant: pull in MacTeX. May not need with 9.2+, or any not-very-patched
+    # build from a release tarball? See #293.
     if build.without? "docs"
       args << "--disable-docs"
     else
       ENV.prepend_path "PATH", "/Library/TeX/texbin/"
     end
 
-    # fix aclocal version issue
-    system "./bootstrap"
-    system "./configure", *args
+    if OS.linux?
+      # Explicitly specify aclocal and automake without versions
+      args << "ACLOCAL=aclocal"
+      args << "AUTOMAKE=automake"
+
+      # Mesa OpenGL location must be supplied by LDFLAGS on Linux
+      args << "LDFLAGS=-L#{Formula["mesa"].opt_lib} -L#{Formula["mesa-glu"].opt_lib}"
+
+      # Docs building is broken on Linux
+      args << "--disable-docs"
+
+      # Need to regenerate aclocal.m4 so that it will work with brewed automake
+      system "aclocal"
+    end
+
+    # Octapp: Force use of our bundled JDK
+    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
+
+    system "./configure", *args, *std_configure_args
     system "make", "all"
 
-    if build.with? "test"
-      system "make check 2>&1 | tee \"test/make-check.log\""
-      # check if all tests have passed (FAIL 0)
-      results = File.readlines "test/make-check.log"
-      matches = results.join("\n").match(/^\s*(FAIL)\s*0/i)
-      if matches.nil?
-        opoo "Some tests failed. Details are given in #{opt_prefix}/make-check.log."
-      end
-      # install test results
-      prefix.install "test/make-check.log"
+    # Avoid revision bumps whenever fftw's, gcc's or OpenBLAS' Cellar paths change
+    inreplace "src/mkoctfile.cc" do |s|
+      s.gsub! Formula["fftw"].prefix.realpath, Formula["fftw"].opt_prefix
+      s.gsub! Formula["gcc"].prefix.realpath, Formula["gcc"].opt_prefix
     end
 
     # make sure that Octave uses the modern texinfo
@@ -172,28 +171,39 @@ class OctaveStable < Formula
     rcfile.append_lines "makeinfo_program(\"#{Formula["texinfo"].opt_bin}/makeinfo\");"
 
     system "make", "install"
-
-    # create empty Qt help to avoid error dialog of GUI
-    # if no documentation is found
-    if build.without?("docs") && build.with?("qt") && !build.stable?
-      File.open("doc/octave_interpreter.qhcp", "w") do |f|
-        f.write("<?xml version=\"1.0\" encoding=\"utf-8\" ?>")
-        f.write("<QHelpCollectionProject version=\"1.0\" />")
-      end
-      system "#{Formula["qt"].opt_bin}/qhelpgenerator", "doc/octave_interpreter.qhcp", "-o", "doc/octave_interpreter.qhc"
-      (pkgshare/"#{version}/doc").install "doc/octave_interpreter.qhc"
-    end
   end
 
   def post_install
+    # Link this custom keg-only formula into the main Homebrew bin with a suffixed name
+    # Use "@" instead of "-" bc core Homebrew octave uses "-" in its symlink names
     system "ln", "-sf", "#{bin}/octave", "#{HOMEBREW_PREFIX}/bin/octave-stable"
   end
 
   test do
+    ENV["LC_ALL"] = "en_US.UTF-8"
     system bin/"octave", "--eval", "(22/7 - pi)/pi"
     # This is supposed to crash octave if there is a problem with BLAS
     system bin/"octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
     # Test java bindings: check if javaclasspath is working, return error if not
     system bin/"octave", "--eval", "try; javaclasspath; catch; quit(1); end;"
+    # Test basic compilation
+    (testpath/"oct_demo.cc").write <<~CPP
+      #include <octave/oct.h>
+      DEFUN_DLD (oct_demo, args, /*nargout*/, "doc str")
+      { return ovl (42); }
+    CPP
+    system bin/"octave", "--eval", <<~MATLAB
+      mkoctfile ('-v', '-std=c++11', '-L#{lib}/octave/#{version}', 'oct_demo.cc');
+      assert(oct_demo, 42)
+    MATLAB
+    # Test FLIBS environment variable
+    system bin/"octave", "--eval", <<~MATLAB
+      args = strsplit (mkoctfile ('-p', 'FLIBS'));
+      args = args(~cellfun('isempty', args));
+      mkoctfile ('-v', '-std=c++11', '-L#{lib}/octave/#{version}', args{:}, 'oct_demo.cc');
+      assert(oct_demo, 42)
+    MATLAB
+    ENV["QT_QPA_PLATFORM"] = "minimal"
+    system bin/"octave", "--gui"
   end
 end

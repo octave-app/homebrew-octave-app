@@ -1,10 +1,11 @@
-# GNU Octave, development (head) version
+# GNU Octave, devel (head-only) version
 #
 # This is a separate formula provided to make it easy to do side-by-side installations of
 # the development Octave along with regular stable Octave.
 #
-# This should be a head-only formula, but I don't remember how to do that, or if Homebrew
-# even supports that any more.
+# This formula includes only patches that seriously affect the stability and usability of
+# Octave, and make this usable as a side-by-side install with the regular octave formula.
+# It's intended for developers testing Octave, not end users.
 
 class MacTeXRequirement < Requirement
   fatal true
@@ -48,7 +49,7 @@ class OctaveDevel < Formula
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
   depends_on "openjdk" => :build
-  depends_on "pkg-config" => :build
+  depends_on "pkgconf" => :build
   depends_on "arpack"
   depends_on "epstool"
   depends_on "fftw"
@@ -64,6 +65,7 @@ class OctaveDevel < Formula
   depends_on "hdf5"
   depends_on "libsndfile"
   depends_on "libtool"
+  depends_on "mercurial"  # Octapp hack: just for the HG-ID generation
   depends_on "openblas"
   depends_on "pcre2"
   depends_on "portaudio"
@@ -79,11 +81,15 @@ class OctaveDevel < Formula
   depends_on "texinfo"
   depends_on MacTeXRequirement if build.with?("docs")
 
+  uses_from_macos "bzip2"
   uses_from_macos "curl"
+  uses_from_macos "zlib"
+
+  on_macos do
+    depends_on "little-cms2"
+  end
 
   on_linux do
-    depends_on "autoconf"
-    depends_on "automake"
     depends_on "mesa"
     depends_on "mesa-glu"
   end
@@ -91,12 +97,14 @@ class OctaveDevel < Formula
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
-  fails_with gcc: "5"
-
   def install
     if ! build.head?
       raise "This devel formula is a head-only formula. Please pass --HEAD to install it."
     end
+
+    # Octapp hack: synthesize an HG-ID
+    hg_id = cached_download.cd { `hg identify --id` }.chomp
+    Pathname.new("HG-ID").write "#{hg_id} + patches\n"
 
     # Default configuration passes all linker flags to mkoctfile, to be
     # inserted into every oct/mex build. This is unnecessary and can cause
@@ -143,6 +151,9 @@ class OctaveDevel < Formula
       # Need to regenerate aclocal.m4 so that it will work with brewed automake
       system "aclocal"
     end
+
+    # Octapp: Force use of our bundled JDK
+    ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
     system "./configure", *args, *std_configure_args
     system "make", "all"
