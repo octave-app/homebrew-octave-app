@@ -30,6 +30,7 @@ class OctaveDefault < Formula
   option "without-qt", "Compile without qt-based graphical user interface"
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "with-test", "Do compile-time make checks"
+  option "without-deparallel", "Do not deparallelize on As (for debugging the OOM fix)"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "autoconf" => :build
@@ -136,6 +137,12 @@ class OctaveDefault < Formula
     # fix aclocal version issue
     system "./bootstrap"
     system "./configure", *args
+    # https://github.com/Homebrew/homebrew-core/pull/170959#issuecomment-2351023470
+    # https://github.com/octave-app/octave-app/issues/295
+    # Octapp hack: only deparallel on As, bc doesn't seem to break on Intel (on macOS)
+    if build.with?("deparallel")
+      ENV.deparallelize if Hardware::CPU.arm?
+    end
     system "make", "all"
 
     if build.with? "test"

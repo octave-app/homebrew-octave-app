@@ -31,6 +31,7 @@ class OctaveAT920 < Formula
   keg_only "so it can be installed alongside regular octave"
 
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
+  option "without-deparallel", "Do not deparallelize on As (for debugging the OOM fix)"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
@@ -132,6 +133,12 @@ class OctaveAT920 < Formula
     ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
     system "./configure", *args, *std_configure_args
+    # https://github.com/Homebrew/homebrew-core/pull/170959#issuecomment-2351023470
+    # https://github.com/octave-app/octave-app/issues/295
+    # Octapp hack: only deparallel on As, bc doesn't seem to break on Intel (on macOS)
+    if build.with?("deparallel")
+      ENV.deparallelize if Hardware::CPU.arm?
+    end
     system "make", "all"
 
     # Avoid revision bumps whenever fftw's, gcc's or OpenBLAS' Cellar paths change

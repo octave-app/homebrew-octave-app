@@ -24,6 +24,7 @@ class OctaveOctappAT930 < Formula
   keg_only "so it can be installed alongside regular octave"
 
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
+  option "without-deparallel", "Do not deparallelize on As (for debugging the OOM fix)"
 
   # Octapp: These must be kept in sync with the duplicates in `def install`!
   # This uses Qt 6, which the core Homebrew qt is on as of 2024-03-ish.
@@ -153,6 +154,12 @@ class OctaveOctappAT930 < Formula
     ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
     system "./configure", *args, *std_configure_args
+    # https://github.com/Homebrew/homebrew-core/pull/170959#issuecomment-2351023470
+    # https://github.com/octave-app/octave-app/issues/295
+    # Octapp hack: only deparallel on As, bc doesn't seem to break on Intel (on macOS)
+    if build.with?("deparallel")
+      ENV.deparallelize if Hardware::CPU.arm?
+    end
     system "make", "all"
 
     # Avoid revision bumps whenever fftw's, gcc's or OpenBLAS' Cellar paths change
