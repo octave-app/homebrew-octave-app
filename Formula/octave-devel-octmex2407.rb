@@ -107,6 +107,10 @@ class OctaveDevelOctmex2407 < Formula
       raise "This devel formula is a head-only formula. Please pass --HEAD to install it."
     end
 
+    # Octapp hack: synthesize an HG-ID
+    hg_id = cached_download.cd { `hg identify --id` }.chomp
+    Pathname.new("HG-ID").write "#{hg_id} + Octave.app patches + octmex patch\n"
+
     # Default configuration passes all linker flags to mkoctfile, to be
     # inserted into every oct/mex build. This is unnecessary and can cause
     # cause linking problems.

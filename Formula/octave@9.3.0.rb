@@ -87,6 +87,11 @@ class OctaveAT930 < Formula
   cxxstdlib_check :skip
 
   def install
+    # Octapp hack: munge HG-ID to reflect that we're adding patches
+    hg_id = `cat HG-ID`.chomp;
+    File.delete("HG-ID");
+    Pathname.new("HG-ID").write "#{hg_id} + Octave.app patches\n"
+
     # Default configuration passes all linker flags to mkoctfile, to be
     # inserted into every oct/mex build. This is unnecessary and can cause
     # cause linking problems.

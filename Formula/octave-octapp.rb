@@ -102,7 +102,7 @@ class OctaveOctapp < Formula
     # Hack: munge HG-ID to reflect that we're adding patches
     hg_id = `cat HG-ID`.chomp;
     File.delete("HG-ID");
-    Pathname.new("HG-ID").write "#{hg_id} + patches\n"
+    Pathname.new("HG-ID").write "#{hg_id} + Octave.app patches\n"
 
     # Do not execute a test that may trigger a dialog to install Java
     inreplace "libinterp/octave-value/ov-java.cc", "usejava (\"awt\")", "false ()"
