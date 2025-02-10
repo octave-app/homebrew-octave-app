@@ -104,6 +104,11 @@ class OctaveStable < Formula
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
+  patch do
+    url "https://raw.githubusercontent.com/octave-app/homebrew-octave-app/6c4bfe187bacb36ef5419b333fa94d11260f08d6/Patches/octave/notparallel-doc-build.patch"
+    sha256 "45b5337046f27936ec1768db5da781d61f249ffc46def79d79c3ab509a2bbe45"
+  end
+
   def install
     # Octapp hack: synthesize an HG-ID
     hg_id = cached_download.cd { `hg identify --id` }.chomp
