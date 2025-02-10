@@ -32,6 +32,8 @@ class OctaveOctappAT920 < Formula
   @qscintilla2_formula = "qscintilla2"
 
   # Complete list of dependencies at https://wiki.octave.org/Building
+  depends_on "autoconf" => :build # octapp: bc we're patching the source
+  depends_on "automake" => :build # octapp: bc we're patching the source
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
   depends_on "pkg-config" => :build
   depends_on "arpack"
@@ -92,6 +94,11 @@ class OctaveOctappAT920 < Formula
 
   fails_with gcc: "5"
 
+  patch do
+    url "https://raw.githubusercontent.com/octave-app/homebrew-octave-app/6c4bfe187bacb36ef5419b333fa94d11260f08d6/Patches/octave/notparallel-doc-build.patch"
+    sha256 "45b5337046f27936ec1768db5da781d61f249ffc46def79d79c3ab509a2bbe45"
+  end
+
   def install
     # Octapp: These must be kept in sync with the duplicates at the top of the formula!
     @qt_formula = "qt"
@@ -149,6 +156,8 @@ class OctaveOctappAT920 < Formula
     # Force use of our bundled JDK
     ENV['JAVA_HOME']="#{Formula["openjdk"].opt_prefix}"
 
+    # Octapp: autoreconf bc we're patching the source; build fails without it
+    system "autoreconf", "-f", "-i"
     system "./configure", *args, *std_configure_args
     # https://github.com/Homebrew/homebrew-core/pull/170959#issuecomment-2351023470
     # https://github.com/octave-app/octave-app/issues/295
