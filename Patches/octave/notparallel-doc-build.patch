@@ -1,0 +1,32 @@
+diff --git a/doc/doxyhtml/module.mk b/doc/doxyhtml/module.mk
+index bb90f1a4e9..f21d9a6356 100644
+--- a/doc/doxyhtml/module.mk
++++ b/doc/doxyhtml/module.mk
+@@ -10,6 +10,7 @@ DOXYGEN_PAGES = \
+ 
+ doxyhtml: %reldir%/Doxyfile $(DOXYGEN_PAGES) | %reldir%/$(octave_dirstamp)
+ 	doxygen %reldir%/Doxyfile
++.NOTPARALLEL: doxyhtml
+ 
+ # This target is important for in source tree builds.
+ doxyhtml-maintainer-clean:
+diff --git a/doc/interpreter/module.mk b/doc/interpreter/module.mk
+index ec24978d98..43d3ea2b83 100644
+--- a/doc/interpreter/module.mk
++++ b/doc/interpreter/module.mk
+@@ -470,6 +470,7 @@ octetc_DATA += \
+ 	$(AM_V_GEN)rm -f $@-t $@ && \
+ 	$(PERL) $(srcdir)/%reldir%/mk-doc-cache.pl $(srcdir) $(srcdir)/%reldir%/macros.texi $(DOCSTRING_FILES) > $@-t && \
+ 	mv $@-t $@
++.NOTPARALLEL: %reldir%/doc-cache
+ 
+ %reldir%/undocumented_list:
+ 	rm -f $@-t $@
+@@ -505,6 +506,7 @@ spellcheck: $(SPELLCHECK_FILES)
+ 		echo "Spellcheck passed"; \
+ 	fi
+ .PHONY: spellcheck
++.NOTPARALLEL: spellcheck
+ 
+ doc-interpreter-clean:
+ 	rm -rf %reldir%/octave.t2d
