@@ -54,6 +54,7 @@ class OctaveStable < Formula
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
+  depends_on "mercurial" => :build # Octapp hack: just for the HG-ID generation
   depends_on "openjdk" => :build
   depends_on "pkgconf" => :build
   depends_on "arpack"
@@ -71,7 +72,6 @@ class OctaveStable < Formula
   depends_on "hdf5"
   depends_on "libsndfile"
   depends_on "libtool"
-  depends_on "mercurial"  # Octapp hack: just for the HG-ID generation
   depends_on "openblas"
   depends_on "pcre2"
   depends_on "portaudio"

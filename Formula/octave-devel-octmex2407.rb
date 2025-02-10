@@ -49,6 +49,7 @@ class OctaveDevelOctmex2407 < Formula
 
   # Complete list of dependencies at https://wiki.octave.org/Building
   depends_on "gnu-sed" => :build # https://lists.gnu.org/archive/html/octave-maintainers/2016-09/msg00193.html
+  depends_on "mercurial" => :build # Octapp hack: just for the HG-ID generation
   depends_on "openjdk" => :build
   depends_on "pkg-config" => :build
   depends_on "arpack"
