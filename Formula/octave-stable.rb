@@ -70,6 +70,7 @@ class OctaveStable < Formula
   depends_on "glpk"
   depends_on "graphicsmagick"
   depends_on "hdf5"
+  depends_on "libiconv"
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"
@@ -123,6 +124,9 @@ class OctaveStable < Formula
       ENV.prepend "CPPFLAGS", "-I#{Formula["readline"].opt_include}"
       ENV.prepend "LDFLAGS", "-L#{Formula["readline"].opt_lib}"
     end
+    # Octapp: required to avoid crashes when building against libiconv
+    ENV.prepend "CPPFLAGS", "-I#{Formula["libiconv"].opt_include}"
+    ENV.prepend "LDFLAGS", "-L#{Formula["libiconv"].opt_lib}"
     args = [
       "--disable-silent-rules",
       "--enable-shared",

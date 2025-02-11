@@ -56,6 +56,7 @@ class OctaveDefault < Formula
   depends_on "gnuplot"
   depends_on "graphicsmagick"
   depends_on "hdf5"
+  depends_on "libiconv"
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"
@@ -140,6 +141,9 @@ class OctaveDefault < Formula
       ENV.prepend "CPPFLAGS", "-I#{Formula["readline"].opt_include}"
       ENV.prepend "LDFLAGS", "-L#{Formula["readline"].opt_lib}"
     end
+    # Octapp: required to avoid crashes when building against libiconv
+    ENV.prepend "CPPFLAGS", "-I#{Formula["libiconv"].opt_include}"
+    ENV.prepend "LDFLAGS", "-L#{Formula["libiconv"].opt_lib}"
     system "./configure", *args
     # https://github.com/Homebrew/homebrew-core/pull/170959#issuecomment-2351023470
     # https://github.com/octave-app/octave-app/issues/295
