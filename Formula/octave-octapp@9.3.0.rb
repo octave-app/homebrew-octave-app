@@ -1,4 +1,4 @@
-# GNU Octave 9.3.0 (with Qt 6), with build customized for Octave.app
+# GNU Octave 9.3.0, with build customized for Octave.app
 
 class MacTeXRequirement < Requirement
   fatal true

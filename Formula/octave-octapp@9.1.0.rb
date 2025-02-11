@@ -1,12 +1,4 @@
 # GNU Octave 9.1.0 (with Qt 6), with build customized for Octave.app
-#
-# This uses Qt 6, instead of the Qt 5 which has been used on all Octave.app releases up
-# until now. It is not working yet, but I expect, or at least hope, that Qt 6 will
-# start working soon and we can switch to it, so I'm making the default variant for 9.x
-# use Qt 6, and putting the Qt 5 builds in a separate "-qt" suffixed formula.
-#
-# As such, so far, this is NOT the formula to use for building Octave.app 9.1 releases,
-# and is just for testing Qt 6.
 
 class MacTeXRequirement < Requirement
   fatal true
