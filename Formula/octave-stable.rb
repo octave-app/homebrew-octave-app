@@ -1,4 +1,4 @@
-# GNU Octave, stable (almost-released development, head) version
+# GNU Octave, stable (almost-released development), head-only version
 #
 # This is the "stable" version of Octave, used to build the latest "stable" development
 # version from the Octave repo. This is different from the release versions of Octave:

@@ -1,4 +1,8 @@
-# GNU Octave, devel (head-only) version
+# GNU Octave, devel (aka "default"), head-only version
+#
+# The development branch in the Octave repo is named "default". But this formula uses
+# "devel" in its name to be clear that it's the development version of Octave, and not,
+# like, the "default" released version we're using in Octave.app or something like that.
 #
 # This is a separate formula provided to make it easy to do side-by-side installations of
 # the development Octave along with regular stable Octave.
