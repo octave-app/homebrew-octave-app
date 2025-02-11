@@ -117,8 +117,12 @@ class OctaveStable < Formula
 
     ENV.prepend_path "PKG_CONFIG_PATH", Formula["qt"].opt_libexec/"lib/pkgconfig" if OS.mac?
 
-    # Octapp hack: unconditionally bootstrap because building from repo
-    system "./bootstrap"
+    system "./bootstrap" if build.head?
+    # Octapp: Fix for "dyld: symbol not found in '_rl_basic_quote_characters'"
+    if OS.mac?
+      ENV.prepend "CPPFLAGS", "-I#{Formula["readline"].opt_include}"
+      ENV.prepend "LDFLAGS", "-L#{Formula["readline"].opt_lib}"
+    end
     args = [
       "--disable-silent-rules",
       "--enable-shared",

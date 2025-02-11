@@ -134,8 +134,12 @@ class OctaveDefault < Formula
       ENV.prepend_path "PATH", "/Library/TeX/texbin/"
     end
 
-    # fix aclocal version issue
-    system "./bootstrap"
+    system "./bootstrap" if build.head?
+    # Octapp: Fix for "dyld: symbol not found in '_rl_basic_quote_characters'"
+    if OS.mac?
+      ENV.prepend "CPPFLAGS", "-I#{Formula["readline"].opt_include}"
+      ENV.prepend "LDFLAGS", "-L#{Formula["readline"].opt_lib}"
+    end
     system "./configure", *args
     # https://github.com/Homebrew/homebrew-core/pull/170959#issuecomment-2351023470
     # https://github.com/octave-app/octave-app/issues/295
