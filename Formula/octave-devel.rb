@@ -102,9 +102,10 @@ class OctaveDevel < Formula
   end
 
   if build.with?("ed-open-file-list")
+    # "editor_file_list_02.patch", from https://octave.discourse.group/t/gui-editor-file-list/6213/6
     patch do
-      url "https://octave.discourse.group/uploads/short-url/8IYea0ymA7kiYKfk46bC1Z8iywN.patch"
-      sha256 "419e056b079bfb7e10c1e9d550d613ff86e6bade316259da638f8dd00a2e2b4c"
+      url "https://octave.discourse.group/uploads/short-url/cLi5WXPNDzzD7WbryleyDNmZWVz.patch"
+      sha256 "bb89ce6f56327617c7b29325f0fc225a8c455623f502527a51f3961dd61f6303"
     end
   end
 
@@ -119,7 +120,7 @@ class OctaveDevel < Formula
     # Octapp hack: synthesize an HG-ID
     patch_terms = ["Octave.app patches"]
     if build.with?("ed-open-file-list")
-      patch_terms << "ed open-file-list patch"
+      patch_terms << "ed-open-file-list patch"
     end
     hg_id = cached_download.cd { `hg identify --id` }.chomp
     Pathname.new("HG-ID").write "#{hg_id} + #{patch_terms.join(' + ')}\n"
