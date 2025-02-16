@@ -33,6 +33,7 @@ class OctaveDevel < Formula
 
   option "without-docs", "Skip documentation (documentation requires MacTeX)"
   option "without-deparallel", "Do not deparallelize on As (for debugging the OOM fix)"
+  option "with-ed-open-file-list", "Apply 'editor open files list widget' patch"
 
   # New tarballs appear on https://ftp.gnu.org/gnu/octave/ before a release is
   # announced, so we check the octave.org download page instead.
@@ -100,6 +101,13 @@ class OctaveDevel < Formula
     depends_on "mesa-glu"
   end
 
+  if build.with?("ed-open-file-list")
+    patch do
+      url "https://octave.discourse.group/uploads/short-url/8IYea0ymA7kiYKfk46bC1Z8iywN.patch"
+      sha256 "419e056b079bfb7e10c1e9d550d613ff86e6bade316259da638f8dd00a2e2b4c"
+    end
+  end
+
   # Dependencies use Fortran, leading to spurious messages about GCC
   cxxstdlib_check :skip
 
@@ -109,8 +117,12 @@ class OctaveDevel < Formula
     end
 
     # Octapp hack: synthesize an HG-ID
+    patch_terms = ["Octave.app patches"]
+    if build.with?("ed-open-file-list")
+      patch_terms << "ed open-file-list patch"
+    end
     hg_id = cached_download.cd { `hg identify --id` }.chomp
-    Pathname.new("HG-ID").write "#{hg_id} + Octave.app patches\n"
+    Pathname.new("HG-ID").write "#{hg_id} + #{patch_terms.join(' + ')}\n"
 
     # Default configuration passes all linker flags to mkoctfile, to be
     # inserted into every oct/mex build. This is unnecessary and can cause
