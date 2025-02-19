@@ -102,10 +102,10 @@ class OctaveDevel < Formula
   end
 
   if build.with?("ed-open-file-list")
-    # "editor_file_list_02.patch", from https://octave.discourse.group/t/gui-editor-file-list/6213/6
+    # "editor_file_list_03.patch", from https://octave.discourse.group/t/gui-editor-file-list/6213/12
     patch do
-      url "https://octave.discourse.group/uploads/short-url/cLi5WXPNDzzD7WbryleyDNmZWVz.patch"
-      sha256 "bb89ce6f56327617c7b29325f0fc225a8c455623f502527a51f3961dd61f6303"
+      url "https://octave.discourse.group/uploads/short-url/5G0vE5C4wqUYokAIXhIOEXoVhJw.patch"
+      sha256 "a1e8ae451bdebd9c48126b8c0958ffad89292b4139c8dc2d47d003b2fe5cc15b"
     end
   end
 
