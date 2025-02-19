@@ -137,7 +137,8 @@ class OctaveStable < Formula
       "--with-x=no",
       "--with-blas=-L#{Formula["openblas"].opt_lib} -lopenblas",
       "--with-portaudio",
-      "--with-sndfile"
+      "--with-sndfile",
+      "--disable-std-pmr-polymorphic-allocator", # octapp: fix PMR problem with stk pkg
     ]
 
     # Octapp variant: pull in MacTeX. May not need with 9.2+, or any not-very-patched
