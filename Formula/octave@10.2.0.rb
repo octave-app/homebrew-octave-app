@@ -53,6 +53,7 @@ class OctaveAT1020 < Formula
   depends_on "gnu-tar" # octapp addition
   depends_on "graphicsmagick"
   depends_on "hdf5"
+  depends_on "libiconv"
   depends_on "libsndfile"
   depends_on "libtool"
   depends_on "openblas"

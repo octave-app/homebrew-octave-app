@@ -124,9 +124,6 @@ class OctaveStable < Formula
       ENV.prepend "CPPFLAGS", "-I#{Formula["readline"].opt_include}"
       ENV.prepend "LDFLAGS", "-L#{Formula["readline"].opt_lib}"
     end
-    # Octapp: required to avoid crashes when building against libiconv
-    ENV.prepend "CPPFLAGS", "-I#{Formula["libiconv"].opt_include}"
-    ENV.prepend "LDFLAGS", "-L#{Formula["libiconv"].opt_lib}"
     args = [
       "--disable-silent-rules",
       "--enable-shared",
